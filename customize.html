@@ -1,0 +1,1415 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Customize | Norie Custom Hair Pieces</title>
+    <style>
+      :root {
+        --cream: #fff9f7;
+        --shell: #fce9ee;
+        --petal: #f4b4c4;
+        --rose: #b74464;
+        --berry: #64243a;
+        --ink: #39222d;
+        --soft-ink: #6b4d59;
+        --line: #bf6f87;
+        --white: #ffffff;
+        --focus: #1557b0;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--cream);
+        color: var(--ink);
+        font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.5;
+      }
+
+      a,
+      button,
+      input,
+      select {
+        font: inherit;
+      }
+
+      a {
+        color: inherit;
+        text-underline-offset: 0.2em;
+      }
+
+      a:focus-visible,
+      button:focus-visible,
+      input:focus-visible,
+      select:focus-visible {
+        outline: 3px solid var(--focus);
+        outline-offset: 3px;
+      }
+
+      img {
+        display: block;
+        max-width: 100%;
+      }
+
+      .site-header {
+        background: rgba(255, 255, 255, 0.96);
+        border-bottom: 1px solid rgba(191, 111, 135, 0.72);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      .nav {
+        align-items: center;
+        display: grid;
+        gap: 0.8rem;
+        grid-template-columns: 1fr auto 1fr;
+        margin: 0 auto;
+        max-width: 1180px;
+        padding: 1.15rem clamp(1rem, 4vw, 2rem) 0.75rem;
+      }
+
+      .nav-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.85rem 2.2rem;
+        grid-column: 1 / -1;
+        justify-content: center;
+        margin: 0;
+        order: 2;
+        padding: 0;
+      }
+
+      .nav-list li {
+        display: block;
+      }
+
+      .nav-list a {
+        color: #676168;
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.16em;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+
+      .brand-logo {
+        color: #1f1d20;
+        display: grid;
+        font-size: clamp(1.35rem, 3vw, 2.05rem);
+        font-weight: 700;
+        justify-items: center;
+        letter-spacing: 0.32em;
+        line-height: 0.9;
+        text-align: center;
+        text-decoration: none;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .brand-heart {
+        color: #050505;
+        font-size: 0.72rem;
+        letter-spacing: 0;
+        line-height: 1;
+        margin-top: 0.35rem;
+      }
+
+      .cart-link {
+        align-items: center;
+        color: #6f6b6f;
+        display: inline-flex;
+        justify-content: center;
+        justify-self: end;
+        min-height: 44px;
+        min-width: 44px;
+        text-decoration: none;
+      }
+
+      .cart-link svg {
+        display: block;
+        height: 28px;
+        stroke-width: 1.7;
+        width: 28px;
+      }
+
+      .nav-list a:hover,
+      .brand-logo:hover,
+      .cart-link:hover {
+        color: var(--berry);
+      }
+
+      main {
+        margin: 0 auto;
+        max-width: 1240px;
+        padding: clamp(2rem, 5vw, 4rem) clamp(1rem, 4vw, 2rem) clamp(3rem, 7vw, 6rem);
+      }
+
+      .page-intro {
+        align-items: end;
+        display: grid;
+        gap: 1.5rem;
+        grid-template-columns: minmax(0, 1fr) minmax(280px, 0.55fr);
+        margin-bottom: clamp(1.5rem, 4vw, 3rem);
+      }
+
+      .eyebrow {
+        color: var(--rose);
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        margin: 0 0 1rem;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      h3 {
+        color: var(--berry);
+        font-family: Georgia, "Times New Roman", serif;
+        font-weight: 400;
+        line-height: 0.98;
+        margin: 0;
+      }
+
+      h1 {
+        font-size: clamp(3.2rem, 8vw, 7.5rem);
+      }
+
+      h2 {
+        font-size: clamp(1.8rem, 4vw, 3rem);
+      }
+
+      h3 {
+        font-size: clamp(1.3rem, 2.2vw, 1.8rem);
+      }
+
+      .page-intro p,
+      .panel p,
+      .summary p {
+        color: var(--soft-ink);
+        margin: 0;
+      }
+
+      .customizer {
+        display: grid;
+        gap: clamp(1.25rem, 4vw, 2rem);
+      }
+
+      form {
+        display: grid;
+        gap: clamp(1.25rem, 4vw, 2rem);
+      }
+
+      fieldset,
+      .panel {
+        background: var(--white);
+        border: 1px solid rgba(191, 111, 135, 0.72);
+        margin: 0;
+        padding: clamp(1rem, 2.5vw, 1.35rem);
+      }
+
+      legend,
+      label.text-label,
+      p.text-label {
+        color: var(--berry);
+        font-size: 0.82rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        margin: 0;
+        padding: 0;
+        text-transform: uppercase;
+      }
+
+      .option-grid {
+        display: grid;
+        gap: 0.65rem;
+        grid-template-columns: 1fr;
+        margin-top: 0.75rem;
+      }
+
+      .gift-options {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .option {
+        position: relative;
+      }
+
+      .option input {
+        opacity: 0;
+        position: absolute;
+      }
+
+      .option span {
+        background: var(--cream);
+        border: 1.5px solid #9d5369;
+        color: var(--ink);
+        display: block;
+        min-height: 48px;
+        padding: 0.85rem;
+      }
+
+      .option small {
+        color: var(--soft-ink);
+        display: block;
+        font-size: 0.82rem;
+        margin-top: 0.2rem;
+      }
+
+      .option-thumb {
+        aspect-ratio: 1;
+        border: 1px solid rgba(100, 36, 58, 0.14);
+        margin-bottom: 0.65rem;
+        object-fit: cover;
+        width: 100%;
+      }
+
+      .option input:checked + span {
+        background: var(--shell);
+        border-color: var(--berry);
+        box-shadow: inset 0 0 0 2px var(--berry);
+      }
+
+      .option input:focus-visible + span {
+        outline: 3px solid var(--focus);
+        outline-offset: 3px;
+      }
+
+      .text-field {
+        display: grid;
+        gap: 0.45rem;
+      }
+
+      .text-field input {
+        background: var(--cream);
+        border: 1.5px solid #9d5369;
+        color: var(--ink);
+        min-height: 48px;
+        padding: 0.85rem 1rem;
+        width: 100%;
+      }
+
+      .select-field {
+        display: grid;
+        gap: 0.55rem;
+      }
+
+      .select-field select {
+        appearance: none;
+        background:
+          linear-gradient(45deg, transparent 50%, var(--berry) 50%),
+          linear-gradient(135deg, var(--berry) 50%, transparent 50%),
+          var(--cream);
+        background-position:
+          calc(100% - 1.2rem) 50%,
+          calc(100% - 0.82rem) 50%,
+          0 0;
+        background-repeat: no-repeat;
+        background-size:
+          0.4rem 0.4rem,
+          0.4rem 0.4rem,
+          100%;
+        border: 1.5px solid #9d5369;
+        color: var(--ink);
+        min-height: 50px;
+        padding: 0.85rem 2.2rem 0.85rem 1rem;
+        width: 100%;
+      }
+
+      @font-face {
+        font-family: "Kuenstler Script Black";
+        src: local("Kuenstler Script Black"), local("Kunstler Script");
+      }
+
+      .hint {
+        color: var(--soft-ink);
+        font-size: 0.9rem;
+      }
+
+      .choice-section {
+        border: 1px solid rgba(191, 111, 135, 0.72);
+        display: grid;
+        gap: clamp(1rem, 3vw, 2rem);
+        padding: clamp(1rem, 3vw, 1.4rem);
+      }
+
+      .configuration-section {
+        display: grid;
+        gap: clamp(1rem, 3vw, 1.4rem);
+      }
+
+      .config-row {
+        align-items: stretch;
+        display: grid;
+        gap: clamp(1rem, 3vw, 2rem);
+        grid-template-columns: minmax(0, 0.95fr) minmax(360px, 1.05fr);
+      }
+
+      .controls-stack {
+        align-content: start;
+        display: grid;
+        gap: 1rem;
+      }
+
+      .product-options {
+        grid-template-columns: 1fr;
+      }
+
+      .product-options .option span {
+        min-height: 64px;
+      }
+
+      .section-title {
+        color: var(--berry);
+        font-size: 0.84rem;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        margin: 0 0 0.9rem;
+        text-transform: uppercase;
+      }
+
+      .product-stage {
+        --stone: #c36986;
+        --stone-shine: #fff9fd;
+        background: #fff;
+        display: grid;
+        gap: 0.9rem;
+        min-height: 100%;
+        overflow: hidden;
+        padding: clamp(1rem, 3vw, 1.5rem);
+        position: relative;
+      }
+
+      .product-photo {
+        aspect-ratio: 1;
+        background: #fff;
+        filter: drop-shadow(0 18px 24px rgba(100, 36, 58, 0.08));
+        height: auto;
+        object-fit: cover;
+        width: 100%;
+      }
+
+      .product-gallery {
+        aspect-ratio: 1;
+        position: relative;
+      }
+
+      .product-gallery .product-photo {
+        height: 100%;
+      }
+
+      .product-stage[data-fit="contain"] .product-photo {
+        object-fit: contain;
+      }
+
+      .gallery-arrow {
+        align-items: center;
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(100, 36, 58, 0.22);
+        border-radius: 999px;
+        color: var(--berry);
+        cursor: pointer;
+        display: none;
+        font-family: inherit;
+        font-size: 1.6rem;
+        font-weight: 700;
+        height: 2.55rem;
+        justify-content: center;
+        line-height: 1;
+        min-width: 2.55rem;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
+        width: 2.55rem;
+        z-index: 2;
+      }
+
+      .gallery-arrow:hover {
+        background: var(--berry);
+        border-color: var(--berry);
+        color: var(--white);
+      }
+
+      .gallery-arrow:focus-visible {
+        outline: 3px solid var(--rose);
+        outline-offset: 3px;
+      }
+
+      .gallery-arrow[data-direction="prev"] {
+        left: 0.75rem;
+      }
+
+      .gallery-arrow[data-direction="next"] {
+        right: 0.75rem;
+      }
+
+      .product-stage[data-gallery="multiple"] .gallery-arrow {
+        display: inline-flex;
+      }
+
+      .gallery-status {
+        background: rgba(255, 255, 255, 0.92);
+        border: 1px solid rgba(100, 36, 58, 0.18);
+        bottom: 0.75rem;
+        color: var(--berry);
+        display: none;
+        font-size: 0.78rem;
+        font-weight: 800;
+        left: 50%;
+        letter-spacing: 0.05em;
+        padding: 0.35rem 0.65rem;
+        position: absolute;
+        transform: translateX(-50%);
+      }
+
+      .product-stage[data-gallery="multiple"] .gallery-status {
+        display: block;
+      }
+
+      .product-note {
+        background: var(--berry);
+        color: var(--white);
+        display: none;
+        font-size: 0.78rem;
+        font-weight: 800;
+        left: 1rem;
+        letter-spacing: 0.04em;
+        padding: 0.45rem 0.7rem;
+        position: absolute;
+        text-transform: uppercase;
+        top: 1rem;
+      }
+
+      .stone-lettering {
+        height: 34%;
+        left: 50%;
+        max-width: 70%;
+        overflow: visible;
+        position: absolute;
+        top: 42%;
+        transform: translate(-50%, -50%) rotate(-8deg);
+        width: 58%;
+      }
+
+      .stone-text {
+        dominant-baseline: middle;
+        fill: none;
+        font-family: "Kuenstler Script Black", "Kunstler Script", "Brush Script MT", cursive;
+        font-size: 82px;
+        paint-order: stroke;
+        stroke: var(--stone);
+        stroke-dasharray: 1 11;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 10;
+        text-anchor: middle;
+        vector-effect: non-scaling-stroke;
+      }
+
+      .stone-text-shadow {
+        filter: url(#stoneSparkle);
+        opacity: 0.96;
+        stroke-width: 14;
+      }
+
+      .stone-text-highlight {
+        opacity: 0.72;
+        stroke: var(--stone-shine);
+        stroke-dasharray: 1 19;
+        stroke-width: 4;
+      }
+
+      .product-stage[data-product="large-comb"] .stone-lettering {
+        height: 40%;
+        max-width: 48%;
+        top: 42%;
+        transform: translate(-58%, -50%) rotate(-3deg);
+        width: 48%;
+      }
+
+      .product-stage[data-product="claw-clip"] .stone-lettering {
+        height: 28%;
+        max-width: 62%;
+        top: 45%;
+        transform: translate(-50%, -50%) rotate(-4deg);
+        width: 54%;
+      }
+
+      .font-reference {
+        background: var(--white);
+        border: 1px solid rgba(191, 111, 135, 0.72);
+        display: grid;
+        gap: 0.7rem;
+        padding: 1rem;
+      }
+
+      .font-reference img {
+        aspect-ratio: 16 / 10;
+        border: 1px solid rgba(100, 36, 58, 0.12);
+        object-fit: cover;
+        object-position: top left;
+        width: 100%;
+      }
+
+      .gift-box {
+        background: #f7f4ee;
+        border: 1px solid #b9aa9a;
+        box-shadow: inset 0 0 0 14px #eee7dc;
+        display: grid;
+        gap: 0.75rem;
+        grid-template-columns: 1fr 0.9fr;
+        min-height: 210px;
+        padding: 1.2rem;
+      }
+
+      .box-products {
+        align-self: center;
+        display: grid;
+        gap: 0.65rem;
+        grid-template-columns: 1fr 0.72fr;
+      }
+
+      .box-products img {
+        align-self: center;
+        border: 1px solid rgba(100, 36, 58, 0.12);
+        height: 150px;
+        object-fit: cover;
+        width: 100%;
+      }
+
+      .gift-copy {
+        align-self: center;
+      }
+
+      .lettering-preview-card {
+        --lettering-bg: #f3f1eb;
+        --lettering-stone: #b94f78;
+        --lettering-shine: #ffe6f0;
+        --lettering-shadow: rgba(100, 36, 58, 0.2);
+        background: var(--white);
+        display: grid;
+        min-height: 100%;
+        place-items: center;
+        padding: clamp(1rem, 3vw, 1.5rem);
+      }
+
+      .lettering-preview-card > div {
+        width: 100%;
+      }
+
+      .lettering-art {
+        align-items: center;
+        aspect-ratio: 2 / 1;
+        background: var(--lettering-bg);
+        display: grid;
+        margin-top: 1rem;
+        overflow: hidden;
+        width: 100%;
+      }
+
+      .lettering-art img {
+        height: 100%;
+        object-fit: cover;
+        width: 100%;
+      }
+
+      .checkout-section {
+        align-items: stretch;
+        display: grid;
+        gap: clamp(1rem, 3vw, 2rem);
+        grid-template-columns: minmax(0, 1fr) minmax(320px, 0.9fr);
+      }
+
+      .free-gift-section {
+        margin-top: clamp(1rem, 3vw, 1.4rem);
+      }
+
+      .random-gifts {
+        background: var(--white);
+        border: 1px solid rgba(191, 111, 135, 0.72);
+        height: 100%;
+        padding: clamp(1rem, 3vw, 1.35rem);
+      }
+
+      .gift-strip {
+        display: grid;
+        gap: clamp(0.7rem, 1.6vw, 1rem);
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+
+      .gift-swatch {
+        background: var(--cream);
+        border: 1.5px solid #9d5369;
+        margin: 0;
+        padding: 0.75rem;
+      }
+
+      .gift-swatch img {
+        aspect-ratio: 1;
+        object-fit: cover;
+        width: 100%;
+      }
+
+      .gift-swatch span {
+        color: var(--berry);
+        display: block;
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+        margin-top: 0.6rem;
+        text-transform: uppercase;
+      }
+
+      .text-preview-section {
+        align-items: stretch;
+        display: grid;
+        gap: clamp(1rem, 3vw, 2rem);
+        grid-template-columns: minmax(0, 0.95fr) minmax(360px, 1.05fr);
+        margin-top: clamp(1rem, 3vw, 1.4rem);
+      }
+
+      .script-card {
+        background: var(--white);
+        border: 1px solid rgba(191, 111, 135, 0.72);
+        padding: clamp(1rem, 3vw, 1.35rem);
+      }
+
+      .script-art {
+        align-items: center;
+        aspect-ratio: 2 / 1;
+        background: #f3f1eb;
+        display: flex;
+        justify-content: center;
+        margin-top: 1rem;
+        overflow: hidden;
+        padding: 1rem;
+      }
+
+      .script-preview-text {
+        color: #090909;
+        font-family: "Kuenstler Script Black", "Kunstler Script", "Brush Script MT", cursive;
+        font-size: clamp(4.4rem, 11vw, 9.5rem);
+        font-weight: 400;
+        line-height: 0.85;
+        max-width: 100%;
+        overflow-wrap: anywhere;
+      }
+
+      .summary {
+        background: var(--white);
+        border: 1px solid rgba(191, 111, 135, 0.72);
+        display: grid;
+        gap: 0.9rem;
+        height: 100%;
+        align-content: start;
+        padding: 1.1rem;
+      }
+
+      .price-section {
+        margin-top: clamp(1rem, 3vw, 1.4rem);
+      }
+
+      .summary-line {
+        display: flex;
+        gap: 1rem;
+        justify-content: space-between;
+      }
+
+      .summary-line strong {
+        white-space: nowrap;
+      }
+
+      .original-price {
+        color: var(--soft-ink);
+        text-decoration: line-through;
+        text-decoration-thickness: 1.5px;
+      }
+
+      .discount-note {
+        color: var(--rose);
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .price {
+        color: var(--berry);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(2rem, 5vw, 3.6rem);
+        line-height: 1;
+      }
+
+      .button {
+        align-items: center;
+        background: var(--berry);
+        border: 1px solid var(--berry);
+        border-radius: 999px;
+        color: var(--white);
+        display: inline-flex;
+        font-size: 0.78rem;
+        font-weight: 800;
+        justify-content: center;
+        letter-spacing: 0.08em;
+        min-height: 44px;
+        padding: 0.9rem 1.35rem;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+
+      .site-footer {
+        background: var(--berry);
+        color: var(--white);
+        padding: 2rem clamp(1rem, 4vw, 2rem);
+      }
+
+      .footer-inner {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: space-between;
+        margin: 0 auto;
+        max-width: 1240px;
+      }
+
+      .footer-inner p {
+        margin: 0;
+      }
+
+      @media (max-width: 920px) {
+        .nav,
+        .page-intro,
+        .choice-section,
+        .config-row,
+        .text-preview-section,
+        .checkout-section {
+          grid-template-columns: 1fr;
+        }
+
+        .nav {
+          justify-items: center;
+        }
+
+        .cart-link {
+          justify-self: center;
+        }
+
+        .nav-list {
+          gap: 0.75rem 1.25rem;
+        }
+
+        .gift-strip {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 560px) {
+        main {
+          padding-inline: 0.75rem;
+        }
+
+        h1 {
+          font-size: 2.7rem;
+          line-height: 1.05;
+        }
+
+        fieldset,
+        .panel,
+        .section-panel,
+        .choice-section,
+        .random-gifts {
+          padding: 0.85rem;
+        }
+
+        .gift-box,
+        .gift-strip {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .option-grid,
+        .product-options {
+          grid-template-columns: 1fr;
+        }
+
+        .product-stage {
+          min-height: auto;
+        }
+
+        .product-photo {
+          height: auto;
+        }
+
+        .stone-lettering {
+          width: 66%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav" aria-label="Main">
+        <span aria-hidden="true"></span>
+        <a class="brand-logo" href="index.html" aria-label="Norie homepage">
+          <span>Norie</span>
+          <span class="brand-heart" aria-hidden="true">♥</span>
+        </a>
+        <a class="cart-link" href="mailto:hello@norie.ca?subject=Norie%20custom%20order&body=Hi%20Norie%2C%0A%0AI%20would%20like%20to%20place%20a%20custom%20order.%0A" aria-label="Email Norie to place a custom order">
+          <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M6.5 8.5h11l.8 11H5.7l.8-11Z"></path>
+            <path d="M9 8.5V7a3 3 0 0 1 6 0v1.5"></path>
+          </svg>
+        </a>
+        <ul class="nav-list">
+          <li><a href="index.html">Homepage</a></li>
+          <li><a href="shop.html">Shop</a></li>
+          <li><a href="customize.html" aria-current="page">Customize</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="page-intro" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">Choose every detail</p>
+          <h1 id="page-title">Customize your set</h1>
+        </div>
+        <p>Pick a real product base, choose pink or white, add flower-script rhinestone lettering, then review the launch price with a random free gift.</p>
+      </section>
+
+      <div class="customizer">
+        <form id="customForm">
+          <section class="choice-section configuration-section" aria-label="Product and rhinestone choices">
+            <div class="config-row">
+              <div class="controls-stack">
+                <fieldset>
+                  <legend id="product-section-title">Product</legend>
+                  <div class="option-grid product-options">
+                    <label class="option">
+                      <input type="radio" name="product" value="small-comb" checked>
+                      <span>Small comb <small>Mini oval brush</small></span>
+                    </label>
+                    <label class="option">
+                      <input type="radio" name="product" value="large-comb">
+                      <span>Large comb <small>Square paddle comb</small></span>
+                    </label>
+                    <label class="option">
+                      <input type="radio" name="product" value="claw-clip">
+                      <span>Claw clip <small>Glossy acetate clip</small></span>
+                    </label>
+                  </div>
+                </fieldset>
+
+                <fieldset>
+                  <legend>Base color</legend>
+                  <div class="option-grid">
+                    <label class="option">
+                      <input type="radio" name="baseColor" value="pink" checked>
+                      <span>Pink <small>Soft blush acetate</small></span>
+                    </label>
+                    <label class="option">
+                      <input type="radio" name="baseColor" value="white">
+                      <span>White <small>Pearl white acetate</small></span>
+                    </label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <section class="product-stage" aria-labelledby="product-preview-title">
+                <h2 class="section-title" id="product-preview-title">Product preview</h2>
+                <span class="product-note" id="photoNote"></span>
+                <div class="product-gallery">
+                  <button class="gallery-arrow" type="button" data-direction="prev" aria-label="Previous product image">&lt;</button>
+                  <img id="productImage" class="product-photo" src="assets/product-small-pink-square.jpg" alt="Pink small comb preview">
+                  <button class="gallery-arrow" type="button" data-direction="next" aria-label="Next product image">&gt;</button>
+                  <span class="gallery-status" id="galleryStatus" aria-live="polite">1 / 1</span>
+                </div>
+              </section>
+            </div>
+
+            <div class="config-row">
+              <div class="controls-stack">
+                <fieldset>
+                  <legend id="lettering-section-title">Rhinestone color</legend>
+                  <div class="option-grid">
+                    <label class="option">
+                      <input type="radio" name="stoneColor" value="pink" checked>
+                      <span>Pink stones <small>Soft pink sparkle</small></span>
+                    </label>
+                    <label class="option">
+                      <input type="radio" name="stoneColor" value="white">
+                      <span>White stones <small>Clear pearl shine</small></span>
+                    </label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <section class="lettering-preview-card" aria-labelledby="lettering-preview-title">
+                <div>
+                  <h2 class="section-title" id="lettering-preview-title">Rhinestone lettering reference</h2>
+                  <div id="letteringPreviewImage" class="lettering-art" role="img" aria-label="Pink rhinestone lettering reference">
+                    <img id="letteringPreviewStatic" src="assets/lettering-pink-stones.png" alt="Pink rhinestone lettering reference">
+                  </div>
+                </div>
+              </section>
+            </div>
+          </section>
+
+          <section class="random-gifts free-gift-section" aria-labelledby="gift-title">
+            <h2 class="section-title" id="gift-title">One random free gift</h2>
+            <div class="gift-strip">
+              <figure class="gift-swatch">
+                <img src="assets/gift-white-frangipani-square.jpg" alt="White frangipani claw clip set">
+                <figcaption><span>White flower</span></figcaption>
+              </figure>
+              <figure class="gift-swatch">
+                <img src="assets/gift-pink-gingham-square.jpg" alt="Pink gingham flower clip">
+                <figcaption><span>Gingham flower</span></figcaption>
+              </figure>
+              <figure class="gift-swatch">
+                <img src="assets/gift-cream-bow-square.jpg" alt="Cream bow scrunchie">
+                <figcaption><span>Cream bow</span></figcaption>
+              </figure>
+              <figure class="gift-swatch">
+                <img src="assets/gift-blush-scrunchie-square.jpg" alt="Blush rhinestone scrunchie">
+                <figcaption><span>Blush scrunchie</span></figcaption>
+              </figure>
+              <figure class="gift-swatch">
+                <img src="assets/gift-white-bow-claw-square.jpg" alt="White bow rhinestone claw clip">
+                <figcaption><span>White bow claw</span></figcaption>
+              </figure>
+              <figure class="gift-swatch">
+                <img src="assets/gift-pink-bow-claw-square.jpg" alt="Pink bow rhinestone claw clip">
+                <figcaption><span>Pink bow claw</span></figcaption>
+              </figure>
+            </div>
+          </section>
+
+          <section class="choice-section text-preview-section" aria-labelledby="text-section-title">
+            <div class="panel text-field">
+              <label class="text-label" id="text-section-title" for="customText">Customize your text</label>
+              <input id="customText" name="customText" type="text" value="Chloe" maxlength="8" aria-describedby="textHint" autocomplete="off">
+              <p id="textHint" class="hint">Use one initial or a short English name, up to 8 letters.</p>
+            </div>
+
+            <section class="script-card" aria-labelledby="script-preview-title">
+              <h2 class="section-title" id="script-preview-title">Script lettering preview</h2>
+              <div class="script-art" aria-live="polite">
+                <span id="scriptPreviewText" class="script-preview-text">Chloe</span>
+              </div>
+            </section>
+          </section>
+
+          <section class="summary price-section" aria-labelledby="summary-title">
+            <h2 id="summary-title">Estimated price</h2>
+            <div class="summary-line">
+              <span id="summaryProduct">Small comb</span>
+              <strong id="originalPrice" class="original-price">CAD $32</strong>
+            </div>
+            <div class="summary-line">
+              <span>Launch price</span>
+              <strong id="discountPrice">CAD $25</strong>
+            </div>
+            <div class="price" id="totalPrice">CAD $25</div>
+            <a class="button" href="mailto:hello@norie.ca?subject=Norie%20custom%20order&body=Hi%20Norie%2C%0A%0AI%20would%20like%20to%20place%20a%20custom%20order.%0A">Request custom order</a>
+          </section>
+        </form>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <p>&copy; 2026 Norie</p>
+        <a href="index.html">Back to home</a>
+      </div>
+    </footer>
+
+    <script>
+      const productData = {
+        "small-comb": {
+          label: "Small comb",
+          originalPrice: 32,
+          salePrice: 25,
+          pink: "assets/product-small-pink-square.jpg",
+          white: "assets/product-small-white-square.jpg",
+          alt: {
+            pink: "Pink small acetate comb preview",
+            white: "White small acetate comb preview"
+          }
+        },
+        "large-comb": {
+          label: "Large comb",
+          originalPrice: 38,
+          salePrice: 30,
+          pink: "assets/product-large-pink-square.jpg",
+          white: "assets/product-large-white-square.jpg",
+          alt: {
+            pink: "Pink large paddle comb preview",
+            white: "White large paddle comb preview"
+          }
+        },
+        "claw-clip": {
+          label: "Claw clip",
+          originalPrice: 16,
+          salePrice: 12,
+          pink: "assets/product-claw-pink-square.jpg",
+          white: "assets/product-claw-white-square.jpg",
+          gallery: {
+            white: [
+              {
+                src: "assets/product-claw-white-square.jpg",
+                alt: "White acetate claw clip preview",
+                fit: "cover"
+              },
+              {
+                src: "assets/product-claw-white-measurement.png",
+                alt: "White claw clip size preview, 9 centimeters wide and 4.5 centimeters tall",
+                fit: "contain"
+              }
+            ]
+          },
+          alt: {
+            pink: "Pink acetate claw clip preview",
+            white: "White acetate claw clip preview"
+          }
+        }
+      };
+
+      const stoneColors = {
+        pink: {
+          main: "#b94f78",
+          shine: "#ffe6f0",
+          rim: "#873052",
+          deep: "#7f284a",
+          shadow: "rgba(100, 36, 58, 0.22)",
+          background: "#f3f1eb",
+          imageKey: "pink"
+        },
+        white: {
+          main: "#f5efe7",
+          shine: "#ffffff",
+          rim: "#cfc0b8",
+          deep: "#d9ccc4",
+          shadow: "rgba(112, 82, 78, 0.24)",
+          background: "#f4c8d2",
+          imageKey: "white"
+        }
+      };
+
+      const letteringReferenceImages = {
+        pink: {
+          src: "assets/lettering-pink-stones.png",
+          alt: "Pink rhinestone lettering reference"
+        },
+        white: {
+          src: "assets/lettering-white-stones.png",
+          alt: "White rhinestone lettering reference"
+        }
+      };
+
+      const stoneImages = {
+        pink: Object.assign(new Image(), { src: "assets/stone-pink.png" }),
+        white: Object.assign(new Image(), { src: "assets/stone-white.png" })
+      };
+
+      const letteringFont = {
+        family: '"Kuenstler Script Black", "Kunstler Script", "Brush Script MT", cursive',
+        weight: "400",
+        style: "normal",
+        spacing: "0"
+      };
+
+      const form = document.querySelector("#customForm");
+      const productImage = document.querySelector("#productImage");
+      const letteringPreviewImage = document.querySelector("#letteringPreviewImage");
+      const letteringPreviewStatic = document.querySelector("#letteringPreviewStatic");
+      const letteringPreviewCard = document.querySelector(".lettering-preview-card");
+      const galleryButtons = document.querySelectorAll(".gallery-arrow");
+      const galleryStatus = document.querySelector("#galleryStatus");
+      const summaryProduct = document.querySelector("#summaryProduct");
+      const originalPrice = document.querySelector("#originalPrice");
+      const discountPrice = document.querySelector("#discountPrice");
+      const totalPrice = document.querySelector("#totalPrice");
+      const photoNote = document.querySelector("#photoNote");
+      const customText = document.querySelector("#customText");
+      const scriptPreviewText = document.querySelector("#scriptPreviewText");
+      const stage = document.querySelector(".product-stage");
+      let productSlideIndex = 0;
+      let activeGalleryKey = "";
+
+      function productImages(data, baseColor) {
+        if (data.gallery && data.gallery[baseColor]) return data.gallery[baseColor];
+        return [{
+          src: data[baseColor],
+          alt: data.alt[baseColor],
+          fit: "cover"
+        }];
+      }
+
+      function selected(name) {
+        const checked = form.querySelector(`input[name="${name}"]:checked`);
+        const field = form.elements[name];
+        return checked ? checked.value : field.value;
+      }
+
+      function titleCase(value) {
+        return value.charAt(0).toUpperCase() + value.slice(1);
+      }
+
+      function countNeighbors(mask, width, index) {
+        return mask[index - width] + mask[index - width + 1] + mask[index + 1] + mask[index + width + 1] +
+          mask[index + width] + mask[index + width - 1] + mask[index - 1] + mask[index - width - 1];
+      }
+
+      function transitions(mask, width, index) {
+        const values = [
+          mask[index - width],
+          mask[index - width + 1],
+          mask[index + 1],
+          mask[index + width + 1],
+          mask[index + width],
+          mask[index + width - 1],
+          mask[index - 1],
+          mask[index - width - 1],
+          mask[index - width]
+        ];
+        let total = 0;
+        for (let i = 0; i < 8; i += 1) {
+          if (values[i] === 0 && values[i + 1] === 1) total += 1;
+        }
+        return total;
+      }
+
+      function thinMask(mask, width, height) {
+        let changed = true;
+        let passes = 0;
+
+        while (changed && passes < 36) {
+          changed = false;
+          for (let phase = 0; phase < 2; phase += 1) {
+            const remove = [];
+            for (let y = 1; y < height - 1; y += 1) {
+              for (let x = 1; x < width - 1; x += 1) {
+                const index = y * width + x;
+                if (!mask[index]) continue;
+                const p2 = mask[index - width];
+                const p4 = mask[index + 1];
+                const p6 = mask[index + width];
+                const p8 = mask[index - 1];
+                const neighbors = countNeighbors(mask, width, index);
+                if (neighbors < 2 || neighbors > 6 || transitions(mask, width, index) !== 1) continue;
+                if (phase === 0 && p2 * p4 * p6 === 0 && p4 * p6 * p8 === 0) remove.push(index);
+                if (phase === 1 && p2 * p4 * p8 === 0 && p2 * p6 * p8 === 0) remove.push(index);
+              }
+            }
+            remove.forEach((index) => {
+              mask[index] = 0;
+              changed = true;
+            });
+          }
+          passes += 1;
+        }
+
+        return mask;
+      }
+
+      function hasInk(mask, width, height, x, y, radius) {
+        for (let yy = Math.max(0, y - radius); yy <= Math.min(height - 1, y + radius); yy += 1) {
+          for (let xx = Math.max(0, x - radius); xx <= Math.min(width - 1, x + radius); xx += 1) {
+            if (mask[yy * width + xx]) return true;
+          }
+        }
+        return false;
+      }
+
+      function countInk(mask, width, height, x, y, radius) {
+        let total = 0;
+        for (let yy = Math.max(0, y - radius); yy <= Math.min(height - 1, y + radius); yy += 1) {
+          for (let xx = Math.max(0, x - radius); xx <= Math.min(width - 1, x + radius); xx += 1) {
+            total += mask[yy * width + xx];
+          }
+        }
+        return total;
+      }
+
+      function buildLetterRanges(context, text, centerX) {
+        const totalWidth = context.measureText(text).width;
+        let cursor = centerX - totalWidth / 2;
+        return Array.from(text).map((letter, index) => {
+          const width = context.measureText(letter).width || totalWidth / Math.max(text.length, 1);
+          const range = {
+            index,
+            start: cursor - 10,
+            end: cursor + width + 10
+          };
+          cursor += width;
+          return range;
+        });
+      }
+
+      function normalizeScriptText(text) {
+        return Array.from(text).map((letter) => {
+          if ("éèêë".includes(letter)) return "e";
+          if ("ÉÈÊË".includes(letter)) return "E";
+          return letter;
+        }).join("");
+      }
+
+      function drawManualAccentMarks(context, originalText, scriptText, centerX, baselineY, size) {
+        const originalLetters = Array.from(originalText);
+        const scriptLetters = Array.from(scriptText);
+        const totalWidth = context.measureText(scriptText).width;
+        let cursor = centerX - totalWidth / 2;
+
+        originalLetters.forEach((letter, index) => {
+          const normalizedLetter = scriptLetters[index] || letter;
+          const letterWidth = context.measureText(normalizedLetter).width || size * 0.25;
+          const accentType = "éÉ".includes(letter)
+            ? "acute"
+            : "èÈ".includes(letter)
+              ? "grave"
+              : "êÊ".includes(letter)
+                ? "circumflex"
+                : "";
+
+          if (accentType) {
+            const x = cursor + letterWidth * 0.56;
+            const y = baselineY - size * 0.52;
+            context.save();
+            context.lineCap = "round";
+            context.lineJoin = "round";
+            context.lineWidth = Math.max(3, size * 0.026);
+            context.strokeStyle = "#000";
+            context.fillStyle = "#000";
+
+            if (accentType === "acute") {
+              context.beginPath();
+              context.moveTo(x - size * 0.035, y + size * 0.035);
+              context.quadraticCurveTo(x + size * 0.02, y - size * 0.02, x + size * 0.105, y - size * 0.07);
+              context.stroke();
+            } else if (accentType === "grave") {
+              context.beginPath();
+              context.moveTo(x + size * 0.08, y + size * 0.035);
+              context.quadraticCurveTo(x + size * 0.02, y - size * 0.02, x - size * 0.065, y - size * 0.07);
+              context.stroke();
+            } else {
+              context.beginPath();
+              context.moveTo(x - size * 0.09, y + size * 0.025);
+              context.quadraticCurveTo(x, y - size * 0.08, x + size * 0.09, y + size * 0.025);
+              context.stroke();
+            }
+
+            context.restore();
+          }
+
+          cursor += letterWidth;
+        });
+      }
+
+      function findLetterIndex(letterRanges, x) {
+        const range = letterRanges.find((letter) => x >= letter.start && x <= letter.end);
+        return range ? range.index : -1;
+      }
+
+      function drawRhinestone(context, stone, stoneInfo) {
+        const { x, y, r } = stone;
+        const stoneImage = stoneImages[stoneInfo.imageKey];
+        const size = r * 2;
+
+        context.save();
+        context.shadowColor = stoneInfo.shadow;
+        context.shadowBlur = 3.2;
+        context.shadowOffsetX = 0.8;
+        context.shadowOffsetY = 1.4;
+
+        if (stoneImage && stoneImage.complete && stoneImage.naturalWidth) {
+          context.drawImage(stoneImage, x - size / 2, y - size / 2, size, size);
+        } else {
+          const fallback = context.createRadialGradient(x - r * 0.35, y - r * 0.45, r * 0.15, x, y, r);
+          fallback.addColorStop(0, stoneInfo.shine);
+          fallback.addColorStop(0.36, stoneInfo.main);
+          fallback.addColorStop(1, stoneInfo.deep);
+          context.beginPath();
+          context.arc(x, y, r, 0, Math.PI * 2);
+          context.fillStyle = fallback;
+          context.fill();
+        }
+
+        context.restore();
+      }
+
+      function updateScriptTextPreview() {
+        const text = customText.value.trim().slice(0, 8) || "Chloe";
+        scriptPreviewText.textContent = text;
+      }
+
+      function updatePreview() {
+        const product = selected("product");
+        const baseColor = selected("baseColor");
+        const stoneColor = selected("stoneColor");
+        const data = productData[product];
+        const images = productImages(data, baseColor);
+        const galleryKey = `${product}-${baseColor}`;
+        if (galleryKey !== activeGalleryKey) {
+          activeGalleryKey = galleryKey;
+          productSlideIndex = 0;
+        }
+        productSlideIndex = Math.min(productSlideIndex, images.length - 1);
+        const activeImage = images[productSlideIndex];
+        const letteringReference = letteringReferenceImages[stoneColor];
+
+        productImage.src = activeImage.src;
+        productImage.alt = activeImage.alt;
+        stage.dataset.gallery = images.length > 1 ? "multiple" : "single";
+        stage.dataset.fit = activeImage.fit;
+        galleryStatus.textContent = `${productSlideIndex + 1} / ${images.length}`;
+        letteringPreviewImage.setAttribute("aria-label", letteringReference.alt);
+        letteringPreviewStatic.src = letteringReference.src;
+        letteringPreviewStatic.alt = letteringReference.alt;
+        letteringPreviewCard.style.setProperty("--lettering-bg", stoneColors[stoneColor].background);
+        letteringPreviewCard.style.setProperty("--lettering-stone", stoneColors[stoneColor].main);
+        letteringPreviewCard.style.setProperty("--lettering-shine", stoneColors[stoneColor].shine);
+        letteringPreviewCard.style.setProperty("--lettering-shadow", stoneColors[stoneColor].shadow);
+        stage.dataset.product = product;
+        stage.dataset.base = baseColor;
+        stage.style.setProperty("--stone", stoneColors[stoneColor].main);
+        stage.style.setProperty("--stone-shine", stoneColors[stoneColor].shine);
+
+        photoNote.style.display = "none";
+        summaryProduct.textContent = data.label;
+        originalPrice.textContent = `CAD $${data.originalPrice}`;
+        discountPrice.textContent = `CAD $${data.salePrice}`;
+        totalPrice.textContent = `CAD $${data.salePrice}`;
+      }
+
+      form.addEventListener("change", updatePreview);
+      customText.addEventListener("input", updateScriptTextPreview);
+      galleryButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const product = selected("product");
+          const baseColor = selected("baseColor");
+          const images = productImages(productData[product], baseColor);
+          if (images.length <= 1) return;
+          const direction = button.dataset.direction === "next" ? 1 : -1;
+          productSlideIndex = (productSlideIndex + direction + images.length) % images.length;
+          updatePreview();
+        });
+      });
+      updatePreview();
+      updateScriptTextPreview();
+      Object.values(stoneImages).forEach((image) => {
+        if (!image.complete) {
+          image.addEventListener("load", updatePreview, { once: true });
+        }
+      });
+      if (document.fonts) {
+        document.fonts.ready.then(updatePreview);
+      }
+    </script>
+  </body>
+</html>
