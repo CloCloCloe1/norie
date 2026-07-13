@@ -4,13 +4,15 @@ import test from "node:test";
 
 const read = (file) => readFile(file, "utf8");
 
-test("the newsletter form loads the shared controller and submits natively", async () => {
+test("the home contact section shows text-only sample social accounts", async () => {
   const html = await read("index.html");
 
-  assert.match(html, /<form[^>]+id="subscribeForm"[^>]*>/i);
-  assert.match(html, /<input[^>]+id="email"[^>]+type="email"[^>]+maxlength="254"/i);
-  assert.match(html, /<button[^>]+type="submit"[^>]*>\s*Subscribe\s*<\/button>/i);
-  assert.match(html, /<script[^>]+src="norie-forms\.js"[^>]+defer[^>]*><\/script>/i);
+  assert.match(html, /Follow Norie for new samples, custom-order updates, and launch news\./);
+  assert.match(html, /<dt>\s*IG\s*<\/dt>\s*<dd>\s*sampleigacc\s*<\/dd>/i);
+  assert.match(html, /<dt>\s*Rednote\s*<\/dt>\s*<dd>\s*sampleacc\s*<\/dd>/i);
+  assert.doesNotMatch(html, /id="subscribeForm"|>\s*Subscribe\s*<|id="email"/i);
+  assert.doesNotMatch(html, /<a[^>]*>\s*(?:sampleigacc|sampleacc)\s*<\/a>/i);
+  assert.match(html, /id="waitlist"/);
 });
 
 test("the custom order form uses a submit button and loads the shared controller", async () => {

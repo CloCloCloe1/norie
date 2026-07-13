@@ -504,54 +504,48 @@
         grid-template-columns: 1fr 1fr;
       }
 
-      .signup-form {
+      .social-card {
         background: var(--white);
         border: 1px solid rgba(191, 111, 135, 0.72);
         padding: clamp(1rem, 3vw, 1.6rem);
       }
 
-      label {
+      .social-list {
+        display: grid;
+        gap: 0;
+        margin: 0;
+      }
+
+      .social-list div {
+        align-items: baseline;
+        border-bottom: 1px solid rgba(191, 111, 135, 0.28);
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: minmax(5rem, 0.35fr) 1fr;
+        padding: 1rem 0;
+      }
+
+      .social-list div:first-child {
+        padding-top: 0;
+      }
+
+      .social-list div:last-child {
+        border-bottom: 0;
+        padding-bottom: 0;
+      }
+
+      .social-list dt {
         color: var(--berry);
-        display: block;
         font-size: 0.82rem;
         font-weight: 800;
         letter-spacing: 0.07em;
-        margin-bottom: 0.45rem;
         text-transform: uppercase;
       }
 
-      input {
-        background: var(--cream);
-        border: 1.5px solid #9d5369;
+      .social-list dd {
         color: var(--ink);
-        min-height: 48px;
-        padding: 0.85rem 1rem;
-        width: 100%;
-      }
-
-      .hint {
-        color: var(--soft-ink);
-        font-size: 0.9rem;
-        margin: 0.45rem 0 1rem;
-      }
-
-      .signup-form button {
-        background: var(--berry);
-        border: 1px solid var(--berry);
-        border-radius: 999px;
-        color: var(--white);
-        cursor: pointer;
-        font-size: 0.78rem;
-        font-weight: 800;
-        letter-spacing: 0.08em;
-        min-height: 44px;
-        padding: 0.9rem 1.35rem;
-        text-transform: uppercase;
-      }
-
-      .signup-form button[aria-disabled="true"] {
-        cursor: wait;
-        opacity: 0.68;
+        margin: 0;
+        overflow-wrap: anywhere;
       }
 
       .site-footer {
@@ -652,8 +646,7 @@
           flex-direction: column;
         }
 
-        .button,
-        .signup-form button {
+        .button {
           width: 100%;
         }
       }
@@ -846,14 +839,20 @@
         <div>
           <p class="eyebrow">Toronto-based, handmade-to-order</p>
           <h2 id="waitlist-title">keep in touch</h2>
-          <p>Use this area for your launch waitlist, early custom slots, or Instagram order form once the sample photos are ready.</p>
+          <p>Follow Norie for new samples, custom-order updates, and launch news.</p>
         </div>
-        <form class="signup-form" id="subscribeForm" action="#" method="post" novalidate>
-          <label for="email">Email address</label>
-          <input id="email" name="email" type="email" maxlength="254" autocomplete="email" aria-describedby="email-hint" required aria-required="true">
-          <p class="hint" id="email-hint">Get sample photos, pricing, and first custom slot updates.</p>
-          <button type="submit">Subscribe</button>
-        </form>
+        <aside class="social-card" aria-label="Social accounts">
+          <dl class="social-list">
+            <div>
+              <dt>IG</dt>
+              <dd>sampleigacc</dd>
+            </div>
+            <div>
+              <dt>Rednote</dt>
+              <dd>sampleacc</dd>
+            </div>
+          </dl>
+        </aside>
       </section>
     </main>
 
@@ -869,6 +868,5 @@
         </ul>
       </div>
     </footer>
-    <script src="norie-forms.js" defer></script>
   </body>
 </html>
