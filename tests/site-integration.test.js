@@ -21,7 +21,7 @@ test("the custom order form uses a submit button and loads the shared controller
   assert.match(html, /<script[^>]+src="norie-forms\.js"[^>]+defer[^>]*><\/script>/i);
   assert.match(html, /<label[^>]+for="customerName"[^>]*>\s*Your name\s*<\/label>/i);
   assert.match(html, /<input[^>]+id="customerName"[^>]+required/i);
-  assert.match(html, /<label[^>]+for="orderEmail"[^>]*>\s*Your email address\s*<\/label>/i);
+  assert.match(html, /<label[^>]+for="orderEmail"[^>]*>\s*Email address\s*<\/label>/i);
   assert.match(html, /<input[^>]+id="orderEmail"[^>]+type="email"[^>]+maxlength="254"[^>]+required/i);
 });
 
@@ -32,7 +32,25 @@ test("the shared controller submits each form to its Vercel endpoint", async () 
   assert.match(script, /postJson\("\/api\/custom-order"/);
   assert.match(script, /customerEmail:/);
   assert.match(script, /customerName:/);
+  assert.match(script, /customerContact:/);
   assert.match(script, /postJson\("\/api\/subscribe"/);
+});
+
+test("contact details follow pricing in a responsive required field group", async () => {
+  const html = await read("customize.html");
+
+  const pricePosition = html.indexOf('class="summary price-section"');
+  const contactPosition = html.indexOf('class="summary contact-section"');
+  assert.ok(pricePosition >= 0 && contactPosition > pricePosition);
+  assert.match(html, /All fields are required\./i);
+  assert.match(html, /<label[^>]+for="customerName"[^>]*>\s*Your name\s*<\/label>/i);
+  assert.match(html, /<input[^>]+id="customerName"[^>]+placeholder="Name"[^>]+required/i);
+  assert.match(html, /<label[^>]+for="orderEmail"[^>]*>\s*Email address\s*<\/label>/i);
+  assert.match(html, /<input[^>]+id="orderEmail"[^>]+placeholder="you@email\.com"[^>]+required/i);
+  assert.match(html, /<label[^>]+for="customerContact"[^>]*>\s*Contact\s*<\/label>/i);
+  assert.match(html, /<input[^>]+id="customerContact"[^>]+placeholder="wechat_id"[^>]+required/i);
+  assert.match(html, /\.contact-grid\s*\{[^}]*grid-template-columns:\s*repeat\(3,/s);
+  assert.match(html, /\.contact-field input::placeholder\s*\{[^}]*font-style:\s*italic/s);
 });
 
 test("the shared controller exposes pending and validation state accessibly", async () => {
