@@ -1,8 +1,12 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
 const read = (file) => readFile(file, "utf8");
+
+test("the customer confirmation logo is included in the deployable assets", async () => {
+  await access("assets/norie-logo.png");
+});
 
 test("the home contact section shows text-only sample social accounts", async () => {
   const html = await read("index.html");
