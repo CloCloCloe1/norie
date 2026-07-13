@@ -147,28 +147,34 @@ export default async function handler(req, res) {
       "With love, Norie"
     ].join("\n");
 
-    await sendEmail({
-      to: customerEmail,
-      replyTo: destinations[0],
-      subject: "We received your Norie custom order request",
-      html: `
-        <div style="background:#fff9f7;color:#39222d;font-family:Arial,sans-serif;line-height:1.6;margin:0 auto;max-width:600px;padding:32px 24px;">
-          <img src="${CONFIRMATION_LOGO_URL}" alt="Norie" width="240" style="display:block;height:auto;margin:0 auto 24px;max-width:70%;width:240px;">
-          <p style="color:#64243a;font-size:13px;font-weight:700;letter-spacing:0.18em;margin:0 0 12px;text-align:center;">IT ALL STARTS HERE</p>
-          <h1 style="color:#64243a;font-family:Georgia,serif;font-size:32px;line-height:1.2;margin:0 0 24px;text-align:center;">Your custom order request</h1>
-          <p>Hi ${escapeHtml(customerName)},</p>
-          <p>Welcome to Norie. Thank you for creating something special with us — we’ve received your custom order request.</p>
-          <table cellspacing="0" cellpadding="0" style="border-collapse:collapse;margin:28px 0;width:100%;">
-            <caption style="color:#64243a;font-family:Georgia,serif;font-size:24px;font-weight:700;padding:0 0 12px;text-align:left;">Your request summary</caption>
-            <tbody>${customerRows}</tbody>
-          </table>
-          <p>Once your final details and payment are confirmed, your handmade piece is expected to be ready in approximately 7–10 days.</p>
-          <p>We’ll be in touch soon to confirm the next steps. Thank you for choosing Norie — we can’t wait to create your piece.</p>
-          <p style="color:#64243a;font-family:Georgia,serif;font-size:20px;margin:28px 0 0;">With love, Norie</p>
-        </div>
-      `,
-      text: customerText
-    });
+    const customerHtml = `
+      <div style="background:#fff9f7;color:#39222d;font-family:Arial,sans-serif;line-height:1.6;margin:0 auto;max-width:600px;padding:32px 24px;">
+        <img src="${CONFIRMATION_LOGO_URL}" alt="Norie" width="240" style="display:block;height:auto;margin:0 auto 24px;max-width:70%;width:240px;">
+        <p style="color:#64243a;font-size:13px;font-weight:700;letter-spacing:0.18em;margin:0 0 12px;text-align:center;">IT ALL STARTS HERE</p>
+        <h1 style="color:#64243a;font-family:Georgia,serif;font-size:32px;line-height:1.2;margin:0 0 24px;text-align:center;">Your custom order request</h1>
+        <p>Hi ${escapeHtml(customerName)},</p>
+        <p>Welcome to Norie. Thank you for creating something special with us — we’ve received your custom order request.</p>
+        <table cellspacing="0" cellpadding="0" style="border-collapse:collapse;margin:28px 0;width:100%;">
+          <caption style="color:#64243a;font-family:Georgia,serif;font-size:24px;font-weight:700;padding:0 0 12px;text-align:left;">Your request summary</caption>
+          <tbody>${customerRows}</tbody>
+        </table>
+        <p>Once your final details and payment are confirmed, your handmade piece is expected to be ready in approximately 7–10 days.</p>
+        <p>We’ll be in touch soon to confirm the next steps. Thank you for choosing Norie — we can’t wait to create your piece.</p>
+        <p style="color:#64243a;font-family:Georgia,serif;font-size:20px;margin:28px 0 0;">With love, Norie</p>
+      </div>
+    `;
+
+    try {
+      await sendEmail({
+        to: customerEmail,
+        replyTo: destinations[0],
+        subject: "We received your Norie custom order request",
+        html: customerHtml,
+        text: customerText
+      });
+    } catch (error) {
+      console.error("Customer confirmation email failed", error);
+    }
 
     sendJson(res, 200, { ok: true });
   } catch (error) {

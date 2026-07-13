@@ -148,6 +148,50 @@ test("custom order sends an escaped order email to the configured inbox", { conc
   }
 });
 
+test("custom order succeeds when only the customer confirmation fails", { concurrency: false }, async () => {
+  const originalFetch = global.fetch;
+  const originalConsoleError = console.error;
+  const originalApiKey = process.env.RESEND_API_KEY;
+  const originalOrderEmail = process.env.ORDER_TO_EMAIL;
+  const calls = [];
+  const errors = [];
+
+  process.env.RESEND_API_KEY = "test-key";
+  process.env.ORDER_TO_EMAIL = "orders@example.com";
+  global.fetch = async (url, options) => {
+    calls.push({ url, options });
+    return calls.length === 1
+      ? response({ data: { id: "owner-email" } })
+      : response({ ok: false, status: 403, data: { message: "Recipient is not allowed" } });
+  };
+  console.error = (...args) => errors.push(args);
+
+  try {
+    const res = await invoke(customOrder, {
+      product: "Small comb",
+      baseColor: "White",
+      rhinestoneColor: "Pink stones",
+      customText: "Norie",
+      customerName: "Ava Chen",
+      customerEmail: "ava@example.com",
+      customerContact: "ava_wechat"
+    });
+
+    assert.equal(res.statusCode, 200);
+    assert.deepEqual(JSON.parse(res.body), { ok: true });
+    assert.equal(calls.length, 2);
+    assert.deepEqual(JSON.parse(calls[0].options.body).to, ["orders@example.com"]);
+    assert.deepEqual(JSON.parse(calls[1].options.body).to, ["ava@example.com"]);
+    assert.equal(errors.length, 1);
+    assert.equal(errors[0][0], "Customer confirmation email failed");
+  } finally {
+    global.fetch = originalFetch;
+    console.error = originalConsoleError;
+    restoreEnv("RESEND_API_KEY", originalApiKey);
+    restoreEnv("ORDER_TO_EMAIL", originalOrderEmail);
+  }
+});
+
 test("custom order rejects a missing customer email without sending", { concurrency: false }, async () => {
   const originalFetch = global.fetch;
   const originalOrderEmail = process.env.ORDER_TO_EMAIL;
