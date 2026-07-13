@@ -121,7 +121,7 @@ test("custom order sends an escaped order email to the configured inbox", { conc
     assert.deepEqual(customerEmail.to, ["chloe@example.com"]);
     assert.equal(customerEmail.reply_to, "orders@example.com");
     assert.equal(customerEmail.subject, "We received your Norie custom order request");
-    assert.match(customerEmail.html, /https:\/\/norie-hair\.vercel\.app\/assets\/norie-logo\.png/);
+    assert.match(customerEmail.html, /https:\/\/norie-hair\.vercel\.app\/assets\/norie-logo\.png\?v=transparent-1/);
     assert.match(customerEmail.html, /alt="Norie"/);
     assert.match(customerEmail.html, /IT ALL STARTS HERE/);
     assert.match(customerEmail.html, /Hi Chloe Lee,/);

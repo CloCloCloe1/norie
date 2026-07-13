@@ -7,7 +7,7 @@ const PRODUCTS = {
 };
 const BASE_COLORS = new Set(["Pink", "White"]);
 const STONE_COLORS = new Set(["Pink stones", "White stones"]);
-const CONFIRMATION_LOGO_URL = "https://norie-hair.vercel.app/assets/norie-logo.png";
+const CONFIRMATION_LOGO_URL = "https://norie-hair.vercel.app/assets/norie-logo.png?v=transparent-1";
 
 function clean(value) {
   return String(value || "").replace(/\s+/g, " ").trim();
