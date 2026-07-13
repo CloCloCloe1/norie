@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Norie | Custom Crystal Hair Pieces</title>
+    <style>
+      :root {
+        --cream: #fff9f7;
+        --shell: #fce9ee;
+        --petal: #f5b7c8;
+        --rose: #b74464;
+        --berry: #64243a;
+        --ink: #39222d;
+        --soft-ink: #6b4d59;
+        --line: #bf6f87;
+        --white: #ffffff;
+        --focus: #1557b0;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: var(--cream);
+        color: var(--ink);
+        font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.5;
+      }
+
+      a,
+      button,
+      input {
+        font: inherit;
+      }
+
+      a {
+        color: inherit;
+        text-underline-offset: 0.2em;
+      }
+
+      a:focus-visible,
+      button:focus-visible,
+      input:focus-visible {
+        outline: 3px solid var(--focus);
+        outline-offset: 3px;
+      }
+
+      img {
+        display: block;
+        max-width: 100%;
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: rgba(255, 255, 255, 0.96);
+        border-bottom: 1px solid rgba(191, 111, 135, 0.72);
+        backdrop-filter: blur(14px);
+      }
+
+      .nav {
+        align-items: center;
+        display: grid;
+        gap: 0.8rem;
+        grid-template-columns: 1fr auto 1fr;
+        margin: 0 auto;
+        max-width: 1180px;
+        padding: 1.15rem clamp(1rem, 4vw, 2rem) 0.75rem;
+      }
+
+      .nav-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.85rem 2.2rem;
+        grid-column: 1 / -1;
+        justify-content: center;
+        margin: 0;
+        order: 2;
+        padding: 0;
+      }
+
+      .nav-list li {
+        display: block;
+      }
+
+      .nav-list a {
+        color: #676168;
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.16em;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+
+      .brand-logo {
+        color: #1f1d20;
+        display: grid;
+        font-size: clamp(1.35rem, 3vw, 2.05rem);
+        font-weight: 700;
+        justify-items: center;
+        letter-spacing: 0.32em;
+        line-height: 0.9;
+        text-align: center;
+        text-decoration: none;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .brand-heart {
+        color: #050505;
+        font-size: 0.72rem;
+        letter-spacing: 0;
+        line-height: 1;
+        margin-top: 0.35rem;
+      }
+
+      .cart-link {
+        align-items: center;
+        color: #6f6b6f;
+        display: inline-flex;
+        justify-content: center;
+        justify-self: end;
+        min-height: 44px;
+        min-width: 44px;
+        text-decoration: none;
+      }
+
+      .cart-link svg {
+        display: block;
+        height: 28px;
+        stroke-width: 1.7;
+        width: 28px;
+      }
+
+      .nav-list a:hover,
+      .brand-logo:hover,
+      .cart-link:hover {
+        color: var(--berry);
+      }
+
+      main {
+        overflow: hidden;
+      }
+
+      .hero {
+        min-height: calc(100vh - 120px);
+        padding: clamp(1rem, 3vw, 2rem);
+      }
+
+      .hero-inner {
+        align-items: stretch;
+        display: grid;
+        gap: clamp(1rem, 2.5vw, 2rem);
+        grid-template-columns: minmax(0, 1.03fr) minmax(280px, 0.97fr);
+        margin: 0 auto;
+        max-width: 1240px;
+      }
+
+      .hero-copy {
+        align-content: center;
+        display: grid;
+        min-height: 68vh;
+        padding: clamp(2rem, 7vw, 5rem) clamp(0.25rem, 2vw, 1.25rem);
+      }
+
+      .eyebrow {
+        color: var(--rose);
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        margin: 0 0 1rem;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      h3 {
+        color: var(--berry);
+        font-family: Georgia, "Times New Roman", serif;
+        font-weight: 400;
+        line-height: 0.95;
+        margin: 0;
+      }
+
+      h1 {
+        font-size: clamp(3rem, 10vw, 8.8rem);
+        max-width: 9ch;
+      }
+
+      h2 {
+        font-size: clamp(2.1rem, 5vw, 4.9rem);
+      }
+
+      h3 {
+        font-size: clamp(1.4rem, 2.4vw, 2rem);
+        line-height: 1.05;
+      }
+
+      .hero-copy p {
+        color: var(--soft-ink);
+        font-size: clamp(1rem, 2vw, 1.25rem);
+        margin: 1.4rem 0 0;
+        max-width: 34rem;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.85rem;
+        margin-top: 2rem;
+      }
+
+      .button {
+        align-items: center;
+        border: 1px solid var(--berry);
+        border-radius: 999px;
+        display: inline-flex;
+        font-size: 0.78rem;
+        font-weight: 800;
+        justify-content: center;
+        letter-spacing: 0.08em;
+        min-height: 44px;
+        padding: 0.9rem 1.35rem;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+
+      .button-primary {
+        background: var(--berry);
+        color: var(--white);
+      }
+
+      .button-secondary {
+        background: transparent;
+        color: var(--berry);
+      }
+
+      .hero-visual {
+        min-height: 68vh;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .hero-visual img {
+        height: 100%;
+        object-fit: cover;
+        width: 100%;
+      }
+
+      .section {
+        margin: 0 auto;
+        max-width: 1240px;
+        padding: clamp(3rem, 8vw, 7rem) clamp(1rem, 4vw, 2rem);
+      }
+
+      .section-heading {
+        align-items: end;
+        display: flex;
+        gap: 1rem;
+        justify-content: space-between;
+        margin-bottom: 1.6rem;
+      }
+
+      .section-heading p {
+        color: var(--soft-ink);
+        margin: 0;
+        max-width: 28rem;
+      }
+
+      .product-grid,
+      .category-grid,
+      .custom-grid {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .set-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .product-card {
+        background: var(--white);
+        border: 1px solid rgba(191, 111, 135, 0.72);
+        min-width: 0;
+      }
+
+      .product-image {
+        aspect-ratio: 4 / 5;
+        overflow: hidden;
+      }
+
+      .set-grid .product-image {
+        aspect-ratio: 1 / 1;
+      }
+
+      .product-image img,
+      .category-image img {
+        height: 100%;
+        object-fit: cover;
+        width: 100%;
+      }
+
+      .coming-grid {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .coming-photo {
+        aspect-ratio: 3 / 4;
+        border: 1px solid rgba(191, 111, 135, 0.72);
+        margin: 0;
+        overflow: hidden;
+      }
+
+      .coming-photo img {
+        display: block;
+        height: 100%;
+        object-fit: cover;
+        width: 100%;
+      }
+
+      .card-copy {
+        padding: 1rem;
+      }
+
+      .badge {
+        color: var(--rose);
+        display: block;
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.09em;
+        margin-bottom: 0.35rem;
+        text-transform: uppercase;
+      }
+
+      .card-copy p,
+      .category-card p,
+      .custom-card p,
+      .story p,
+      .newsletter p {
+        color: var(--soft-ink);
+        margin: 0.55rem 0 0;
+      }
+
+      .price {
+        color: var(--berry);
+        font-weight: 800;
+        margin-top: 0.9rem;
+      }
+
+      .original-price {
+        color: var(--soft-ink);
+        font-weight: 500;
+        margin-left: 0.35rem;
+        text-decoration: line-through;
+      }
+
+      .collection-feature {
+        background: #f7cbd3;
+        border-block: 1px solid rgba(191, 111, 135, 0.72);
+      }
+
+      .collection-feature + .collection-feature {
+        border-top: 0;
+      }
+
+      .white-edit {
+        background: #f2efe9;
+      }
+
+      .lookbook-strip {
+        display: grid;
+        gap: 0.6rem;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        margin: 0 auto;
+        max-width: 1440px;
+        padding: clamp(0.5rem, 2vw, 1rem) clamp(0.5rem, 2vw, 1rem) 0;
+      }
+
+      .blank-shot {
+        align-items: center;
+        aspect-ratio: 4 / 5;
+        background: linear-gradient(160deg, rgba(255, 255, 255, 0.72), rgba(245, 183, 200, 0.42));
+        border: 1px solid rgba(191, 111, 135, 0.72);
+        color: rgba(111, 37, 66, 0.52);
+        display: grid;
+        font-size: 0.75rem;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .lookbook-photo {
+        aspect-ratio: 3 / 4;
+        border: 1px solid rgba(191, 111, 135, 0.72);
+        height: 100%;
+        object-fit: cover;
+        width: 100%;
+      }
+
+      .white-edit .blank-shot {
+        background: linear-gradient(160deg, rgba(255, 255, 255, 0.9), rgba(230, 226, 218, 0.82));
+      }
+
+      .collection-copy {
+        background: transparent;
+        padding: clamp(1.6rem, 4vw, 3rem) clamp(1rem, 4vw, 2rem);
+      }
+
+      .collection-copy-inner {
+        margin: 0 auto;
+        max-width: 1240px;
+      }
+
+      .collection-copy h2 {
+        color: var(--soft-ink);
+        font-family: "Inter", Arial, sans-serif;
+        font-size: clamp(1.2rem, 2.2vw, 1.75rem);
+        font-weight: 800;
+        letter-spacing: 0.16em;
+        line-height: 1.2;
+        text-transform: uppercase;
+      }
+
+      .collection-copy p {
+        color: var(--soft-ink);
+        margin: 0.8rem 0 1.2rem;
+        max-width: 38rem;
+      }
+
+      .story-band {
+        background: var(--shell);
+        border-block: 1px solid rgba(191, 111, 135, 0.72);
+      }
+
+      .story {
+        align-items: center;
+        display: grid;
+        gap: clamp(1.2rem, 4vw, 3rem);
+        grid-template-columns: 0.88fr 1.12fr;
+      }
+
+      .story-visual {
+        aspect-ratio: 1;
+        background:
+          radial-gradient(circle at 48% 44%, rgba(255, 255, 255, 0.9) 0 0.3rem, transparent 0.36rem),
+          linear-gradient(160deg, #ffffff, #f4b4c4);
+        border: 1px solid rgba(191, 111, 135, 0.72);
+        display: grid;
+        place-items: center;
+      }
+
+      .story-mark {
+        color: var(--berry);
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(7rem, 18vw, 15rem);
+        opacity: 0.2;
+      }
+
+      .custom-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .custom-card,
+      .category-card {
+        border: 1px solid rgba(191, 111, 135, 0.72);
+        padding: 1.1rem;
+      }
+
+      .custom-card {
+        background: var(--white);
+      }
+
+      .category-card {
+        align-content: end;
+        aspect-ratio: 1;
+        background: var(--white);
+        display: flex;
+        flex-direction: column;
+        gap: 0.85rem;
+        min-height: 180px;
+        text-decoration: none;
+      }
+
+      .category-image {
+        aspect-ratio: 1;
+        overflow: hidden;
+      }
+
+      .newsletter {
+        align-items: center;
+        display: grid;
+        gap: 1.4rem;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .signup-form {
+        background: var(--white);
+        border: 1px solid rgba(191, 111, 135, 0.72);
+        padding: clamp(1rem, 3vw, 1.6rem);
+      }
+
+      label {
+        color: var(--berry);
+        display: block;
+        font-size: 0.82rem;
+        font-weight: 800;
+        letter-spacing: 0.07em;
+        margin-bottom: 0.45rem;
+        text-transform: uppercase;
+      }
+
+      input {
+        background: var(--cream);
+        border: 1.5px solid #9d5369;
+        color: var(--ink);
+        min-height: 48px;
+        padding: 0.85rem 1rem;
+        width: 100%;
+      }
+
+      .hint {
+        color: var(--soft-ink);
+        font-size: 0.9rem;
+        margin: 0.45rem 0 1rem;
+      }
+
+      .signup-form button {
+        background: var(--berry);
+        border: 1px solid var(--berry);
+        border-radius: 999px;
+        color: var(--white);
+        cursor: pointer;
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        min-height: 44px;
+        padding: 0.9rem 1.35rem;
+        text-transform: uppercase;
+      }
+
+      .signup-form button[aria-disabled="true"] {
+        cursor: wait;
+        opacity: 0.68;
+      }
+
+      .site-footer {
+        background: var(--berry);
+        color: var(--white);
+        padding: 2rem clamp(1rem, 4vw, 2rem);
+      }
+
+      .footer-inner {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: space-between;
+        margin: 0 auto;
+        max-width: 1240px;
+      }
+
+      .footer-inner p {
+        margin: 0;
+      }
+
+      .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin: 0;
+        padding: 0;
+      }
+
+      .footer-links li {
+        display: block;
+      }
+
+      @media (max-width: 900px) {
+        .nav {
+          grid-template-columns: 1fr;
+          justify-items: center;
+        }
+
+        .cart-link {
+          justify-self: center;
+        }
+
+        .nav-list {
+          gap: 0.75rem 1.25rem;
+        }
+
+        .hero-inner,
+        .story,
+        .newsletter {
+          grid-template-columns: 1fr;
+        }
+
+        .hero-copy,
+        .hero-visual {
+          min-height: auto;
+        }
+
+        .hero-visual {
+          aspect-ratio: 4 / 5;
+        }
+
+        .product-grid,
+        .category-grid,
+        .coming-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .custom-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 560px) {
+        .section-heading {
+          align-items: start;
+          flex-direction: column;
+        }
+
+        .product-grid,
+        .category-grid,
+        .custom-grid,
+        .coming-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .set-grid,
+        .lookbook-strip {
+          grid-template-columns: 1fr;
+        }
+
+        .hero {
+          padding-inline: 0.75rem;
+        }
+
+        .actions {
+          align-items: stretch;
+          flex-direction: column;
+        }
+
+        .button,
+        .signup-form button {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav" aria-label="Main">
+        <span aria-hidden="true"></span>
+        <a class="brand-logo" href="index.html" aria-label="Norie homepage">
+          <span>Norie</span>
+          <span class="brand-heart" aria-hidden="true">♥</span>
+        </a>
+        <a class="cart-link" href="mailto:hello@norie.ca?subject=Norie%20custom%20order&body=Hi%20Norie%2C%0A%0AI%20would%20like%20to%20place%20a%20custom%20order.%0A" aria-label="Email Norie to place a custom order">
+          <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M6.5 8.5h11l.8 11H5.7l.8-11Z"></path>
+            <path d="M9 8.5V7a3 3 0 0 1 6 0v1.5"></path>
+          </svg>
+        </a>
+        <ul class="nav-list">
+          <li><a href="index.html" aria-current="page">Homepage</a></li>
+          <li><a href="shop.html">Shop</a></li>
+          <li><a href="customize.html">Customize</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-inner">
+          <div class="hero-copy">
+            <h1 id="hero-title">Custom Hair Pieces</h1>
+            <div class="actions">
+              <a class="button button-primary" href="shop.html">Shop</a>
+              <a class="button button-secondary" href="customize.html">Customize yours</a>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <img src="assets/hero-packaging.jpg" alt="Pink gift boxes with soft bow-pattern wrapping paper for custom hair accessories">
+          </div>
+        </div>
+      </section>
+
+      <section class="collection-feature pink-edit" aria-labelledby="pink-edit-title">
+        <div class="lookbook-strip">
+          <img class="lookbook-photo" src="assets/pink-lookbook-bag.png" alt="Pink Norie claw clip and hair mist styled on a blush handbag">
+          <img class="lookbook-photo" src="assets/pink-lookbook-car.png" alt="Pink hair mist and soft pink styling details held in a car selfie">
+          <img class="lookbook-photo" src="assets/pink-lookbook-sandals.png" alt="Pink hair mist and claw clip styled with bright pink sandals">
+        </div>
+        <div class="collection-copy">
+          <div class="collection-copy-inner">
+            <h2 id="pink-edit-title">Pink pieces for everyday shine</h2>
+            <p>Soft blush combs and claw clips for morning routines, cafe tables, vanity trays, and what-is-in-my-bag photos.</p>
+            <a class="button button-secondary" href="shop.html">Shop pink</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="collection-feature white-edit" aria-labelledby="white-edit-title">
+        <div class="lookbook-strip">
+          <img class="lookbook-photo" src="assets/white-lookbook-spray.png" alt="White claw clip styled in hair with a matching beauty spray">
+          <img class="lookbook-photo" src="assets/white-lookbook-cafe.png" alt="White and yellow claw clips styled on a cafe table with summer beauty products">
+          <img class="lookbook-photo" src="assets/white-lookbook-pool.png" alt="Pink and white poolside styling with a woven tote and hair accessories">
+        </div>
+        <div class="collection-copy">
+          <div class="collection-copy-inner">
+            <h2 id="white-edit-title">White pieces for clean routines</h2>
+            <p>Pearl white combs and claw clips for bathroom counters, bridal edits, clean-girl bags, and silver crystal lettering.</p>
+            <a class="button button-secondary" href="shop.html">Shop white</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="shop" aria-labelledby="shop-title">
+        <div class="section-heading">
+          <h2 id="shop-title">Comb and Clip Set</h2>
+          <p>First sample direction for the white and pink collection: glossy combs, soft acetate clips, and custom crystal lettering.</p>
+        </div>
+        <div class="product-grid set-grid">
+          <article class="product-card">
+            <div class="product-image">
+              <img src="assets/set-large-comb-claw.jpg" alt="White large comb and cream claw clip set with pink rhinestone lettering reference">
+            </div>
+            <div class="card-copy">
+              <span class="badge">Set 1</span>
+              <h3>Large Comb + Claw Clip</h3>
+              <p>A full-size comb paired with a glossy claw clip for a complete custom gift box.</p>
+              <p class="price">CAD $38 <span class="original-price">CAD $48</span></p>
+            </div>
+          </article>
+          <article class="product-card">
+            <div class="product-image">
+              <img src="assets/set-small-comb-claw.jpg" alt="Pink small comb and pink bow claw clip set with white rhinestone lettering reference">
+            </div>
+            <div class="card-copy">
+              <span class="badge">Set 2</span>
+              <h3>Small Comb + Claw Clip</h3>
+              <p>A compact comb and matching claw clip for bags, birthdays, and first custom orders.</p>
+              <p class="price">CAD $32 <span class="original-price">CAD $40</span></p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="details-title">
+        <div class="section-heading">
+          <h2 id="details-title">Custom details</h2>
+          <p>Pick the base, the wording, the color story, and the lettering style for your custom piece.</p>
+        </div>
+        <div class="custom-grid">
+          <article class="custom-card">
+            <span class="badge">Choose 01</span>
+            <h3>Product</h3>
+            <p>Pick a comb or a claw clip as the base for your custom design.</p>
+          </article>
+          <article class="custom-card">
+            <span class="badge">Choose 02</span>
+            <h3>Text</h3>
+            <p>Add one initial, a short name, or a tiny word across the piece.</p>
+          </article>
+          <article class="custom-card">
+            <span class="badge">Choose 03</span>
+            <h3>Color</h3>
+            <p>Choose the rhinestone color: pink, white, red, or pearl.</p>
+          </article>
+          <article class="custom-card">
+            <span class="badge">Choose 04</span>
+            <h3>Font</h3>
+            <p>Pick a lettering style: clean script, bubble, classic, or bold.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="gifts" aria-labelledby="gift-title">
+        <div class="section-heading">
+          <h2 id="gift-title">Shop by mood</h2>
+          <p>Color-story edits for custom sets, birthday boxes, and photo-ready launch drops.</p>
+        </div>
+        <div class="category-grid">
+          <a class="category-card" href="shop.html">
+            <div class="category-image">
+              <img src="assets/mood-pinky-box.jpg" alt="White boxed crystal comb with ribbon and handwritten card">
+            </div>
+            <h3>Pinky Promise</h3>
+            <p>Baby pink clips, silver sparkles, and bestie energy.</p>
+          </a>
+          <a class="category-card" href="shop.html">
+            <div class="category-image">
+              <img src="assets/mood-pearl.jpg" alt="Pink gift box with a personalized comb, scrunchie, and hair clip set">
+            </div>
+            <h3>Pearl Crush</h3>
+            <p>Glossy blush packaging with names, hearts, and soft shine.</p>
+          </a>
+          <a class="category-card" href="#waitlist">
+            <div class="category-image">
+              <img src="assets/mood-blue.jpg" alt="Cream and burgundy custom gift box with rhinestone lettering">
+            </div>
+            <h3>Cherry Vanilla</h3>
+            <p>Cream bases with berry-red rhinestones for a glam edit.</p>
+          </a>
+          <a class="category-card" href="#waitlist">
+            <div class="category-image">
+              <img src="assets/mood-sky.jpg" alt="White gift boxes with blue gingham and blue custom hair accessories">
+            </div>
+            <h3>Bluebell Baby</h3>
+            <p>Sky blue ribbons, gingham textures, and clean white boxes.</p>
+          </a>
+        </div>
+      </section>
+
+      <section class="section coming-soon" aria-labelledby="coming-soon-title">
+        <div class="section-heading">
+          <h2 id="coming-soon-title">Coming Soon</h2>
+          <p>New sample photos for launch extras, packaging details, and limited gift add-ons.</p>
+        </div>
+        <div class="coming-grid">
+          <figure class="coming-photo">
+            <img src="assets/coming-soon-blue-shelf.png" alt="Blue floral claw clips styled with haircare products on cream shelves" loading="lazy">
+          </figure>
+          <figure class="coming-photo">
+            <img src="assets/coming-soon-pink-bag.png" alt="Pink pearl claw clip and flower clips styled with haircare products inside a fabric bag" loading="lazy">
+          </figure>
+          <figure class="coming-photo">
+            <img src="assets/coming-soon-brown-clip.png" alt="Brown rhinestone flower claw clip styled with hair mist and lip tint on white fabric" loading="lazy">
+          </figure>
+        </div>
+      </section>
+
+      <section class="section newsletter" id="waitlist" aria-labelledby="waitlist-title">
+        <div>
+          <p class="eyebrow">Toronto-based, handmade-to-order</p>
+          <h2 id="waitlist-title">keep in touch</h2>
+          <p>Use this area for your launch waitlist, early custom slots, or Instagram order form once the sample photos are ready.</p>
+        </div>
+        <form class="signup-form" id="subscribeForm" action="#" method="post" novalidate>
+          <label for="email">Email address</label>
+          <input id="email" name="email" type="email" maxlength="254" autocomplete="email" aria-describedby="email-hint" required aria-required="true">
+          <p class="hint" id="email-hint">Get sample photos, pricing, and first custom slot updates.</p>
+          <button type="submit">Subscribe</button>
+        </form>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <p>© 2026 Norie</p>
+        <ul class="footer-links">
+          <li><a href="shop.html">Shop</a></li>
+          <li><a href="customize.html">Customize</a></li>
+          <li><a href="#custom">Custom</a></li>
+          <li><a href="#waitlist">Contact</a></li>
+          <li><a href="#waitlist">Instagram soon</a></li>
+        </ul>
+      </div>
+    </footer>
+    <script src="norie-forms.js" defer></script>
+  </body>
+</html>
