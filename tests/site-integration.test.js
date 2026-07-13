@@ -4,8 +4,12 @@ import test from "node:test";
 
 const read = (file) => readFile(file, "utf8");
 
-test("the customer confirmation logo is included in the deployable assets", async () => {
+test("the customer confirmation logo is a deployable transparent PNG", async () => {
   await access("assets/norie-logo.png");
+  const logo = await readFile("assets/norie-logo.png");
+
+  assert.deepEqual([...logo.subarray(1, 4)], [80, 78, 71]);
+  assert.ok([4, 6].includes(logo[25]), "PNG must contain an alpha channel");
 });
 
 test("the home contact section shows text-only sample social accounts", async () => {
