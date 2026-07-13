@@ -12,6 +12,21 @@ function clean(value) {
   return String(value || "").replace(/\s+/g, " ").trim();
 }
 
+function configuredRecipients(value) {
+  const recipients = [...new Set(
+    String(value || "")
+      .split(",")
+      .map((email) => email.trim().toLowerCase())
+      .filter(Boolean)
+  )];
+
+  if (!recipients.length || recipients.some((email) => !isEmail(email))) {
+    throw new Error("Invalid ORDER_TO_EMAIL");
+  }
+
+  return recipients;
+}
+
 function validPageUrl(value) {
   const url = clean(value);
   if (!url || url.length > 2048) {
@@ -35,10 +50,7 @@ export default async function handler(req, res) {
 
   try {
     const payload = await readJson(req);
-    const destination = process.env.ORDER_TO_EMAIL;
-    if (!destination) {
-      throw new Error("Missing ORDER_TO_EMAIL");
-    }
+    const destinations = configuredRecipients(process.env.ORDER_TO_EMAIL);
 
     const customerName = clean(payload.customerName);
     const customerEmail = clean(payload.customerEmail).toLowerCase();
@@ -92,7 +104,7 @@ export default async function handler(req, res) {
     )).join("");
 
     await sendEmail({
-      to: destination,
+      to: destinations,
       replyTo: customerEmail,
       subject: `Norie custom order request - ${productName}`,
       html: `

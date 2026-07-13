@@ -78,7 +78,7 @@ test("custom order sends an escaped order email to the configured inbox", { conc
   const calls = [];
 
   process.env.RESEND_API_KEY = "test-key";
-  process.env.ORDER_TO_EMAIL = "orders@example.com";
+  process.env.ORDER_TO_EMAIL = " orders@example.com, backup@example.com, orders@example.com ";
   global.fetch = async (url, options) => {
     calls.push({ url, options });
     return response({ data: { id: "email-1" } });
@@ -104,7 +104,7 @@ test("custom order sends an escaped order email to the configured inbox", { conc
     assert.equal(calls[0].url, "https://api.resend.com/emails");
 
     const email = JSON.parse(calls[0].options.body);
-    assert.deepEqual(email.to, ["orders@example.com"]);
+    assert.deepEqual(email.to, ["orders@example.com", "backup@example.com"]);
     assert.equal(email.reply_to, "chloe@example.com");
     assert.match(email.subject, /Large comb/);
     assert.match(email.html, /Chloe Lee/);
@@ -226,6 +226,41 @@ test("custom order requires an explicit destination inbox", { concurrency: false
 
   try {
     const res = await invoke(customOrder, { product: "Small comb" });
+
+    assert.equal(res.statusCode, 500);
+    assert.equal(requested, false);
+  } finally {
+    global.fetch = originalFetch;
+    console.error = originalConsoleError;
+    restoreEnv("RESEND_API_KEY", originalApiKey);
+    restoreEnv("ORDER_TO_EMAIL", originalOrderEmail);
+  }
+});
+
+test("custom order rejects an invalid configured recipient list", { concurrency: false }, async () => {
+  const originalFetch = global.fetch;
+  const originalConsoleError = console.error;
+  const originalApiKey = process.env.RESEND_API_KEY;
+  const originalOrderEmail = process.env.ORDER_TO_EMAIL;
+  let requested = false;
+
+  process.env.RESEND_API_KEY = "test-key";
+  process.env.ORDER_TO_EMAIL = "orders@example.com,not-an-email";
+  global.fetch = async () => {
+    requested = true;
+    return response();
+  };
+  console.error = () => {};
+
+  try {
+    const res = await invoke(customOrder, {
+      product: "Small comb",
+      baseColor: "Pink",
+      rhinestoneColor: "Pink stones",
+      customerName: "Chloe Lee",
+      customerEmail: "chloe@example.com",
+      customerContact: "chloe_wechat"
+    });
 
     assert.equal(res.statusCode, 500);
     assert.equal(requested, false);
