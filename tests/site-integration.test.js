@@ -12,6 +12,23 @@ test("the customer confirmation logo is a deployable transparent PNG", async () 
   assert.ok([4, 6].includes(logo[25]), "PNG must contain an alpha channel");
 });
 
+test("the pink and white lookbooks use the supplied 3:4 accessory images third", async () => {
+  const html = await read("index.html");
+
+  await access("assets/pink-lookbook-accessories.png");
+  await access("assets/white-lookbook-accessories.png");
+
+  assert.match(
+    html,
+    /pink-lookbook-bag\.png[\s\S]*pink-lookbook-car\.png[\s\S]*pink-lookbook-accessories\.png[^>]+alt="A curated collection of pink combs, claw clips, scrunchies, and hair accessories"/i
+  );
+  assert.match(
+    html,
+    /white-lookbook-spray\.png[\s\S]*white-lookbook-cafe\.png[\s\S]*white-lookbook-accessories\.png[^>]+alt="A curated collection of pearl white combs, claw clips, scrunchies, and hair accessories"/i
+  );
+  assert.match(html, /\.lookbook-photo\s*\{[\s\S]*aspect-ratio:\s*3\s*\/\s*4;/i);
+});
+
 test("the home contact section shows text-only sample social accounts", async () => {
   const html = await read("index.html");
 
