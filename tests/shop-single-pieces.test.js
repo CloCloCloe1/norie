@@ -33,22 +33,52 @@ test("Shop renders one unified twelve-card catalog in the approved order", () =>
   const names = [...section.matchAll(/<h3(?: id="[^"]+")?>([^<]+)<\/h3>/g)].map((match) => match[1]);
 
   assert.deepEqual(names, [
-    "Essentials Hairstyling Set",
-    "Baby Hairstyling Set",
-    "Pink Large Comb",
-    "White Large Comb",
-    "Pink Small Comb",
-    "White Small Comb",
-    "Pink Claw Clip 1",
-    "Pink Claw Clip 2",
-    "Pink Claw Clip 3",
-    "White Claw Clip 1",
-    "White Claw Clip 2",
-    "White Claw Clip 3"
+    "ESSENTIALS HAIRSTYLING SET",
+    "BABY HAIRSTYLING SET",
+    "PINK LARGE COMB",
+    "WHITE LARGE COMB",
+    "PINK SMALL COMB",
+    "WHITE SMALL COMB",
+    "PINK CLAW CLIP 1",
+    "PINK CLAW CLIP 2",
+    "PINK CLAW CLIP 3",
+    "WHITE CLAW CLIP 1",
+    "WHITE CLAW CLIP 2",
+    "WHITE CLAW CLIP 3"
   ]);
   assert.equal((section.match(/<article class="product-card">/g) ?? []).length, 12);
-  assert.equal((section.match(/href="customize\.html">(?:Build this set|Customize this piece)<\/a>/g) ?? []).length, 12);
+  assert.equal((section.match(/class="product-action" href="customize\.html">(?:BUILD THIS SET|CUSTOMIZE THIS PIECE)<\/a>/g) ?? []).length, 12);
   assert.doesNotMatch(html, /single-products-title|set-products-title/);
+});
+
+test("Shop cards use the approved description-free centered presentation", () => {
+  const html = readFileSync("shop.html", "utf8");
+  const section = html.match(
+    /<section class="section" aria-labelledby="shop-products-title">([\s\S]*?)<\/section>/
+  )?.[1] ?? "";
+  const cardCopy = [...section.matchAll(/<div class="card-copy">([\s\S]*?)<\/div>\s*<\/article>/g)].map((match) => match[1]);
+
+  assert.equal(cardCopy.length, 12);
+  assert.equal((section.match(/class="product-kicker"/g) ?? []).length, 0);
+  assert.ok(cardCopy.every((copy) => (copy.match(/<p>/g) ?? []).length === 0));
+  assert.equal((section.match(/class="price-row"/g) ?? []).length, 12);
+  assert.match(html, /\.card-copy\s*\{[^}]*text-align:\s*center/s);
+  assert.match(html, /\.price-row\s*\{[^}]*justify-content:\s*center/s);
+});
+
+test("Shop actions and carousel controls use the approved scale and states", () => {
+  const html = readFileSync("shop.html", "utf8");
+  const carouselRule = html.match(/\.set-carousel\s*\{([^}]+)\}/)?.[1] ?? "";
+  const buttonRule = html.match(/\.set-carousel-button\s*\{([^}]+)\}/)?.[1] ?? "";
+
+  assert.equal((html.match(/class="product-action" href="customize\.html">BUILD THIS SET<\/a>/g) ?? []).length, 2);
+  assert.equal((html.match(/class="product-action" href="customize\.html">CUSTOMIZE THIS PIECE<\/a>/g) ?? []).length, 10);
+  assert.match(carouselRule, /aspect-ratio:\s*1\s*\/\s*1/);
+  assert.match(buttonRule, /height:\s*1\.75rem/);
+  assert.match(buttonRule, /width:\s*1\.75rem/);
+  assert.match(html, /\.product-action\s*\{[^}]*border:\s*1px solid/s);
+  assert.match(html, /\.product-action:hover\s*\{[^}]*background:\s*#f1f1f1/s);
+  assert.match(html, /\.product-action:focus-visible\s*\{/);
 });
 
 test("Shop maps all ten square assets with accessible loading metadata", () => {
