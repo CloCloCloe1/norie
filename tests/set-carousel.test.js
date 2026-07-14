@@ -55,3 +55,13 @@ test("Shop page renders the two updated set carousels", () => {
   assert.equal((html.match(/href="customize\.html">Build this set<\/a>/g) ?? []).length, 2);
   assert.match(html, /<script type="module" src="norie-carousel\.js"><\/script>/);
 });
+
+test("carousel controls use a two-tone focus indicator over product photos", () => {
+  for (const page of ["index.html", "shop.html"]) {
+    const html = readFileSync(page, "utf8");
+    const focusRule = html.match(/\.set-carousel-button:focus-visible\s*\{([^}]+)\}/)?.[1] ?? "";
+
+    assert.match(focusRule, /outline:\s*3px solid var\(--berry\)/);
+    assert.match(focusRule, /box-shadow:\s*0 0 0 6px #fff/);
+  }
+});
