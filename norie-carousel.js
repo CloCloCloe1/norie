@@ -14,7 +14,9 @@ export function initializeCarousel(carousel) {
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   let currentIndex = 0;
+  let programmaticScroll = false;
   let scrollFrame = 0;
+  let settleTimer = 0;
 
   previous.hidden = false;
   next.hidden = false;
@@ -26,11 +28,28 @@ export function initializeCarousel(carousel) {
 
   function showSlide(index) {
     currentIndex = index;
+    programmaticScroll = true;
+    window.clearTimeout(settleTimer);
     track.scrollTo({
       left: currentIndex * track.clientWidth,
       behavior: reducedMotion.matches ? "auto" : "smooth"
     });
     updateStatus();
+  }
+
+  function synchronizeFromTrack() {
+    if (track.clientWidth <= 0) return;
+    currentIndex = Math.max(0, Math.min(
+      slides.length - 1,
+      Math.round(track.scrollLeft / track.clientWidth)
+    ));
+    programmaticScroll = false;
+    updateStatus();
+  }
+
+  function scheduleSettle() {
+    window.clearTimeout(settleTimer);
+    settleTimer = window.setTimeout(synchronizeFromTrack, 160);
   }
 
   previous.addEventListener("click", () => {
@@ -42,16 +61,15 @@ export function initializeCarousel(carousel) {
   });
 
   track.addEventListener("scroll", () => {
+    if (programmaticScroll) {
+      scheduleSettle();
+      return;
+    }
     window.cancelAnimationFrame(scrollFrame);
-    scrollFrame = window.requestAnimationFrame(() => {
-      if (track.clientWidth <= 0) return;
-      currentIndex = Math.max(0, Math.min(
-        slides.length - 1,
-        Math.round(track.scrollLeft / track.clientWidth)
-      ));
-      updateStatus();
-    });
+    scrollFrame = window.requestAnimationFrame(synchronizeFromTrack);
   }, { passive: true });
+
+  track.addEventListener("scrollend", synchronizeFromTrack);
 
   updateStatus();
 }
