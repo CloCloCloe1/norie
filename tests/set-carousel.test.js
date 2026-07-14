@@ -45,9 +45,12 @@ test("homepage renders the two updated set carousels", () => {
 test("Shop page renders the two updated set carousels", () => {
   const html = readFileSync("shop.html", "utf8");
 
-  assert.match(html, /First month limited edition\./);
-  assert.match(html, /Bamboo Paddle Brush \+ Claw Clip/);
-  assert.match(html, /Flat Brush \+ Claw Clip/);
+  assert.match(html, /Essentials Hairstyling Set/);
+  assert.match(html, /Baby Hairstyling Set/);
+  assert.match(html, /Previous Essentials Hairstyling Set image/);
+  assert.match(html, /Next Essentials Hairstyling Set image/);
+  assert.match(html, /Previous Baby Hairstyling Set image/);
+  assert.match(html, /Next Baby Hairstyling Set image/);
   assert.match(html, /set-bamboo-white\.png/);
   assert.match(html, /set-bamboo-pink\.png/);
   assert.match(html, /set-flat-white\.png/);
