@@ -315,7 +315,7 @@ Use `First month limited edition.` for the intro. Give each `<h3>` a stable ID a
   </div>
   <button class="set-carousel-button" type="button" data-carousel-previous aria-label="Previous Bamboo Paddle Brush and Claw Clip image" hidden><span aria-hidden="true">&#8592;</span></button>
   <button class="set-carousel-button" type="button" data-carousel-next aria-label="Next Bamboo Paddle Brush and Claw Clip image" hidden><span aria-hidden="true">&#8594;</span></button>
-  <span class="set-carousel-status" data-carousel-status aria-live="polite" hidden>1 / 2</span>
+  <span class="set-carousel-status" data-carousel-status hidden>1 / 2</span>
 </div>
 ```
 
@@ -329,7 +329,7 @@ Set the card content to the exact names, descriptions, and prices from the desig
   </div>
   <button class="set-carousel-button" type="button" data-carousel-previous aria-label="Previous Flat Brush and Claw Clip image" hidden><span aria-hidden="true">&#8592;</span></button>
   <button class="set-carousel-button" type="button" data-carousel-next aria-label="Next Flat Brush and Claw Clip image" hidden><span aria-hidden="true">&#8594;</span></button>
-  <span class="set-carousel-status" data-carousel-status aria-live="polite" hidden>1 / 2</span>
+  <span class="set-carousel-status" data-carousel-status hidden>1 / 2</span>
 </div>
 ```
 
@@ -473,7 +473,7 @@ Use `First month limited edition.` for the section intro. For Set 1, replace the
   </div>
   <button class="set-carousel-button" type="button" data-carousel-previous aria-label="Previous Bamboo Paddle Brush and Claw Clip image" hidden><span aria-hidden="true">&#8592;</span></button>
   <button class="set-carousel-button" type="button" data-carousel-next aria-label="Next Bamboo Paddle Brush and Claw Clip image" hidden><span aria-hidden="true">&#8594;</span></button>
-  <span class="set-carousel-status" data-carousel-status aria-live="polite" hidden>1 / 2</span>
+  <span class="set-carousel-status" data-carousel-status hidden>1 / 2</span>
 </div>
 ```
 
@@ -487,7 +487,7 @@ Set the heading ID to `shop-set-1-title` and use the exact Set 1 name, descripti
   </div>
   <button class="set-carousel-button" type="button" data-carousel-previous aria-label="Previous Flat Brush and Claw Clip image" hidden><span aria-hidden="true">&#8592;</span></button>
   <button class="set-carousel-button" type="button" data-carousel-next aria-label="Next Flat Brush and Claw Clip image" hidden><span aria-hidden="true">&#8594;</span></button>
-  <span class="set-carousel-status" data-carousel-status aria-live="polite" hidden>1 / 2</span>
+  <span class="set-carousel-status" data-carousel-status hidden>1 / 2</span>
 </div>
 ```
 
