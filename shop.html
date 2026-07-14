@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Shop | Norie Custom Hair Pieces</title>
+    <style>
+      :root {
+        --cream: #fff9f7;
+        --shell: #fce9ee;
+        --petal: #f5b7c8;
+        --rose: #b74464;
+        --berry: #64243a;
+        --ink: #39222d;
+        --soft-ink: #6b4d59;
+        --line: #bf6f87;
+        --white: #ffffff;
+        --focus: #1557b0;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--cream);
+        color: var(--ink);
+        font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.5;
+      }
+
+      a {
+        color: inherit;
+        text-underline-offset: 0.2em;
+      }
+
+      a:focus-visible {
+        outline: 3px solid var(--focus);
+        outline-offset: 3px;
+      }
+
+      img {
+        display: block;
+        max-width: 100%;
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: rgba(255, 255, 255, 0.96);
+        border-bottom: 1px solid rgba(191, 111, 135, 0.72);
+        backdrop-filter: blur(14px);
+      }
+
+      .nav {
+        align-items: center;
+        display: grid;
+        gap: 0.8rem;
+        grid-template-columns: 1fr auto 1fr;
+        margin: 0 auto;
+        max-width: 1180px;
+        padding: 1.15rem clamp(1rem, 4vw, 2rem) 0.75rem;
+      }
+
+      .brand-logo {
+        color: #1f1d20;
+        display: grid;
+        font-size: clamp(1.35rem, 3vw, 2.05rem);
+        font-weight: 700;
+        justify-items: center;
+        letter-spacing: 0.32em;
+        line-height: 0.9;
+        text-align: center;
+        text-decoration: none;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .brand-heart {
+        color: #050505;
+        font-size: 0.72rem;
+        letter-spacing: 0;
+        line-height: 1;
+        margin-top: 0.35rem;
+      }
+
+      .cart-link {
+        align-items: center;
+        color: #6f6b6f;
+        display: inline-flex;
+        justify-content: center;
+        justify-self: end;
+        min-height: 44px;
+        min-width: 44px;
+        text-decoration: none;
+      }
+
+      .cart-link svg {
+        display: block;
+        height: 28px;
+        stroke-width: 1.7;
+        width: 28px;
+      }
+
+      .nav-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.85rem 2.2rem;
+        grid-column: 1 / -1;
+        justify-content: center;
+        margin: 0;
+        order: 2;
+        padding: 0;
+      }
+
+      .nav-list li {
+        display: block;
+      }
+
+      .nav-list a {
+        color: #676168;
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.16em;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+
+      .nav-list a:hover,
+      .brand-logo:hover,
+      .cart-link:hover {
+        color: var(--berry);
+      }
+
+      main {
+        overflow: hidden;
+      }
+
+      .shop-hero {
+        margin: 0 auto;
+        max-width: 1240px;
+        padding: clamp(3.5rem, 8vw, 7rem) clamp(1rem, 4vw, 2rem) clamp(2rem, 5vw, 4rem);
+        text-align: center;
+      }
+
+      .shop-hero-inner {
+        align-items: center;
+        display: grid;
+        gap: 1.5rem;
+        justify-items: center;
+      }
+
+      .eyebrow,
+      .product-kicker {
+        color: var(--rose);
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.16em;
+        margin: 0 0 0.75rem;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      h3 {
+        color: var(--berry);
+        font-family: Georgia, "Times New Roman", serif;
+        font-weight: 500;
+        line-height: 0.95;
+        margin: 0;
+      }
+
+      h1 {
+        color: var(--soft-ink);
+        font-family: "Inter", Arial, sans-serif;
+        font-size: clamp(1.65rem, 3.3vw, 2.35rem);
+        font-weight: 800;
+        letter-spacing: 0.2em;
+        line-height: 1.2;
+        max-width: none;
+        text-transform: uppercase;
+      }
+
+      h2 {
+        font-size: clamp(3rem, 7vw, 6rem);
+      }
+
+      h3 {
+        font-size: clamp(2rem, 3.6vw, 3.2rem);
+      }
+
+      .shop-hero p {
+        color: var(--soft-ink);
+        font-size: clamp(1rem, 2vw, 1.35rem);
+        margin: 0;
+        max-width: 48rem;
+      }
+
+      .section {
+        margin: 0 auto;
+        max-width: 1240px;
+        padding: clamp(2rem, 6vw, 5rem) clamp(1rem, 4vw, 2rem);
+      }
+
+      .section-heading {
+        align-items: end;
+        display: flex;
+        gap: 1rem;
+        justify-content: space-between;
+        margin-bottom: 1.5rem;
+      }
+
+      .section-heading p {
+        color: var(--soft-ink);
+        margin: 0;
+        max-width: 29rem;
+      }
+
+      .shop-grid {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .product-card {
+        background: var(--white);
+        border: 1px solid rgba(191, 111, 135, 0.72);
+        display: grid;
+        grid-template-rows: auto 1fr;
+        min-width: 0;
+      }
+
+      .product-image,
+      .set-placeholder {
+        aspect-ratio: 1 / 1;
+        background: #f8f1ef;
+        overflow: hidden;
+      }
+
+      .product-image img {
+        height: 100%;
+        object-fit: cover;
+        width: 100%;
+      }
+
+      .set-carousel {
+        aspect-ratio: 3 / 4;
+        background: #f8f1ef;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .set-carousel-track {
+        display: flex;
+        height: 100%;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+      }
+
+      .set-carousel-track::-webkit-scrollbar {
+        display: none;
+      }
+
+      .set-carousel-slide {
+        flex: 0 0 100%;
+        height: 100%;
+        object-fit: cover;
+        scroll-snap-align: start;
+        width: 100%;
+      }
+
+      .set-carousel-button {
+        align-items: center;
+        background: rgba(255, 255, 255, 0.92);
+        border: 1px solid var(--berry);
+        border-radius: 999px;
+        color: var(--berry);
+        cursor: pointer;
+        display: inline-flex;
+        font-size: 1.25rem;
+        height: 2.75rem;
+        justify-content: center;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 2.75rem;
+      }
+
+      .set-carousel-button[data-carousel-previous] {
+        left: 0.75rem;
+      }
+
+      .set-carousel-button[data-carousel-next] {
+        right: 0.75rem;
+      }
+
+      .set-carousel-button[hidden],
+      .set-carousel-status[hidden] {
+        display: none;
+      }
+
+      .set-carousel-button:focus-visible {
+        outline: 3px solid var(--berry);
+        outline-offset: 3px;
+      }
+
+      .set-carousel-status {
+        background: rgba(255, 255, 255, 0.92);
+        bottom: 0.75rem;
+        color: var(--berry);
+        font-size: 0.78rem;
+        font-weight: 800;
+        left: 50%;
+        padding: 0.35rem 0.65rem;
+        position: absolute;
+        transform: translateX(-50%);
+      }
+
+      .set-placeholder {
+        align-items: center;
+        background:
+          linear-gradient(135deg, rgba(245, 183, 200, 0.34), transparent 45%),
+          #fbf6f4;
+        color: var(--soft-ink);
+        display: grid;
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        place-items: center;
+        text-transform: uppercase;
+      }
+
+      .card-copy {
+        display: grid;
+        gap: 0.75rem;
+        padding: 1rem;
+      }
+
+      .product-kicker {
+        margin: 0;
+      }
+
+      .card-copy p {
+        color: var(--soft-ink);
+        font-size: 1rem;
+        margin: 0;
+      }
+
+      .price-row {
+        align-items: baseline;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+        margin-top: 0.25rem;
+      }
+
+      .sale-price {
+        color: var(--berry);
+        font-size: 1.45rem;
+        font-weight: 800;
+      }
+
+      .original-price {
+        color: var(--soft-ink);
+        text-decoration: line-through;
+      }
+
+      .product-card a {
+        color: var(--berry);
+        font-weight: 800;
+        text-decoration-thickness: 0.08em;
+      }
+
+      .site-footer {
+        background: var(--berry);
+        color: var(--white);
+        padding: 2rem clamp(1rem, 4vw, 2rem);
+      }
+
+      .footer-inner {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: space-between;
+        margin: 0 auto;
+        max-width: 1240px;
+      }
+
+      .footer-inner p,
+      .footer-links {
+        margin: 0;
+      }
+
+      .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        padding: 0;
+      }
+
+      .footer-links li {
+        display: block;
+      }
+
+      @media (max-width: 900px) {
+        .nav {
+          grid-template-columns: 1fr;
+          justify-items: center;
+        }
+
+        .cart-link {
+          justify-self: center;
+        }
+
+        .nav-list {
+          gap: 0.75rem 1.25rem;
+        }
+
+        .shop-hero-inner {
+          grid-template-columns: 1fr;
+        }
+
+        .shop-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 560px) {
+        .section-heading {
+          align-items: start;
+          flex-direction: column;
+        }
+
+        .shop-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav" aria-label="Main">
+        <span aria-hidden="true"></span>
+        <a class="brand-logo" href="index.html" aria-label="Norie homepage">
+          <span>Norie</span>
+          <span class="brand-heart" aria-hidden="true">♥</span>
+        </a>
+        <a class="cart-link" href="mailto:hello@norie.ca?subject=Norie%20custom%20order&body=Hi%20Norie%2C%0A%0AI%20would%20like%20to%20place%20a%20custom%20order.%0A" aria-label="Email Norie to place a custom order">
+          <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M6.5 8.5h11l.8 11H5.7l.8-11Z"></path>
+            <path d="M9 8.5V7a3 3 0 0 1 6 0v1.5"></path>
+          </svg>
+        </a>
+        <ul class="nav-list">
+          <li><a href="index.html">Homepage</a></li>
+          <li><a href="shop.html" aria-current="page">Shop</a></li>
+          <li><a href="customize.html">Customize</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="shop-hero" aria-labelledby="shop-title">
+        <div class="shop-hero-inner">
+          <h1 id="shop-title">Shop All</h1>
+          <p>shop all Norie custom combs, acetate claw clips, and launch gift sets in pink and white.</p>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="single-products-title">
+        <div class="section-heading">
+          <h2 id="single-products-title">Single Pieces</h2>
+          <p>Choose the base first, then customize lettering and rhinestone color on the custom order page.</p>
+        </div>
+        <div class="shop-grid">
+          <article class="product-card">
+            <div class="product-image">
+              <img src="assets/product-large-pink-square.jpg" alt="Pink large paddle comb with pearl acetate back">
+            </div>
+            <div class="card-copy">
+              <p class="product-kicker">Large comb</p>
+              <h3>Pink Large Comb</h3>
+              <p>Soft pink paddle comb base for longer names or bolder script.</p>
+              <div class="price-row">
+                <span class="sale-price">CAD $30</span>
+                <span class="original-price">CAD $38</span>
+              </div>
+              <a href="customize.html">Customize this piece</a>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-image">
+              <img src="assets/product-large-white-square.jpg" alt="White large paddle comb with pearl acetate back">
+            </div>
+            <div class="card-copy">
+              <p class="product-kicker">Large comb</p>
+              <h3>White Large Comb</h3>
+              <p>Pearl white paddle comb base for silver, pink, or clear stones.</p>
+              <div class="price-row">
+                <span class="sale-price">CAD $30</span>
+                <span class="original-price">CAD $38</span>
+              </div>
+              <a href="customize.html">Customize this piece</a>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-image">
+              <img src="assets/product-small-pink-square.jpg" alt="Pink small oval comb with pearl acetate back">
+            </div>
+            <div class="card-copy">
+              <p class="product-kicker">Small comb</p>
+              <h3>Pink Small Comb</h3>
+              <p>Mini oval brush size for initials, short names, and bag photos.</p>
+              <div class="price-row">
+                <span class="sale-price">CAD $25</span>
+                <span class="original-price">CAD $32</span>
+              </div>
+              <a href="customize.html">Customize this piece</a>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-image">
+              <img src="assets/product-small-white-square.jpg" alt="White small oval comb with pearl acetate back">
+            </div>
+            <div class="card-copy">
+              <p class="product-kicker">Small comb</p>
+              <h3>White Small Comb</h3>
+              <p>Compact pearl white comb for clean, delicate lettering.</p>
+              <div class="price-row">
+                <span class="sale-price">CAD $25</span>
+                <span class="original-price">CAD $32</span>
+              </div>
+              <a href="customize.html">Customize this piece</a>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-image">
+              <img src="assets/product-claw-pink-square.jpg" alt="Pink acetate claw clip with soft shimmer">
+            </div>
+            <div class="card-copy">
+              <p class="product-kicker">Claw clip</p>
+              <h3>Pink Claw Clip</h3>
+              <p>Glossy pink claw clip for bow accents or tiny crystal details.</p>
+              <div class="price-row">
+                <span class="sale-price">CAD $12</span>
+                <span class="original-price">CAD $16</span>
+              </div>
+              <a href="customize.html">Customize this piece</a>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-image">
+              <img src="assets/product-claw-white-square.jpg" alt="White acetate claw clip with soft shimmer">
+            </div>
+            <div class="card-copy">
+              <p class="product-kicker">Claw clip</p>
+              <h3>White Claw Clip</h3>
+              <p>Pearl white claw clip with a polished, bridal-style base.</p>
+              <div class="price-row">
+                <span class="sale-price">CAD $12</span>
+                <span class="original-price">CAD $16</span>
+              </div>
+              <a href="customize.html">Customize this piece</a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="set-products-title">
+        <div class="section-heading">
+          <h2 id="set-products-title">Sets</h2>
+          <p>First month limited edition.</p>
+        </div>
+        <div class="shop-grid">
+          <article class="product-card">
+            <div class="set-carousel" data-carousel role="region" aria-labelledby="shop-set-1-title">
+              <div class="set-carousel-track" data-carousel-track>
+                <img class="set-carousel-slide" data-carousel-slide src="assets/set-bamboo-white.png" alt="White limited-edition bamboo paddle brush and cream claw clip set">
+                <img class="set-carousel-slide" data-carousel-slide src="assets/set-bamboo-pink.png" alt="Pink limited-edition bamboo paddle brush and pink claw clip set">
+              </div>
+              <button class="set-carousel-button" type="button" data-carousel-previous aria-label="Previous Bamboo Paddle Brush and Claw Clip image" hidden><span aria-hidden="true">&#8592;</span></button>
+              <button class="set-carousel-button" type="button" data-carousel-next aria-label="Next Bamboo Paddle Brush and Claw Clip image" hidden><span aria-hidden="true">&#8594;</span></button>
+              <span class="set-carousel-status" data-carousel-status hidden>1 / 2</span>
+            </div>
+            <div class="card-copy">
+              <p class="product-kicker">Set 1</p>
+              <h3 id="shop-set-1-title">Bamboo Paddle Brush + Claw Clip</h3>
+              <p>A limited-edition bamboo paddle brush and claw clip pairing with one free gift.</p>
+              <div class="price-row">
+                <span class="sale-price">CAD $38</span>
+                <span class="original-price">CAD $48</span>
+              </div>
+              <a href="customize.html">Build this set</a>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="set-carousel" data-carousel role="region" aria-labelledby="shop-set-2-title">
+              <div class="set-carousel-track" data-carousel-track>
+                <img class="set-carousel-slide" data-carousel-slide src="assets/set-flat-white.png" alt="White limited-edition flat brush and floral cream claw clip set">
+                <img class="set-carousel-slide" data-carousel-slide src="assets/set-flat-pink.png" alt="Pink limited-edition flat brush and pink claw clip set">
+              </div>
+              <button class="set-carousel-button" type="button" data-carousel-previous aria-label="Previous Flat Brush and Claw Clip image" hidden><span aria-hidden="true">&#8592;</span></button>
+              <button class="set-carousel-button" type="button" data-carousel-next aria-label="Next Flat Brush and Claw Clip image" hidden><span aria-hidden="true">&#8594;</span></button>
+              <span class="set-carousel-status" data-carousel-status hidden>1 / 2</span>
+            </div>
+            <div class="card-copy">
+              <p class="product-kicker">Set 2</p>
+              <h3 id="shop-set-2-title">Flat Brush + Claw Clip</h3>
+              <p>A limited-edition flat brush and claw clip pairing with one free gift.</p>
+              <div class="price-row">
+                <span class="sale-price">CAD $32</span>
+                <span class="original-price">CAD $40</span>
+              </div>
+              <a href="customize.html">Build this set</a>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <p>(c) 2026 Norie</p>
+        <ul class="footer-links">
+          <li><a href="index.html">Homepage</a></li>
+          <li><a href="shop.html" aria-current="page">Shop</a></li>
+          <li><a href="customize.html">Customize</a></li>
+          <li><a href="mailto:hello@norie.ca?subject=Norie%20custom%20order">Contact</a></li>
+        </ul>
+      </div>
+    </footer>
+    <script type="module" src="norie-carousel.js"></script>
+  </body>
+</html>

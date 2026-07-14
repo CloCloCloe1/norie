@@ -40,3 +40,18 @@ test("homepage renders the two updated set carousels", () => {
   assert.equal((html.match(/data-carousel role="region"/g) ?? []).length, 2);
   assert.match(html, /<script type="module" src="norie-carousel\.js"><\/script>/);
 });
+
+test("Shop page renders the two updated set carousels", () => {
+  const html = readFileSync("shop.html", "utf8");
+
+  assert.match(html, /First month limited edition\./);
+  assert.match(html, /Bamboo Paddle Brush \+ Claw Clip/);
+  assert.match(html, /Flat Brush \+ Claw Clip/);
+  assert.match(html, /set-bamboo-white\.png/);
+  assert.match(html, /set-bamboo-pink\.png/);
+  assert.match(html, /set-flat-white\.png/);
+  assert.match(html, /set-flat-pink\.png/);
+  assert.equal((html.match(/data-carousel role="region"/g) ?? []).length, 2);
+  assert.equal((html.match(/href="customize\.html">Build this set<\/a>/g) ?? []).length, 2);
+  assert.match(html, /<script type="module" src="norie-carousel\.js"><\/script>/);
+});
