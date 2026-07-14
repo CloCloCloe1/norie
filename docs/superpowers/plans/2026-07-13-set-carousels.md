@@ -56,11 +56,11 @@ Copy-Item -LiteralPath 'C:\Users\limin\Downloads\Limited Edition Hiar Styling Se
 Copy-Item -LiteralPath 'C:\Users\limin\Downloads\Limited Edition Hiar Styling Set 副本 (1).png' -Destination 'assets\set-flat-pink.png'
 ```
 
-- [ ] **Step 4: Verify the four PNG dimensions and expected 3:4 ratio**
+- [ ] **Step 4: Verify the four PNG files are readable and record their dimensions**
 
-Run a PowerShell script using `System.Drawing.Image::FromFile` and assert that every image has `width / height` between `0.749` and `0.751`.
+Run a PowerShell script using `System.Drawing.Image::FromFile` and record each image's width and height. The supplied files are 1414 by 2000; the required 3:4 presentation is created by the CSS carousel viewport with centered `object-fit: cover` cropping.
 
-Expected: all four files report a 3:4 ratio. Rerunning `node --test tests/project-structure.test.js` reports PASS.
+Expected: all four files load successfully and report 1414 by 2000. Rerunning `node --test tests/project-structure.test.js` reports PASS.
 
 - [ ] **Step 5: Commit the asset and structure-test work**
 
@@ -525,7 +525,7 @@ git commit -m "feat: update Shop limited edition sets"
 
 - [ ] **Step 1: Run the full automated suite**
 
-Run: `npm test`
+Run: `npm.cmd test`
 
 Expected: all tests PASS with zero failures.
 
@@ -561,7 +561,7 @@ Using the in-app browser, inspect both URLs at desktop width and approximately 3
 - The Shop page keeps both `Build this set` links targeting `customize.html`.
 - Disabling JavaScript leaves each image track manually horizontally scrollable.
 
-Expected: all checks pass on both pages. If a check fails, add a focused failing test where practical, make the minimal fix, rerun `npm test`, and commit the fix with `git commit -m "fix: polish set carousel behavior"`.
+Expected: all checks pass on both pages. If a check fails, add a focused failing test where practical, make the minimal fix, rerun `npm.cmd test`, and commit the fix with `git commit -m "fix: polish set carousel behavior"`.
 
 - [ ] **Step 5: Deploy to Vercel production**
 
@@ -589,7 +589,7 @@ Expected: both pages render the updated carousels and every asset URL returns HT
 Run:
 
 ```powershell
-npm test
+npm.cmd test
 git log -5 --oneline
 git status --short
 ```
