@@ -1,0 +1,39 @@
+{
+  "checks": [
+    {
+      "id": "carousel-icon-on-light-overlay",
+      "foreground": "#64243a",
+      "background": "#ebebeb",
+      "type": "graphic",
+      "notes": "Berry arrow icon against the 92% white overlay composited over the darkest possible photo"
+    },
+    {
+      "id": "carousel-border-on-light-overlay",
+      "foreground": "#64243a",
+      "background": "#ebebeb",
+      "type": "ui",
+      "notes": "Berry button border against the 92% white overlay composited over the darkest possible photo"
+    },
+    {
+      "id": "carousel-status-on-light-overlay",
+      "foreground": "#64243a",
+      "background": "#ebebeb",
+      "type": "text-normal",
+      "notes": "Image position text against the 92% white overlay composited over the darkest possible photo"
+    },
+    {
+      "id": "carousel-focus-inner",
+      "foreground": "#64243a",
+      "background": "#ffffff",
+      "type": "ui",
+      "notes": "Berry inner focus ring against its white companion ring"
+    },
+    {
+      "id": "carousel-focus-outer",
+      "foreground": "#ffffff",
+      "background": "#64243a",
+      "type": "ui",
+      "notes": "White companion focus ring against berry"
+    }
+  ]
+}

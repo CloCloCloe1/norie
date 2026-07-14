@@ -1,0 +1,109 @@
+import assert from "node:assert/strict";
+import { access, readFile } from "node:fs/promises";
+import test from "node:test";
+
+const read = (file) => readFile(file, "utf8");
+
+test("the customer confirmation logo is a deployable transparent PNG", async () => {
+  await access("assets/norie-logo.png");
+  const logo = await readFile("assets/norie-logo.png");
+
+  assert.deepEqual([...logo.subarray(1, 4)], [80, 78, 71]);
+  assert.ok([4, 6].includes(logo[25]), "PNG must contain an alpha channel");
+});
+
+test("the pink and white lookbooks use the supplied 3:4 accessory images third", async () => {
+  const html = await read("index.html");
+
+  await access("assets/pink-lookbook-accessories.png");
+  await access("assets/white-lookbook-accessories.png");
+
+  assert.match(
+    html,
+    /pink-lookbook-bag\.png[\s\S]*pink-lookbook-car\.png[\s\S]*pink-lookbook-accessories\.png[^>]+alt="A curated collection of pink combs, claw clips, scrunchies, and hair accessories"/i
+  );
+  assert.match(
+    html,
+    /white-lookbook-spray\.png[\s\S]*white-lookbook-cafe\.png[\s\S]*white-lookbook-accessories\.png[^>]+alt="A curated collection of pearl white combs, claw clips, scrunchies, and hair accessories"/i
+  );
+  assert.match(html, /\.lookbook-photo\s*\{[\s\S]*aspect-ratio:\s*3\s*\/\s*4;/i);
+});
+
+test("the home contact section shows text-only sample social accounts", async () => {
+  const html = await read("index.html");
+
+  assert.match(html, /Follow Norie for new samples, custom-order updates, and launch news\./);
+  assert.match(html, /<dt>\s*IG\s*<\/dt>\s*<dd>\s*sampleigacc\s*<\/dd>/i);
+  assert.match(html, /<dt>\s*Rednote\s*<\/dt>\s*<dd>\s*sampleacc\s*<\/dd>/i);
+  assert.doesNotMatch(html, /id="subscribeForm"|>\s*Subscribe\s*<|id="email"/i);
+  assert.doesNotMatch(html, /<a[^>]*>\s*(?:sampleigacc|sampleacc)\s*<\/a>/i);
+  assert.match(html, /id="waitlist"/);
+});
+
+test("the custom order form uses a submit button and loads the shared controller", async () => {
+  const html = await read("customize.html");
+
+  assert.match(html, /<button[^>]+type="submit"[^>]*>\s*Request custom order\s*<\/button>/i);
+  assert.doesNotMatch(html, /mailto:[^"']+[^>]*>\s*Request custom order/i);
+  assert.match(html, /<script[^>]+src="norie-forms\.js"[^>]+defer[^>]*><\/script>/i);
+  assert.match(html, /<label[^>]+for="customerName"[^>]*>\s*Your name\s*<\/label>/i);
+  assert.match(html, /<input[^>]+id="customerName"[^>]+required/i);
+  assert.match(html, /<label[^>]+for="orderEmail"[^>]*>\s*Email address\s*<\/label>/i);
+  assert.match(html, /<input[^>]+id="orderEmail"[^>]+type="email"[^>]+maxlength="254"[^>]+required/i);
+});
+
+test("the shared controller submits each form to its Vercel endpoint", async () => {
+  const script = await read("norie-forms.js");
+
+  assert.match(script, /addEventListener\("submit"/);
+  assert.match(script, /postJson\("\/api\/custom-order"/);
+  assert.match(script, /customerEmail:/);
+  assert.match(script, /customerName:/);
+  assert.match(script, /customerContact:/);
+  assert.match(script, /postJson\("\/api\/subscribe"/);
+});
+
+test("contact details follow pricing in a responsive required field group", async () => {
+  const html = await read("customize.html");
+
+  const pricePosition = html.indexOf('class="summary price-section"');
+  const contactPosition = html.indexOf('class="summary contact-section"');
+  assert.ok(pricePosition >= 0 && contactPosition > pricePosition);
+  assert.match(html, /All fields are required\./i);
+  assert.match(html, /<label[^>]+for="customerName"[^>]*>\s*Your name\s*<\/label>/i);
+  assert.match(html, /<input[^>]+id="customerName"[^>]+placeholder="Name"[^>]+required/i);
+  assert.match(html, /<label[^>]+for="orderEmail"[^>]*>\s*Email address\s*<\/label>/i);
+  assert.match(html, /<input[^>]+id="orderEmail"[^>]+placeholder="you@email\.com"[^>]+required/i);
+  assert.match(html, /<label[^>]+for="customerContact"[^>]*>\s*Contact\s*<\/label>/i);
+  assert.match(html, /<input[^>]+id="customerContact"[^>]+placeholder="wechat_id"[^>]+required/i);
+  assert.match(html, /\.contact-grid\s*\{[^}]*grid-template-columns:\s*repeat\(3,/s);
+  assert.match(html, /\.contact-field input::placeholder\s*\{[^}]*font-style:\s*italic/s);
+});
+
+test("the shared controller exposes pending and validation state accessibly", async () => {
+  const script = await read("norie-forms.js");
+
+  assert.match(script, /setAttribute\("aria-busy",\s*"true"\)/);
+  assert.match(script, /setAttribute\("aria-disabled",\s*"true"\)/);
+  assert.match(script, /setAttribute\("aria-invalid",\s*"true"\)/);
+  assert.match(script, /setAttribute\("role",\s*"status"\)/);
+});
+
+test("the Coming Soon section renders the supplied photos at a 3:4 ratio", async () => {
+  const home = await read("index.html");
+
+  assert.doesNotMatch(home, /coming-placeholder|Photo 0[1-3]/);
+  assert.match(home, /assets\/coming-soon-blue-shelf\.png/);
+  assert.match(home, /assets\/coming-soon-pink-bag\.png/);
+  assert.match(home, /assets\/coming-soon-brown-clip\.png/);
+  assert.match(home, /\.coming-photo\s*\{[^}]*aspect-ratio:\s*3\s*\/\s*4/s);
+  assert.match(home, /\.coming-photo img\s*\{[^}]*object-fit:\s*cover/s);
+});
+
+test("pages use a canonical doctype and do not name generic div elements", async () => {
+  for (const page of ["index.html", "shop.html", "customize.html"]) {
+    const html = await read(page);
+    assert.match(html, /^<!DOCTYPE html>/);
+    assert.doesNotMatch(html, /<div(?=[^>]*aria-label)(?![^>]*\brole=)[^>]*>/i);
+  }
+});

@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -221,7 +221,7 @@
       .shop-grid {
         display: grid;
         gap: 1rem;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(4, minmax(0, 1fr));
       }
 
       .product-card {
@@ -241,8 +241,83 @@
 
       .product-image img {
         height: 100%;
-        object-fit: cover;
+        object-fit: contain;
         width: 100%;
+      }
+
+      .set-carousel {
+        aspect-ratio: 3 / 4;
+        background: #f8f1ef;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .set-carousel-track {
+        display: flex;
+        height: 100%;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+      }
+
+      .set-carousel-track::-webkit-scrollbar {
+        display: none;
+      }
+
+      .set-carousel-slide {
+        flex: 0 0 100%;
+        height: 100%;
+        object-fit: cover;
+        scroll-snap-align: start;
+        width: 100%;
+      }
+
+      .set-carousel-button {
+        align-items: center;
+        background: rgba(255, 255, 255, 0.92);
+        border: 1px solid var(--berry);
+        border-radius: 999px;
+        color: var(--berry);
+        cursor: pointer;
+        display: inline-flex;
+        font-size: 1.25rem;
+        height: 2.75rem;
+        justify-content: center;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 2.75rem;
+      }
+
+      .set-carousel-button[data-carousel-previous] {
+        left: 0.75rem;
+      }
+
+      .set-carousel-button[data-carousel-next] {
+        right: 0.75rem;
+      }
+
+      .set-carousel-button[hidden],
+      .set-carousel-status[hidden] {
+        display: none;
+      }
+
+      .set-carousel-button:focus-visible {
+        box-shadow: 0 0 0 6px #fff;
+        outline: 3px solid var(--berry);
+        outline-offset: 3px;
+      }
+
+      .set-carousel-status {
+        background: rgba(255, 255, 255, 0.92);
+        bottom: 0.75rem;
+        color: var(--berry);
+        font-size: 0.78rem;
+        font-weight: 800;
+        left: 50%;
+        padding: 0.35rem 0.65rem;
+        position: absolute;
+        transform: translateX(-50%);
       }
 
       .set-placeholder {
@@ -396,15 +471,59 @@
         </div>
       </section>
 
-      <section class="section" aria-labelledby="single-products-title">
+      <section class="section" aria-labelledby="shop-products-title">
         <div class="section-heading">
-          <h2 id="single-products-title">Single Pieces</h2>
-          <p>Choose the base first, then customize lettering and rhinestone color on the custom order page.</p>
+          <h2 id="shop-products-title">Shop All</h2>
+          <p>Explore limited-edition sets and individual pieces, then customize your selection.</p>
         </div>
         <div class="shop-grid">
           <article class="product-card">
+            <div class="set-carousel" data-carousel role="region" aria-labelledby="shop-set-1-title">
+              <div class="set-carousel-track" data-carousel-track>
+                <img class="set-carousel-slide" data-carousel-slide src="assets/set-bamboo-white.png" alt="White limited-edition bamboo paddle brush and cream claw clip set" loading="lazy" decoding="async" width="1414" height="2000">
+                <img class="set-carousel-slide" data-carousel-slide src="assets/set-bamboo-pink.png" alt="Pink limited-edition bamboo paddle brush and pink claw clip set" loading="lazy" decoding="async" width="1414" height="2000">
+              </div>
+              <button class="set-carousel-button" type="button" data-carousel-previous aria-label="Previous Essentials Hairstyling Set image" hidden><span aria-hidden="true">&#8592;</span></button>
+              <button class="set-carousel-button" type="button" data-carousel-next aria-label="Next Essentials Hairstyling Set image" hidden><span aria-hidden="true">&#8594;</span></button>
+              <span class="set-carousel-status" data-carousel-status hidden>1 / 2</span>
+            </div>
+            <div class="card-copy">
+              <p class="product-kicker">Set 1</p>
+              <h3 id="shop-set-1-title">Essentials Hairstyling Set</h3>
+              <p>A limited-edition bamboo paddle brush and claw clip pairing with one free gift.</p>
+              <div class="price-row">
+                <span class="sale-price">CAD $38</span>
+                <span class="original-price">CAD $48</span>
+              </div>
+              <a href="customize.html">Build this set</a>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="set-carousel" data-carousel role="region" aria-labelledby="shop-set-2-title">
+              <div class="set-carousel-track" data-carousel-track>
+                <img class="set-carousel-slide" data-carousel-slide src="assets/set-flat-white.png" alt="White limited-edition flat brush and floral cream claw clip set" loading="lazy" decoding="async" width="1414" height="2000">
+                <img class="set-carousel-slide" data-carousel-slide src="assets/set-flat-pink.png" alt="Pink limited-edition flat brush and pink claw clip set" loading="lazy" decoding="async" width="1414" height="2000">
+              </div>
+              <button class="set-carousel-button" type="button" data-carousel-previous aria-label="Previous Baby Hairstyling Set image" hidden><span aria-hidden="true">&#8592;</span></button>
+              <button class="set-carousel-button" type="button" data-carousel-next aria-label="Next Baby Hairstyling Set image" hidden><span aria-hidden="true">&#8594;</span></button>
+              <span class="set-carousel-status" data-carousel-status hidden>1 / 2</span>
+            </div>
+            <div class="card-copy">
+              <p class="product-kicker">Set 2</p>
+              <h3 id="shop-set-2-title">Baby Hairstyling Set</h3>
+              <p>A limited-edition flat brush and claw clip pairing with one free gift.</p>
+              <div class="price-row">
+                <span class="sale-price">CAD $32</span>
+                <span class="original-price">CAD $40</span>
+              </div>
+              <a href="customize.html">Build this set</a>
+            </div>
+          </article>
+
+          <article class="product-card">
             <div class="product-image">
-              <img src="assets/product-large-pink-square.jpg" alt="Pink large paddle comb with pearl acetate back">
+              <img src="assets/shop-large-pink.png" alt="Pink pearl bamboo paddle brush with a natural wood edge" loading="lazy" decoding="async" width="1414" height="1414">
             </div>
             <div class="card-copy">
               <p class="product-kicker">Large comb</p>
@@ -420,7 +539,7 @@
 
           <article class="product-card">
             <div class="product-image">
-              <img src="assets/product-large-white-square.jpg" alt="White large paddle comb with pearl acetate back">
+              <img src="assets/shop-large-white.png" alt="White pearl bamboo paddle brush with a natural wood edge" loading="lazy" decoding="async" width="1414" height="1414">
             </div>
             <div class="card-copy">
               <p class="product-kicker">Large comb</p>
@@ -436,7 +555,7 @@
 
           <article class="product-card">
             <div class="product-image">
-              <img src="assets/product-small-pink-square.jpg" alt="Pink small oval comb with pearl acetate back">
+              <img src="assets/shop-small-pink.png" alt="Small pink pearl oval hair brush" loading="lazy" decoding="async" width="1248" height="1248">
             </div>
             <div class="card-copy">
               <p class="product-kicker">Small comb</p>
@@ -452,7 +571,7 @@
 
           <article class="product-card">
             <div class="product-image">
-              <img src="assets/product-small-white-square.jpg" alt="White small oval comb with pearl acetate back">
+              <img src="assets/shop-small-white.png" alt="Small white pearl oval hair brush" loading="lazy" decoding="async" width="1287" height="1287">
             </div>
             <div class="card-copy">
               <p class="product-kicker">Small comb</p>
@@ -468,11 +587,11 @@
 
           <article class="product-card">
             <div class="product-image">
-              <img src="assets/product-claw-pink-square.jpg" alt="Pink acetate claw clip with soft shimmer">
+              <img src="assets/shop-claw-pink-1.png" alt="Translucent pink pearl claw clip" loading="lazy" decoding="async" width="1252" height="1252">
             </div>
             <div class="card-copy">
               <p class="product-kicker">Claw clip</p>
-              <h3>Pink Claw Clip</h3>
+              <h3>Pink Claw Clip 1</h3>
               <p>Glossy pink claw clip for bow accents or tiny crystal details.</p>
               <div class="price-row">
                 <span class="sale-price">CAD $12</span>
@@ -484,11 +603,75 @@
 
           <article class="product-card">
             <div class="product-image">
-              <img src="assets/product-claw-white-square.jpg" alt="White acetate claw clip with soft shimmer">
+              <img src="assets/shop-claw-pink-2.png" alt="Pink claw clip with white bow details and crystals" loading="lazy" decoding="async" width="1251" height="1251">
             </div>
             <div class="card-copy">
               <p class="product-kicker">Claw clip</p>
-              <h3>White Claw Clip</h3>
+              <h3>Pink Claw Clip 2</h3>
+              <p>Glossy pink claw clip for bow accents or tiny crystal details.</p>
+              <div class="price-row">
+                <span class="sale-price">CAD $12</span>
+                <span class="original-price">CAD $16</span>
+              </div>
+              <a href="customize.html">Customize this piece</a>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-image">
+              <img src="assets/shop-claw-pink-3.png" alt="Pink claw clip with red cherry crystal details" loading="lazy" decoding="async" width="1371" height="1371">
+            </div>
+            <div class="card-copy">
+              <p class="product-kicker">Claw clip</p>
+              <h3>Pink Claw Clip 3</h3>
+              <p>Glossy pink claw clip for bow accents or tiny crystal details.</p>
+              <div class="price-row">
+                <span class="sale-price">CAD $12</span>
+                <span class="original-price">CAD $16</span>
+              </div>
+              <a href="customize.html">Customize this piece</a>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-image">
+              <img src="assets/shop-claw-white-1.png" alt="White claw clip with pale pink flower and butterfly details" loading="lazy" decoding="async" width="1358" height="1358">
+            </div>
+            <div class="card-copy">
+              <p class="product-kicker">Claw clip</p>
+              <h3>White Claw Clip 1</h3>
+              <p>Pearl white claw clip with a polished, bridal-style base.</p>
+              <div class="price-row">
+                <span class="sale-price">CAD $12</span>
+                <span class="original-price">CAD $16</span>
+              </div>
+              <a href="customize.html">Customize this piece</a>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-image">
+              <img src="assets/shop-claw-white-2.png" alt="Plain white pearl claw clip with a softly curved silhouette" loading="lazy" decoding="async" width="1192" height="1192">
+            </div>
+            <div class="card-copy">
+              <p class="product-kicker">Claw clip</p>
+              <h3>White Claw Clip 2</h3>
+              <p>Pearl white claw clip with a polished, bridal-style base.</p>
+              <div class="price-row">
+                <span class="sale-price">CAD $12</span>
+                <span class="original-price">CAD $16</span>
+              </div>
+              <a href="customize.html">Customize this piece</a>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-image">
+              <img src="assets/shop-claw-white-3.png" alt="White claw clip with red cherry crystal details" loading="lazy" decoding="async" width="1319" height="1319">
+            </div>
+            <div class="card-copy">
+              <p class="product-kicker">Claw clip</p>
+              <h3>White Claw Clip 3</h3>
               <p>Pearl white claw clip with a polished, bridal-style base.</p>
               <div class="price-row">
                 <span class="sale-price">CAD $12</span>
@@ -500,45 +683,6 @@
         </div>
       </section>
 
-      <section class="section" aria-labelledby="set-products-title">
-        <div class="section-heading">
-          <h2 id="set-products-title">Sets</h2>
-          <p>Ready-to-build pairings for custom lettering, gift boxes, and launch orders.</p>
-        </div>
-        <div class="shop-grid">
-          <article class="product-card">
-            <div class="product-image">
-              <img src="assets/set-large-comb-claw.jpg" alt="White large comb and cream claw clip set with pink rhinestone lettering reference">
-            </div>
-            <div class="card-copy">
-              <p class="product-kicker">Set 1</p>
-              <h3>Large Comb + Claw Clip</h3>
-              <p>One large comb paired with one claw clip for a full custom gift set.</p>
-              <div class="price-row">
-                <span class="sale-price">CAD $38</span>
-                <span class="original-price">CAD $48</span>
-              </div>
-              <a href="customize.html">Build this set</a>
-            </div>
-          </article>
-
-          <article class="product-card">
-            <div class="product-image">
-              <img src="assets/set-small-comb-claw.jpg" alt="Pink small comb and pink bow claw clip set with white rhinestone lettering reference">
-            </div>
-            <div class="card-copy">
-              <p class="product-kicker">Set 2</p>
-              <h3>Small Comb + Claw Clip</h3>
-              <p>One small comb with one claw clip for a compact custom box.</p>
-              <div class="price-row">
-                <span class="sale-price">CAD $32</span>
-                <span class="original-price">CAD $40</span>
-              </div>
-              <a href="customize.html">Build this set</a>
-            </div>
-          </article>
-        </div>
-      </section>
     </main>
 
     <footer class="site-footer">
@@ -552,5 +696,6 @@
         </ul>
       </div>
     </footer>
+    <script type="module" src="norie-carousel.js"></script>
   </body>
 </html>

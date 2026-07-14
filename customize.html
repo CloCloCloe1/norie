@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -285,13 +285,18 @@
         gap: 0.45rem;
       }
 
-      .text-field input {
+      .text-field input,
+      .contact-field input {
         background: var(--cream);
         border: 1.5px solid #9d5369;
         color: var(--ink);
         min-height: 48px;
         padding: 0.85rem 1rem;
         width: 100%;
+      }
+
+      .text-field .text-label:not(:first-child) {
+        margin-top: 0.7rem;
       }
 
       .select-field {
@@ -715,6 +720,42 @@
         margin-top: clamp(1rem, 3vw, 1.4rem);
       }
 
+      .contact-section {
+        margin-top: clamp(1rem, 3vw, 1.4rem);
+      }
+
+      .contact-section h2 {
+        font-size: clamp(1.6rem, 3vw, 2.4rem);
+      }
+
+      .contact-note {
+        color: var(--soft-ink);
+        font-size: 0.9rem;
+        margin: 0;
+      }
+
+      .contact-grid {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .contact-field {
+        display: grid;
+        gap: 0.5rem;
+        min-width: 0;
+      }
+
+      .contact-field input::placeholder {
+        color: rgba(107, 77, 89, 0.72);
+        font-style: italic;
+        opacity: 1;
+      }
+
+      .contact-section .button {
+        width: 100%;
+      }
+
       .summary-line {
         display: flex;
         gap: 1rem;
@@ -763,6 +804,11 @@
         text-transform: uppercase;
       }
 
+      .button[aria-disabled="true"] {
+        cursor: wait;
+        opacity: 0.68;
+      }
+
       .site-footer {
         background: var(--berry);
         color: var(--white);
@@ -806,6 +852,12 @@
 
         .gift-strip {
           grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 760px) {
+        .contact-grid {
+          grid-template-columns: 1fr;
         }
       }
 
@@ -883,7 +935,7 @@
       </section>
 
       <div class="customizer">
-        <form id="customForm">
+        <form id="customForm" novalidate>
           <section class="choice-section configuration-section" aria-label="Product and rhinestone choices">
             <div class="config-row">
               <div class="controls-stack">
@@ -1016,7 +1068,26 @@
               <strong id="discountPrice">CAD $25</strong>
             </div>
             <div class="price" id="totalPrice">CAD $25</div>
-            <a class="button" href="mailto:hello@norie.ca?subject=Norie%20custom%20order&body=Hi%20Norie%2C%0A%0AI%20would%20like%20to%20place%20a%20custom%20order.%0A">Request custom order</a>
+          </section>
+
+          <section class="summary contact-section" aria-labelledby="contact-section-title">
+            <h2 id="contact-section-title">Contact details</h2>
+            <p class="contact-note">All fields are required.</p>
+            <div class="contact-grid">
+              <div class="contact-field">
+                <label class="text-label" for="customerName">Your name</label>
+                <input id="customerName" name="customerName" type="text" maxlength="100" autocomplete="name" placeholder="Name" required aria-required="true">
+              </div>
+              <div class="contact-field">
+                <label class="text-label" for="orderEmail">Email address</label>
+                <input id="orderEmail" name="customerEmail" type="email" maxlength="254" autocomplete="email" placeholder="you@email.com" required aria-required="true">
+              </div>
+              <div class="contact-field">
+                <label class="text-label" for="customerContact">Contact</label>
+                <input id="customerContact" name="customerContact" type="text" maxlength="100" autocomplete="off" placeholder="wechat_id" required aria-required="true">
+              </div>
+            </div>
+            <button class="button" type="submit">Request custom order</button>
           </section>
         </form>
       </div>
@@ -1411,5 +1482,6 @@
         document.fonts.ready.then(updatePreview);
       }
     </script>
+    <script src="norie-forms.js" defer></script>
   </body>
 </html>

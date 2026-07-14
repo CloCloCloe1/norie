@@ -1,0 +1,18 @@
+{
+  "checks": [
+    {
+      "id": "confirmation-body-text",
+      "foreground": "#39222d",
+      "background": "#fff9f7",
+      "type": "text-normal",
+      "notes": "Customer confirmation paragraphs and table values"
+    },
+    {
+      "id": "confirmation-brand-text",
+      "foreground": "#64243a",
+      "background": "#fff9f7",
+      "type": "text-normal",
+      "notes": "Eyebrow, headings, sign-off, and table row labels"
+    }
+  ]
+}
