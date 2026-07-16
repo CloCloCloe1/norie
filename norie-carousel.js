@@ -9,6 +9,7 @@ export function initializeCarousel(carousel) {
   const previous = carousel.querySelector("[data-carousel-previous]");
   const next = carousel.querySelector("[data-carousel-next]");
   const status = carousel.querySelector("[data-carousel-status]");
+  const detailLinks = [...carousel.querySelectorAll("[data-carousel-detail-link]")];
 
   if (!track || slides.length < 2 || !previous || !next || !status) return;
 
@@ -24,6 +25,10 @@ export function initializeCarousel(carousel) {
 
   function updateStatus() {
     status.textContent = `${currentIndex + 1} / ${slides.length}`;
+    const detailHref = slides[currentIndex]?.dataset.detailHref;
+    if (detailHref) {
+      detailLinks.forEach((link) => link.setAttribute("href", detailHref));
+    }
   }
 
   function showSlide(index) {

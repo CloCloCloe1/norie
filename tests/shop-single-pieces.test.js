@@ -30,25 +30,47 @@ test("Shop renders one unified twelve-card catalog in the approved order", () =>
   const section = html.match(
     /<section class="section" aria-labelledby="shop-products-title">([\s\S]*?)<\/section>/
   )?.[1] ?? "";
-  const names = [...section.matchAll(/<h3(?: id="[^"]+")?>([^<]+)<\/h3>/g)].map((match) => match[1]);
+  const names = [...section.matchAll(/<h3(?: id="[^"]+")?>(?:<a[^>]+>)?([^<]+)(?:<\/a>)?<\/h3>/g)].map((match) => match[1]);
 
   assert.deepEqual(names, [
     "ESSENTIALS HAIRSTYLING SET",
     "BABY HAIRSTYLING SET",
-    "PINK LARGE COMB",
-    "WHITE LARGE COMB",
-    "PINK SMALL COMB",
-    "WHITE SMALL COMB",
-    "PINK CLAW CLIP 1",
-    "PINK CLAW CLIP 2",
-    "PINK CLAW CLIP 3",
-    "WHITE CLAW CLIP 1",
-    "WHITE CLAW CLIP 2",
-    "WHITE CLAW CLIP 3"
+    "BAMBOO PADDLE BRUSH IN BABY PINK",
+    "BAMBOO PADDLE BRUSH IN PEARL WHITE",
+    "FLAT BRUSH IN BABY PINK",
+    "FLAT BRUSH IN PEARL WHITE",
+    "NORIE CLIP IN BABY PINK",
+    "NORIE CLIP IN PINK BOW",
+    "NORIE CLIP IN PINK CHERRY",
+    "NORIE CLIP IN FLORIE PEARL",
+    "NORIE CLIP IN CREAM WHITE",
+    "NORIE CLIP IN WHITE CHERRY"
   ]);
   assert.equal((section.match(/<article class="product-card">/g) ?? []).length, 12);
-  assert.equal((section.match(/class="product-action" href="customize\.html">(?:BUILD THIS SET|CUSTOMIZE THIS PIECE)<\/a>/g) ?? []).length, 12);
+  assert.equal((section.match(/class="product-action"[^>]+>VIEW DETAILS<\/a>/g) ?? []).length, 12);
   assert.doesNotMatch(html, /single-products-title|set-products-title/);
+});
+
+test("Shop images, names, and actions link to the approved product details", () => {
+  const html = readFileSync("shop.html", "utf8");
+  const destinations = [
+    "bamboo-paddle-brush.html?variant=baby-pink",
+    "bamboo-paddle-brush.html?variant=pearl-white",
+    "flat-brush.html?variant=baby-pink",
+    "flat-brush.html?variant=pearl-white",
+    "claw-clip.html?variant=baby-pink",
+    "claw-clip.html?variant=pink-bow",
+    "claw-clip.html?variant=pink-cherry",
+    "claw-clip.html?variant=florie-pearl",
+    "claw-clip.html?variant=cream-white",
+    "claw-clip.html?variant=white-cherry"
+  ];
+
+  for (const destination of destinations) {
+    assert.equal((html.match(new RegExp(destination.replaceAll("?", "\\?").replaceAll("-", "\\-"), "g")) ?? []).length, 3);
+  }
+  assert.equal((html.match(/data-carousel-detail-link/g) ?? []).length, 6);
+  assert.equal((html.match(/data-detail-href=/g) ?? []).length, 4);
 });
 
 test("Shop cards use the approved description-free centered presentation", () => {
@@ -71,8 +93,7 @@ test("Shop actions and carousel controls use the approved scale and states", () 
   const carouselRule = html.match(/\.set-carousel\s*\{([^}]+)\}/)?.[1] ?? "";
   const buttonRule = html.match(/\.set-carousel-button\s*\{([^}]+)\}/)?.[1] ?? "";
 
-  assert.equal((html.match(/class="product-action" href="customize\.html">BUILD THIS SET<\/a>/g) ?? []).length, 2);
-  assert.equal((html.match(/class="product-action" href="customize\.html">CUSTOMIZE THIS PIECE<\/a>/g) ?? []).length, 10);
+  assert.equal((html.match(/class="product-action"[^>]+>VIEW DETAILS<\/a>/g) ?? []).length, 12);
   assert.match(carouselRule, /aspect-ratio:\s*1\s*\/\s*1/);
   assert.match(buttonRule, /height:\s*1\.75rem/);
   assert.match(buttonRule, /width:\s*1\.75rem/);

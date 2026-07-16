@@ -83,7 +83,8 @@ test("Shop page renders the two updated set carousels", () => {
     assert.match(html, new RegExp(asset.replace("assets/", "").replace(".", "\\.")));
   }
   assert.equal((html.match(/data-carousel role="region"/g) ?? []).length, 2);
-  assert.equal((html.match(/class="product-action" href="customize\.html">BUILD THIS SET<\/a>/g) ?? []).length, 2);
+  assert.equal((html.match(/class="product-action" data-carousel-detail-link[^>]+>VIEW DETAILS<\/a>/g) ?? []).length, 2);
+  assert.equal((html.match(/data-detail-href=/g) ?? []).length, 4);
   assert.match(html, /<script type="module" src="norie-carousel\.js"><\/script>/);
 });
 
@@ -156,7 +157,14 @@ test("rapid carousel clicks keep the requested target during smooth scrolling", 
     addEventListener(type, listener) { listeners[type] = listener; },
     scrollTo(options) { this.scrollCalls.push(options); }
   };
-  const slides = [{}, {}];
+  const detailLinks = [
+    { href: "first", setAttribute(name, value) { this[name] = value; } },
+    { href: "first", setAttribute(name, value) { this[name] = value; } }
+  ];
+  const slides = [
+    { dataset: { detailHref: "first.html?variant=white" } },
+    { dataset: { detailHref: "second.html?variant=pink" } }
+  ];
   const carousel = {
     querySelector(selector) {
       return {
@@ -166,7 +174,9 @@ test("rapid carousel clicks keep the requested target during smooth scrolling", 
         "[data-carousel-status]": status
       }[selector];
     },
-    querySelectorAll() { return slides; }
+    querySelectorAll(selector) {
+      return selector === "[data-carousel-detail-link]" ? detailLinks : slides;
+    }
   };
   const originalWindow = globalThis.window;
   globalThis.window = {
@@ -186,6 +196,7 @@ test("rapid carousel clicks keep the requested target during smooth scrolling", 
 
     assert.deepEqual(track.scrollCalls.map(({ left }) => left), [100, 0]);
     assert.equal(status.textContent, "1 / 2");
+    assert.deepEqual(detailLinks.map(({ href }) => href), ["first.html?variant=white", "first.html?variant=white"]);
   } finally {
     globalThis.window = originalWindow;
   }
