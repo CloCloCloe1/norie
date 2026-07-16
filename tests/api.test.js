@@ -48,6 +48,21 @@ async function invokeRequest(handler, req) {
   return res;
 }
 
+function validOrder(overrides = {}) {
+  return {
+    product: "bamboo-paddle-brush",
+    variant: "baby-pink",
+    quantity: 2,
+    rhinestoneColor: "White stones",
+    customText: "<Chloe>",
+    customerName: "Chloe Lee",
+    customerEmail: "chloe@example.com",
+    customerContact: "chloe_wechat",
+    pageUrl: "https://norie.example/customize",
+    ...overrides
+  };
+}
+
 test("readJson accepts Vercel's pre-parsed request body", async () => {
   const body = { email: "hello@example.com" };
 
@@ -85,18 +100,10 @@ test("custom order sends an escaped order email to the configured inbox", { conc
   };
 
   try {
-    const res = await invoke(customOrder, {
-      product: "Large comb",
-      baseColor: "Pink",
-      rhinestoneColor: "White stones",
-      customText: "<Chloe>",
-      customerName: "Chloe Lee",
-      customerEmail: "chloe@example.com",
-      customerContact: "chloe_wechat",
+    const res = await invoke(customOrder, validOrder({
       originalPrice: "CAD $999",
-      launchPrice: "CAD $1",
-      pageUrl: "https://norie.example/customize"
-    });
+      launchPrice: "CAD $1"
+    }));
 
     assert.equal(res.statusCode, 200);
     assert.deepEqual(JSON.parse(res.body), { ok: true });
@@ -106,10 +113,12 @@ test("custom order sends an escaped order email to the configured inbox", { conc
     const ownerEmail = JSON.parse(calls[0].options.body);
     assert.deepEqual(ownerEmail.to, ["orders@example.com", "backup@example.com"]);
     assert.equal(ownerEmail.reply_to, "chloe@example.com");
-    assert.match(ownerEmail.subject, /Large comb/);
+    assert.match(ownerEmail.subject, /Bamboo Paddle Brush in Baby Pink/);
     assert.match(ownerEmail.html, /Chloe Lee/);
-    assert.match(ownerEmail.html, /CAD \$38/);
     assert.match(ownerEmail.html, /CAD \$30/);
+    assert.match(ownerEmail.html, /CAD \$60/);
+    assert.match(ownerEmail.html, /Quantity/);
+    assert.match(ownerEmail.html, />2</);
     assert.doesNotMatch(ownerEmail.html, /CAD \$999/);
     assert.match(ownerEmail.html, /&lt;Chloe&gt;/);
     assert.doesNotMatch(ownerEmail.html, /<Chloe>/);
@@ -126,20 +135,22 @@ test("custom order sends an escaped order email to the configured inbox", { conc
     assert.match(customerEmail.html, /IT ALL STARTS HERE/);
     assert.match(customerEmail.html, /Hi Chloe Lee,/);
     assert.match(customerEmail.html, /Your request summary/);
-    assert.match(customerEmail.html, /Large comb/);
-    assert.match(customerEmail.html, /Pink/);
+    assert.match(customerEmail.html, /Bamboo Paddle Brush in Baby Pink/);
+    assert.match(customerEmail.html, /Baby Pink/);
     assert.match(customerEmail.html, /White stones/);
     assert.match(customerEmail.html, /&lt;Chloe&gt;/);
     assert.doesNotMatch(customerEmail.html, /<Chloe>/);
     assert.match(customerEmail.html, /One random free gift/);
     assert.match(customerEmail.html, /CAD \$30/);
+    assert.match(customerEmail.html, /CAD \$60/);
     assert.doesNotMatch(customerEmail.html, /CAD \$999/);
     assert.match(customerEmail.html, /7–10 days/);
     assert.match(customerEmail.html, /<caption[^>]*>\s*Your request summary\s*<\/caption>/i);
     assert.match(customerEmail.html, /<th scope="row"/i);
     assert.match(customerEmail.text, /Hi Chloe Lee,/);
     assert.match(customerEmail.text, /Custom text: <Chloe>/);
-    assert.match(customerEmail.text, /Estimated price: CAD \$30/);
+    assert.match(customerEmail.text, /Quantity: 2/);
+    assert.match(customerEmail.text, /Estimated total: CAD \$60/);
     assert.match(customerEmail.text, /7–10 days/);
   } finally {
     global.fetch = originalFetch;
@@ -167,15 +178,16 @@ test("custom order succeeds when only the customer confirmation fails", { concur
   console.error = (...args) => errors.push(args);
 
   try {
-    const res = await invoke(customOrder, {
-      product: "Small comb",
-      baseColor: "White",
+    const res = await invoke(customOrder, validOrder({
+      product: "flat-brush",
+      variant: "pearl-white",
+      quantity: 1,
       rhinestoneColor: "Pink stones",
       customText: "Norie",
       customerName: "Ava Chen",
       customerEmail: "ava@example.com",
       customerContact: "ava_wechat"
-    });
+    }));
 
     assert.equal(res.statusCode, 200);
     assert.deepEqual(JSON.parse(res.body), { ok: true });
@@ -204,12 +216,7 @@ test("custom order rejects a missing customer email without sending", { concurre
   };
 
   try {
-    const res = await invoke(customOrder, {
-      product: "Small comb",
-      baseColor: "Pink",
-      rhinestoneColor: "Pink stones",
-      customerName: "Chloe Lee"
-    });
+    const res = await invoke(customOrder, validOrder({ customerEmail: "" }));
 
     assert.equal(res.statusCode, 400);
     assert.equal(JSON.parse(res.body).error, "Please enter a valid email.");
@@ -232,14 +239,10 @@ test("custom order rejects catalog values that were not offered by the form", { 
   };
 
   try {
-    const res = await invoke(customOrder, {
+    const res = await invoke(customOrder, validOrder({
       product: "Diamond tiara",
-      baseColor: "Pink",
-      rhinestoneColor: "White stones",
-      customerName: "Chloe Lee",
-      customerEmail: "chloe@example.com",
-      customerContact: "chloe_wechat"
-    });
+      variant: "impossible"
+    }));
 
     assert.equal(res.statusCode, 400);
     assert.equal(requested, false);
@@ -261,13 +264,7 @@ test("custom order requires a contact value", { concurrency: false }, async () =
   };
 
   try {
-    const res = await invoke(customOrder, {
-      product: "Small comb",
-      baseColor: "Pink",
-      rhinestoneColor: "Pink stones",
-      customerName: "Chloe Lee",
-      customerEmail: "chloe@example.com"
-    });
+    const res = await invoke(customOrder, validOrder({ customerContact: "" }));
 
     assert.equal(res.statusCode, 400);
     assert.equal(JSON.parse(res.body).error, "Please enter your contact information.");
@@ -322,14 +319,7 @@ test("custom order rejects an invalid configured recipient list", { concurrency:
   console.error = () => {};
 
   try {
-    const res = await invoke(customOrder, {
-      product: "Small comb",
-      baseColor: "Pink",
-      rhinestoneColor: "Pink stones",
-      customerName: "Chloe Lee",
-      customerEmail: "chloe@example.com",
-      customerContact: "chloe_wechat"
-    });
+    const res = await invoke(customOrder, validOrder());
 
     assert.equal(res.statusCode, 500);
     assert.equal(requested, false);

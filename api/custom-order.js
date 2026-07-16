@@ -1,11 +1,6 @@
 import { escapeHtml, isEmail, readJson, sendEmail, sendJson } from "./_utils.js";
+import { resolveSelection } from "../product-catalog.js";
 
-const PRODUCTS = {
-  "Small comb": { originalPrice: "CAD $32", launchPrice: "CAD $25" },
-  "Large comb": { originalPrice: "CAD $38", launchPrice: "CAD $30" },
-  "Claw clip": { originalPrice: "CAD $16", launchPrice: "CAD $12" }
-};
-const BASE_COLORS = new Set(["Pink", "White"]);
 const STONE_COLORS = new Set(["Pink stones", "White stones"]);
 const CONFIRMATION_LOGO_URL = "https://norie-hair.vercel.app/assets/norie-logo.png?v=transparent-1";
 
@@ -56,11 +51,12 @@ export default async function handler(req, res) {
     const customerName = clean(payload.customerName);
     const customerEmail = clean(payload.customerEmail).toLowerCase();
     const customerContact = clean(payload.customerContact);
-    const productName = clean(payload.product);
-    const baseColor = clean(payload.baseColor);
+    const productKey = clean(payload.product);
+    const variantKey = clean(payload.variant);
+    const quantity = Number(payload.quantity);
     const rhinestoneColor = clean(payload.rhinestoneColor);
     const customText = clean(payload.customText);
-    const product = PRODUCTS[productName];
+    const selection = resolveSelection(productKey, variantKey, quantity);
 
     if (!customerName || customerName.length > 100) {
       sendJson(res, 400, { error: "Please enter your name." });
@@ -74,7 +70,7 @@ export default async function handler(req, res) {
       sendJson(res, 400, { error: "Please enter your contact information." });
       return;
     }
-    if (!product || !BASE_COLORS.has(baseColor) || !STONE_COLORS.has(rhinestoneColor)) {
+    if (!selection || !STONE_COLORS.has(rhinestoneColor)) {
       sendJson(res, 400, { error: "Please choose a valid product and color combination." });
       return;
     }
@@ -87,13 +83,14 @@ export default async function handler(req, res) {
       "Customer name": customerName,
       "Customer email": customerEmail,
       Contact: customerContact,
-      Product: productName,
-      "Base color": baseColor,
+      Product: selection.fullName,
+      Style: selection.label,
+      Quantity: String(selection.quantity),
       "Rhinestone color": rhinestoneColor,
       "Custom text": customText || "Not entered",
       "Free gift": "One random free gift",
-      "Original price": product.originalPrice,
-      "Launch price": product.launchPrice,
+      "Unit price": `CAD $${selection.unitPrice}`,
+      "Estimated total": `CAD $${selection.totalPrice}`,
       "Page URL": validPageUrl(payload.pageUrl)
     };
 
@@ -107,7 +104,7 @@ export default async function handler(req, res) {
     await sendEmail({
       to: destinations,
       replyTo: customerEmail,
-      subject: `Norie custom order request - ${productName}`,
+      subject: `Norie custom order request - ${selection.fullName}`,
       html: `
         <h1 style="font-family:Georgia,serif;color:#6b243d;">New custom order request</h1>
         <table cellspacing="0" cellpadding="0" style="border-collapse:collapse;font-family:Arial,sans-serif;">${rows}</table>
@@ -117,12 +114,14 @@ export default async function handler(req, res) {
 
     const customerSummary = {
       Name: customerName,
-      Product: productName,
-      "Base color": baseColor,
+      Product: selection.fullName,
+      Style: selection.label,
+      Quantity: String(selection.quantity),
       "Rhinestone color": rhinestoneColor,
       "Custom text": customText || "Not entered",
       "Free gift": "One random free gift",
-      "Estimated price": product.launchPrice
+      "Unit price": `CAD $${selection.unitPrice}`,
+      "Estimated total": `CAD $${selection.totalPrice}`
     };
 
     const customerRows = Object.entries(customerSummary).map(([label, value]) => (
