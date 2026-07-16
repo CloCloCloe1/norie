@@ -39,14 +39,35 @@ test("homepage renders the two updated set carousels", () => {
   const html = readFileSync("index.html", "utf8");
 
   assert.match(html, /First month limited edition\./);
-  assert.match(html, /Bamboo Paddle Brush \+ Claw Clip/);
-  assert.match(html, /Flat Brush \+ Claw Clip/);
+  assert.match(html, /ESSENTIALS HAIRSTYLING SET/);
+  assert.match(html, /BABY HAIRSTYLING SET/);
+  assert.match(html, /Previous Essentials Hairstyling Set image/);
+  assert.match(html, /Next Essentials Hairstyling Set image/);
+  assert.match(html, /Previous Baby Hairstyling Set image/);
+  assert.match(html, /Next Baby Hairstyling Set image/);
+  assert.doesNotMatch(html, /A limited-edition bamboo paddle brush and claw clip pairing with one free gift\./);
+  assert.doesNotMatch(html, /A limited-edition flat brush and claw clip pairing with one free gift\./);
   assert.match(html, /set-bamboo-white\.png/);
   assert.match(html, /set-bamboo-pink\.png/);
   assert.match(html, /set-flat-white\.png/);
   assert.match(html, /set-flat-pink\.png/);
   assert.equal((html.match(/data-carousel role="region"/g) ?? []).length, 2);
   assert.match(html, /<script type="module" src="norie-carousel\.js"><\/script>/);
+});
+
+test("Shop and Homepage visually hide carousel status while keeping accessible updates", () => {
+  for (const page of ["index.html", "shop.html"]) {
+    const html = readFileSync(page, "utf8");
+    const statusRule = html.match(/\.set-carousel-status\s*\{([^}]+)\}/)?.[1] ?? "";
+
+    assert.equal((html.match(/data-carousel-status/g) ?? []).length, 2);
+    assert.match(statusRule, /clip-path:\s*inset\(50%\)/);
+    assert.match(statusRule, /height:\s*1px/);
+    assert.match(statusRule, /overflow:\s*hidden/);
+    assert.match(statusRule, /white-space:\s*nowrap/);
+    assert.match(statusRule, /width:\s*1px/);
+    assert.doesNotMatch(statusRule, /display:\s*none/);
+  }
 });
 
 test("Shop page renders the two updated set carousels", () => {
