@@ -91,8 +91,9 @@
 
   function orderPayload(form) {
     return {
-      product: selectedLabel(form, "product", "Not selected"),
-      baseColor: selectedLabel(form, "baseColor", "Not selected"),
+      product: clean(form.elements.product?.value),
+      variant: clean(form.elements.variant?.value),
+      quantity: Number.parseInt(form.elements.quantity?.value, 10) || 1,
       rhinestoneColor: selectedLabel(form, "stoneColor", "Not selected"),
       customText: clean(form.querySelector("#customText")?.value),
       customerName: clean(form.querySelector("#customerName")?.value),

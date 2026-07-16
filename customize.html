@@ -369,6 +369,37 @@
         min-height: 64px;
       }
 
+      .selected-style {
+        background: var(--white);
+        border: 1px solid rgba(191, 111, 135, 0.72);
+        padding: clamp(1rem, 2.5vw, 1.35rem);
+      }
+
+      .selected-style h2 {
+        font-size: 1rem;
+        font-family: inherit;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        line-height: 1.4;
+        text-transform: uppercase;
+      }
+
+      .selected-style dl {
+        margin: 1rem 0;
+      }
+
+      .selected-style dl div {
+        border-top: 1px solid rgba(191, 111, 135, 0.28);
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: minmax(8rem, 0.7fr) 1fr;
+        padding: 0.55rem 0;
+      }
+
+      .selected-style dt { font-weight: 800; }
+      .selected-style dd { margin: 0; overflow-wrap: anywhere; }
+      .selected-style a { font-weight: 800; }
+
       .section-title {
         color: var(--berry);
         font-size: 0.84rem;
@@ -939,37 +970,20 @@
           <section class="choice-section configuration-section" aria-label="Product and rhinestone choices">
             <div class="config-row">
               <div class="controls-stack">
-                <fieldset>
-                  <legend id="product-section-title">Product</legend>
-                  <div class="option-grid product-options">
-                    <label class="option">
-                      <input type="radio" name="product" value="small-comb" checked>
-                      <span>Small comb <small>Mini oval brush</small></span>
-                    </label>
-                    <label class="option">
-                      <input type="radio" name="product" value="large-comb">
-                      <span>Large comb <small>Square paddle comb</small></span>
-                    </label>
-                    <label class="option">
-                      <input type="radio" name="product" value="claw-clip">
-                      <span>Claw clip <small>Glossy acetate clip</small></span>
-                    </label>
-                  </div>
-                </fieldset>
-
-                <fieldset>
-                  <legend>Base color</legend>
-                  <div class="option-grid">
-                    <label class="option">
-                      <input type="radio" name="baseColor" value="pink" checked>
-                      <span>Pink <small>Soft blush acetate</small></span>
-                    </label>
-                    <label class="option">
-                      <input type="radio" name="baseColor" value="white">
-                      <span>White <small>Pearl white acetate</small></span>
-                    </label>
-                  </div>
-                </fieldset>
+                <section class="selected-style" aria-labelledby="selected-style-title">
+                  <h2 id="selected-style-title">Selected style</h2>
+                  <dl>
+                    <div><dt>Product</dt><dd id="selectedProductName">Flat Brush in Baby Pink</dd></div>
+                    <div><dt>Color</dt><dd id="selectedVariantName">Baby Pink</dd></div>
+                    <div><dt>Quantity</dt><dd id="selectedQuantity">1</dd></div>
+                    <div><dt>Unit price</dt><dd id="selectedUnitPrice">CAD $25</dd></div>
+                    <div><dt>Estimated total</dt><dd id="selectedTotalPrice">CAD $25</dd></div>
+                  </dl>
+                  <a id="changeStyleLink" href="flat-brush.html?variant=baby-pink&amp;quantity=1">Change style or quantity</a>
+                </section>
+                <input name="product" type="hidden" value="flat-brush">
+                <input name="variant" type="hidden" value="baby-pink">
+                <input name="quantity" type="hidden" value="1">
               </div>
 
               <section class="product-stage" aria-labelledby="product-preview-title">
@@ -1060,8 +1074,8 @@
           <section class="summary price-section" aria-labelledby="summary-title">
             <h2 id="summary-title">Estimated price</h2>
             <div class="summary-line">
-              <span id="summaryProduct">Small comb</span>
-              <strong id="originalPrice" class="original-price">CAD $32</strong>
+              <span id="summaryProduct">Flat Brush in Baby Pink × 1</span>
+              <strong id="originalPrice">CAD $25 each</strong>
             </div>
             <div class="summary-line">
               <span>Launch price</span>
@@ -1100,56 +1114,10 @@
       </div>
     </footer>
 
-    <script>
-      const productData = {
-        "small-comb": {
-          label: "Small comb",
-          originalPrice: 32,
-          salePrice: 25,
-          pink: "assets/product-small-pink-square.jpg",
-          white: "assets/product-small-white-square.jpg",
-          alt: {
-            pink: "Pink small acetate comb preview",
-            white: "White small acetate comb preview"
-          }
-        },
-        "large-comb": {
-          label: "Large comb",
-          originalPrice: 38,
-          salePrice: 30,
-          pink: "assets/product-large-pink-square.jpg",
-          white: "assets/product-large-white-square.jpg",
-          alt: {
-            pink: "Pink large paddle comb preview",
-            white: "White large paddle comb preview"
-          }
-        },
-        "claw-clip": {
-          label: "Claw clip",
-          originalPrice: 16,
-          salePrice: 12,
-          pink: "assets/product-claw-pink-square.jpg",
-          white: "assets/product-claw-white-square.jpg",
-          gallery: {
-            white: [
-              {
-                src: "assets/product-claw-white-square.jpg",
-                alt: "White acetate claw clip preview",
-                fit: "cover"
-              },
-              {
-                src: "assets/product-claw-white-measurement.png",
-                alt: "White claw clip size preview, 9 centimeters wide and 4.5 centimeters tall",
-                fit: "contain"
-              }
-            ]
-          },
-          alt: {
-            pink: "Pink acetate claw clip preview",
-            white: "White acetate claw clip preview"
-          }
-        }
-      };
+    <script type="module">
+      import { selectionFromSearch, detailUrl } from "./product-catalog.js";
+
+      const orderSelection = selectionFromSearch(window.location.search);
 
       const stoneColors = {
         pink: {
@@ -1202,6 +1170,12 @@
       const letteringPreviewCard = document.querySelector(".lettering-preview-card");
       const galleryButtons = document.querySelectorAll(".gallery-arrow");
       const galleryStatus = document.querySelector("#galleryStatus");
+      const selectedProductName = document.querySelector("#selectedProductName");
+      const selectedVariantName = document.querySelector("#selectedVariantName");
+      const selectedQuantity = document.querySelector("#selectedQuantity");
+      const selectedUnitPrice = document.querySelector("#selectedUnitPrice");
+      const selectedTotalPrice = document.querySelector("#selectedTotalPrice");
+      const changeStyleLink = document.querySelector("#changeStyleLink");
       const summaryProduct = document.querySelector("#summaryProduct");
       const originalPrice = document.querySelector("#originalPrice");
       const discountPrice = document.querySelector("#discountPrice");
@@ -1210,17 +1184,6 @@
       const customText = document.querySelector("#customText");
       const scriptPreviewText = document.querySelector("#scriptPreviewText");
       const stage = document.querySelector(".product-stage");
-      let productSlideIndex = 0;
-      let activeGalleryKey = "";
-
-      function productImages(data, baseColor) {
-        if (data.gallery && data.gallery[baseColor]) return data.gallery[baseColor];
-        return [{
-          src: data[baseColor],
-          alt: data.alt[baseColor],
-          fit: "cover"
-        }];
-      }
 
       function selected(name) {
         const checked = form.querySelector(`input[name="${name}"]:checked`);
@@ -1420,25 +1383,14 @@
       }
 
       function updatePreview() {
-        const product = selected("product");
-        const baseColor = selected("baseColor");
         const stoneColor = selected("stoneColor");
-        const data = productData[product];
-        const images = productImages(data, baseColor);
-        const galleryKey = `${product}-${baseColor}`;
-        if (galleryKey !== activeGalleryKey) {
-          activeGalleryKey = galleryKey;
-          productSlideIndex = 0;
-        }
-        productSlideIndex = Math.min(productSlideIndex, images.length - 1);
-        const activeImage = images[productSlideIndex];
         const letteringReference = letteringReferenceImages[stoneColor];
 
-        productImage.src = activeImage.src;
-        productImage.alt = activeImage.alt;
-        stage.dataset.gallery = images.length > 1 ? "multiple" : "single";
-        stage.dataset.fit = activeImage.fit;
-        galleryStatus.textContent = `${productSlideIndex + 1} / ${images.length}`;
+        productImage.src = orderSelection.image;
+        productImage.alt = orderSelection.alt;
+        stage.dataset.gallery = "single";
+        stage.dataset.fit = "contain";
+        galleryStatus.textContent = "1 / 1";
         letteringPreviewImage.setAttribute("aria-label", letteringReference.alt);
         letteringPreviewStatic.src = letteringReference.src;
         letteringPreviewStatic.alt = letteringReference.alt;
@@ -1446,29 +1398,32 @@
         letteringPreviewCard.style.setProperty("--lettering-stone", stoneColors[stoneColor].main);
         letteringPreviewCard.style.setProperty("--lettering-shine", stoneColors[stoneColor].shine);
         letteringPreviewCard.style.setProperty("--lettering-shadow", stoneColors[stoneColor].shadow);
-        stage.dataset.product = product;
-        stage.dataset.base = baseColor;
+        stage.dataset.product = orderSelection.productKey;
+        stage.dataset.base = orderSelection.baseColor;
         stage.style.setProperty("--stone", stoneColors[stoneColor].main);
         stage.style.setProperty("--stone-shine", stoneColors[stoneColor].shine);
 
         photoNote.style.display = "none";
-        summaryProduct.textContent = data.label;
-        originalPrice.textContent = `CAD $${data.originalPrice}`;
-        discountPrice.textContent = `CAD $${data.salePrice}`;
-        totalPrice.textContent = `CAD $${data.salePrice}`;
+        selectedProductName.textContent = orderSelection.fullName;
+        selectedVariantName.textContent = orderSelection.label;
+        selectedQuantity.textContent = String(orderSelection.quantity);
+        selectedUnitPrice.textContent = `CAD $${orderSelection.unitPrice}`;
+        selectedTotalPrice.textContent = `CAD $${orderSelection.totalPrice}`;
+        changeStyleLink.href = detailUrl(orderSelection.productKey, orderSelection.variantKey, orderSelection.quantity);
+        form.elements.product.value = orderSelection.productKey;
+        form.elements.variant.value = orderSelection.variantKey;
+        form.elements.quantity.value = String(orderSelection.quantity);
+        summaryProduct.textContent = `${orderSelection.fullName} × ${orderSelection.quantity}`;
+        originalPrice.textContent = `CAD $${orderSelection.unitPrice} each`;
+        discountPrice.textContent = `CAD $${orderSelection.totalPrice}`;
+        totalPrice.textContent = `CAD $${orderSelection.totalPrice}`;
       }
 
       form.addEventListener("change", updatePreview);
       customText.addEventListener("input", updateScriptTextPreview);
       galleryButtons.forEach((button) => {
         button.addEventListener("click", () => {
-          const product = selected("product");
-          const baseColor = selected("baseColor");
-          const images = productImages(productData[product], baseColor);
-          if (images.length <= 1) return;
-          const direction = button.dataset.direction === "next" ? 1 : -1;
-          productSlideIndex = (productSlideIndex + direction + images.length) % images.length;
-          updatePreview();
+          return;
         });
       });
       updatePreview();

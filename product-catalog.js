@@ -108,9 +108,11 @@ export function selectionFromSearch(search = "") {
     || resolveSelection("flat-brush", "baby-pink", 1);
 }
 
-export function detailUrl(productKey, variantKey) {
-  const selection = resolveSelection(productKey, variantKey, 1);
-  return selection ? `${selection.detailPage}?variant=${encodeURIComponent(variantKey)}` : "shop.html";
+export function detailUrl(productKey, variantKey, quantity = 1) {
+  const selection = resolveSelection(productKey, variantKey, quantity);
+  if (!selection) return "shop.html";
+  const quantityQuery = selection.quantity === 1 ? "" : `&quantity=${selection.quantity}`;
+  return `${selection.detailPage}?variant=${encodeURIComponent(variantKey)}${quantityQuery}`;
 }
 
 export function customizeUrl(productKey, variantKey, quantity) {
