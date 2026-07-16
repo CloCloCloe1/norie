@@ -80,3 +80,13 @@ test("all five detail pages expose a semantic Works Well With list", () => {
     assert.match(html, /<ul class="recommendation-grid" data-recommendations><\/ul>/);
   }
 });
+
+test("Works Well With cards use four, two, and one responsive columns", () => {
+  const css = readFileSync("product-detail.css", "utf8");
+  assert.match(css, /\.recommendation-grid\s*\{[^}]*grid-template-columns:\s*repeat\(4,\s*minmax\(0,\s*1fr\)\)/s);
+  assert.match(css, /\.recommendation-card-media\s*\{[^}]*aspect-ratio:\s*1\s*\/\s*1/s);
+  assert.match(css, /\.recommendation-card-link\s*\{[^}]*min-height:\s*44px/s);
+  assert.match(css, /\.recommendation-card-link:focus-visible/s);
+  assert.match(css, /@media \(max-width:\s*980px\)[\s\S]*?\.recommendation-grid\s*\{[^}]*grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/s);
+  assert.match(css, /@media \(max-width:\s*560px\)[\s\S]*?\.recommendation-grid\s*\{[^}]*grid-template-columns:\s*1fr/s);
+});
