@@ -90,3 +90,14 @@ test("Works Well With cards use four, two, and one responsive columns", () => {
   assert.match(css, /@media \(max-width:\s*980px\)[\s\S]*?\.recommendation-grid\s*\{[^}]*grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/s);
   assert.match(css, /@media \(max-width:\s*560px\)[\s\S]*?\.recommendation-grid\s*\{[^}]*grid-template-columns:\s*1fr/s);
 });
+
+test("detail information stays compact with a single-line desktop product name", () => {
+  const css = readFileSync("product-detail.css", "utf8");
+  assert.match(css, /\.product-detail-copy\s*\{[^}]*line-height:\s*1\.45[^}]*padding:\s*clamp\(1\.25rem,3vw,2\.75rem\)/s);
+  assert.match(css, /\.product-detail-copy h1\s*\{[^}]*font-size:\s*clamp\(\.95rem,1\.4vw,1\.3rem\)[^}]*letter-spacing:\s*\.06em[^}]*line-height:\s*1\.12[^}]*white-space:\s*nowrap/s);
+  assert.match(css, /\.detail-price\s*\{[^}]*margin:\s*\.65rem 0 1\.25rem/s);
+  assert.match(css, /fieldset\s*\{[^}]*padding:\s*1rem 0/s);
+  assert.match(css, /\.quantity-block\s*\{[^}]*margin:\s*1rem 0/s);
+  assert.match(css, /\.product-description\s*\{[^}]*margin-top:\s*1\.25rem[^}]*padding-top:\s*1\.25rem/s);
+  assert.match(css, /@media \(max-width:\s*760px\)[\s\S]*?\.product-detail-copy h1\s*\{[^}]*white-space:\s*normal/s);
+});
