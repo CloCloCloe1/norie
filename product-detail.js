@@ -1,4 +1,4 @@
-import { PRODUCT_CATALOG, customizeUrl, resolveSelection } from "./product-catalog.js";
+import { PRODUCT_CATALOG, customizeUrl, detailUrl, resolveSelection } from "./product-catalog.js";
 
 export function clampQuantity(value) {
   return Math.max(1, Math.min(10, Number.parseInt(value, 10) || 1));
@@ -13,6 +13,52 @@ export function detailState(productKey, variantKey, quantity = 1) {
   return selection
     ? { ...selection, customizeHref: customizeUrl(productKey, selection.variantKey, safeQuantity) }
     : null;
+}
+
+export function relatedProducts(currentProductKey) {
+  return Object.entries(PRODUCT_CATALOG)
+    .filter(([productKey]) => productKey !== currentProductKey)
+    .map(([productKey, product]) => {
+      const variantKey = Object.keys(product.variants)[0];
+      const selection = resolveSelection(productKey, variantKey, 1);
+      return {
+        productKey,
+        name: product.label,
+        image: selection.image,
+        alt: selection.alt,
+        price: selection.unitPrice,
+        href: detailUrl(productKey, variantKey)
+      };
+    });
+}
+
+function renderRecommendations(container, currentProductKey) {
+  if (!container) return;
+  const fragment = document.createDocumentFragment();
+  relatedProducts(currentProductKey).forEach((recommendation) => {
+    const item = document.createElement("li");
+    item.className = "recommendation-card";
+    const link = document.createElement("a");
+    link.className = "recommendation-card-link";
+    link.href = recommendation.href;
+    link.setAttribute("aria-label", `${recommendation.name}, CAD $${recommendation.price}`);
+    const media = document.createElement("span");
+    media.className = "recommendation-card-media";
+    const image = document.createElement("img");
+    image.src = recommendation.image;
+    image.alt = recommendation.alt;
+    image.loading = "lazy";
+    image.decoding = "async";
+    const name = document.createElement("h3");
+    name.textContent = recommendation.name;
+    const price = document.createElement("p");
+    price.textContent = `CAD $${recommendation.price}`;
+    media.append(image);
+    link.append(media, name, price);
+    item.append(link);
+    fragment.append(item);
+  });
+  container.replaceChildren(fragment);
 }
 
 function appendDefinition(list, label, value) {
@@ -82,6 +128,7 @@ export function initializeProductDetail(root = document) {
   const increase = page.querySelector("[data-quantity-increase]");
   const customizeLink = page.querySelector("[data-customize-link]");
   const description = page.querySelector("[data-product-description]");
+  const recommendations = page.querySelector("[data-recommendations]");
 
   Object.entries(product.variants).forEach(([key, variant]) => {
     const label = document.createElement("label");
@@ -137,6 +184,7 @@ export function initializeProductDetail(root = document) {
   });
 
   render();
+  renderRecommendations(recommendations, productKey);
 }
 
 if (typeof document !== "undefined") {

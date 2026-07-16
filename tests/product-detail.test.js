@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 import test from "node:test";
+import * as productDetail from "../product-detail.js";
 import { clampQuantity, detailState } from "../product-detail.js";
 
 const pages = {
@@ -46,4 +47,36 @@ test("detail state resolves a selected variant and Customize URL", () => {
   assert.equal(state.fullName, "Norie Clip in Pink Cherry");
   assert.equal(state.image, "assets/shop-claw-pink-3.png");
   assert.equal(state.customizeHref, "customize.html?product=claw-clip&variant=pink-cherry&quantity=2");
+});
+
+test("related products exclude the current family and link to the other four pages", () => {
+  assert.equal(typeof productDetail.relatedProducts, "function");
+  const recommendations = productDetail.relatedProducts("claw-clip");
+
+  assert.equal(recommendations.length, 4);
+  assert.deepEqual(
+    recommendations.map(({ productKey }) => productKey),
+    ["bamboo-paddle-brush", "flat-brush", "essentials-hairstyling-set", "baby-hairstyling-set"]
+  );
+  assert.equal(recommendations.some(({ productKey }) => productKey === "claw-clip"), false);
+  assert.deepEqual(
+    recommendations.map(({ href }) => href),
+    [
+      "bamboo-paddle-brush.html?variant=pearl-white",
+      "flat-brush.html?variant=pearl-white",
+      "essentials-hairstyling-set.html?variant=pearl-white",
+      "baby-hairstyling-set.html?variant=pearl-white"
+    ]
+  );
+  assert.equal(recommendations[0].image, "assets/shop-large-white.png");
+  assert.equal(recommendations[0].price, 30);
+});
+
+test("all five detail pages expose a semantic Works Well With list", () => {
+  for (const page of Object.keys(pages)) {
+    const html = readFileSync(page, "utf8");
+    assert.match(html, /<section class="recommendations" aria-labelledby="works-well-with-title">/);
+    assert.match(html, /<h2 id="works-well-with-title">WORKS WELL WITH<\/h2>/);
+    assert.match(html, /<ul class="recommendation-grid" data-recommendations><\/ul>/);
+  }
 });
