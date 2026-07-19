@@ -124,6 +124,37 @@ test("production custom order persistence failure sends no email", { concurrency
   }
 });
 
+test("a repeated order ID succeeds without sending duplicate emails", { concurrency: false }, async () => {
+  const originalFetch = global.fetch;
+  const originalOrderEmail = process.env.ORDER_TO_EMAIL;
+  let requested = false;
+  const duplicateHandler = createCustomOrderHandler({
+    persist: async () => ({ existing: true }),
+    now: () => new Date("2026-07-19T16:30:00.000Z")
+  });
+
+  process.env.ORDER_TO_EMAIL = "orders@example.com";
+  global.fetch = async () => {
+    requested = true;
+    return response();
+  };
+
+  try {
+    const res = await invoke(duplicateHandler, validOrder());
+
+    assert.equal(res.statusCode, 200);
+    assert.deepEqual(JSON.parse(res.body), {
+      ok: true,
+      orderId: "11111111-1111-4111-8111-111111111111",
+      duplicate: true
+    });
+    assert.equal(requested, false);
+  } finally {
+    global.fetch = originalFetch;
+    restoreEnv("ORDER_TO_EMAIL", originalOrderEmail);
+  }
+});
+
 test("custom order sends an escaped order email to the configured inbox", { concurrency: false }, async () => {
   const originalFetch = global.fetch;
   const originalApiKey = process.env.RESEND_API_KEY;

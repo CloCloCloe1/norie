@@ -57,7 +57,11 @@ export function createCustomOrderHandler({
     const payload = await readJson(req);
     const destinations = configuredRecipients(process.env.ORDER_TO_EMAIL);
     const normalized = buildOrder(payload, now());
-    await persist(normalized);
+    const tracking = await persist(normalized);
+    if (tracking?.existing) {
+      sendJson(res, 200, { ok: true, orderId: normalized.id, duplicate: true });
+      return;
+    }
     const destinationLabel = normalized.fulfillment === "delivery" ? "Delivery address" : "Pickup location";
     const destinationValue = normalized.fulfillment === "delivery"
       ? formattedAddress(normalized)
