@@ -23,6 +23,25 @@ function configuredRecipients(value) {
   return recipients;
 }
 
+function formattedAddress(order) {
+  return [
+    order.address.streetAddress,
+    order.address.addressUnit,
+    order.address.city,
+    order.address.province,
+    order.address.postalCode
+  ].filter(Boolean).join(", ");
+}
+
+function summaryRows(summary, { customer = false } = {}) {
+  return Object.entries(summary).map(([label, value]) => (
+    `<tr>
+      <th${customer ? ' scope="row"' : ""} align="left" style="padding:${customer ? "12px" : "8px 12px"};border-bottom:1px solid #ead0da;${customer ? "color:#64243a;font-weight:700;vertical-align:top;" : ""}">${escapeHtml(label)}</th>
+      <td style="padding:${customer ? "12px" : "8px 12px"};border-bottom:1px solid #ead0da;${customer ? "color:#39222d;overflow-wrap:anywhere;vertical-align:top;" : ""}">${escapeHtml(value)}</td>
+    </tr>`
+  )).join("");
+}
+
 export function createCustomOrderHandler({
   persist = persistOrder,
   now = () => new Date()
@@ -39,20 +58,20 @@ export function createCustomOrderHandler({
     const destinations = configuredRecipients(process.env.ORDER_TO_EMAIL);
     const normalized = buildOrder(payload, now());
     await persist(normalized);
-    const formattedAddress = [
-      normalized.address.streetAddress,
-      normalized.address.addressUnit,
-      normalized.address.city,
-      normalized.address.province,
-      normalized.address.postalCode
-    ].filter(Boolean).join(", ");
-
-    const order = {
+    const destinationLabel = normalized.fulfillment === "delivery" ? "Delivery address" : "Pickup location";
+    const destinationValue = normalized.fulfillment === "delivery"
+      ? formattedAddress(normalized)
+      : normalized.pickupLocation;
+    const ownerSummary = {
+      "Order ID": normalized.id,
+      "Submitted at": normalized.submittedAt,
+      Status: normalized.status,
+      "Ready by": normalized.readyBy,
       "Customer name": normalized.customerName,
       "Customer email": normalized.customerEmail,
       Contact: normalized.customerContact,
       Fulfillment: normalized.fulfillmentLabel,
-      Address: formattedAddress || normalized.pickupLocation,
+      [destinationLabel]: destinationValue,
       Product: normalized.productName,
       Style: normalized.style,
       Quantity: String(normalized.quantity),
@@ -65,26 +84,22 @@ export function createCustomOrderHandler({
       "Estimated total": `CAD $${normalized.total}`,
       "Page URL": normalized.pageUrl
     };
-
-    const rows = Object.entries(order).map(([label, value]) => (
-      `<tr>
-        <th align="left" style="padding:8px 12px;border-bottom:1px solid #ead0da;">${escapeHtml(label)}</th>
-        <td style="padding:8px 12px;border-bottom:1px solid #ead0da;">${escapeHtml(value)}</td>
-      </tr>`
-    )).join("");
+    const ownerRows = summaryRows(ownerSummary);
 
     await sendEmail({
       to: destinations,
       replyTo: normalized.customerEmail,
       subject: `Norie custom order request - ${normalized.productName}`,
+      idempotencyKey: `norie-owner-${normalized.id}`,
       html: `
         <h1 style="font-family:Georgia,serif;color:#6b243d;">New custom order request</h1>
-        <table cellspacing="0" cellpadding="0" style="border-collapse:collapse;font-family:Arial,sans-serif;">${rows}</table>
+        <table cellspacing="0" cellpadding="0" style="border-collapse:collapse;font-family:Arial,sans-serif;">${ownerRows}</table>
       `,
-      text: Object.entries(order).map(([key, value]) => `${key}: ${value}`).join("\n")
+      text: Object.entries(ownerSummary).map(([key, value]) => `${key}: ${value}`).join("\n")
     });
 
     const customerSummary = {
+      "Order ID": normalized.id,
       Name: normalized.customerName,
       Product: normalized.productName,
       Style: normalized.style,
@@ -92,16 +107,14 @@ export function createCustomOrderHandler({
       "Rhinestone color": normalized.rhinestoneColor,
       "Custom text": normalized.customText,
       "Free gift": normalized.freeGift,
+      Fulfillment: normalized.fulfillmentLabel,
+      [destinationLabel]: destinationValue,
       "Unit price": `CAD $${normalized.unitPrice}`,
+      "Item subtotal": `CAD $${normalized.itemSubtotal}`,
+      "Delivery fee": `CAD $${normalized.deliveryFee}`,
       "Estimated total": `CAD $${normalized.total}`
     };
-
-    const customerRows = Object.entries(customerSummary).map(([label, value]) => (
-      `<tr>
-        <th scope="row" align="left" style="padding:12px;border-bottom:1px solid #ead0da;color:#64243a;font-weight:700;vertical-align:top;">${escapeHtml(label)}</th>
-        <td style="padding:12px;border-bottom:1px solid #ead0da;color:#39222d;overflow-wrap:anywhere;vertical-align:top;">${escapeHtml(value)}</td>
-      </tr>`
-    )).join("");
+    const customerRows = summaryRows(customerSummary, { customer: true });
 
     const customerText = [
       `Hi ${normalized.customerName},`,
@@ -111,7 +124,7 @@ export function createCustomOrderHandler({
       "Your request summary",
       ...Object.entries(customerSummary).map(([label, value]) => `${label}: ${value}`),
       "",
-      "Once your final details and payment are confirmed, your handmade piece is expected to be ready in approximately 7–10 days.",
+      "Once your final details and payment are confirmed, your handmade piece is expected to be ready in approximately 14 days.",
       "",
       "We’ll be in touch soon to confirm the next steps. Thank you for choosing Norie — we can’t wait to create your piece.",
       "",
@@ -129,7 +142,7 @@ export function createCustomOrderHandler({
           <caption style="color:#64243a;font-family:Georgia,serif;font-size:24px;font-weight:700;padding:0 0 12px;text-align:left;">Your request summary</caption>
           <tbody>${customerRows}</tbody>
         </table>
-        <p>Once your final details and payment are confirmed, your handmade piece is expected to be ready in approximately 7–10 days.</p>
+        <p>Once your final details and payment are confirmed, your handmade piece is expected to be ready in approximately 14 days.</p>
         <p>We’ll be in touch soon to confirm the next steps. Thank you for choosing Norie — we can’t wait to create your piece.</p>
         <p style="color:#64243a;font-family:Georgia,serif;font-size:20px;margin:28px 0 0;">With love, Norie</p>
       </div>
@@ -140,6 +153,7 @@ export function createCustomOrderHandler({
         to: normalized.customerEmail,
         replyTo: destinations[0],
         subject: "We received your Norie custom order request",
+        idempotencyKey: `norie-customer-${normalized.id}`,
         html: customerHtml,
         text: customerText
       });
@@ -147,7 +161,7 @@ export function createCustomOrderHandler({
       console.error("Customer confirmation email failed", error);
     }
 
-    sendJson(res, 200, { ok: true });
+    sendJson(res, 200, { ok: true, orderId: normalized.id });
   } catch (error) {
     if (error.statusCode) {
       sendJson(res, error.statusCode, { error: error.message });

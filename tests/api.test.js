@@ -7,7 +7,8 @@ import subscribe from "../api/subscribe.js";
 import { isEmail, readJson } from "../api/_utils.js";
 
 const customOrder = createCustomOrderHandler({
-  persist: async () => ({ existing: false })
+  persist: async () => ({ existing: false }),
+  now: () => new Date("2026-07-19T16:30:00.000Z")
 });
 
 function response({ ok = true, status = 200, data = {} } = {}) {
@@ -143,7 +144,10 @@ test("custom order sends an escaped order email to the configured inbox", { conc
     }));
 
     assert.equal(res.statusCode, 200);
-    assert.deepEqual(JSON.parse(res.body), { ok: true });
+    assert.deepEqual(JSON.parse(res.body), {
+      ok: true,
+      orderId: "11111111-1111-4111-8111-111111111111"
+    });
     assert.equal(calls.length, 2);
     assert.equal(calls[0].url, "https://api.resend.com/emails");
 
@@ -166,6 +170,15 @@ test("custom order sends an escaped order email to the configured inbox", { conc
     assert.match(ownerEmail.html, /Contact/);
     assert.match(ownerEmail.html, /chloe_wechat/);
     assert.match(ownerEmail.text, /Contact: chloe_wechat/);
+    assert.match(ownerEmail.html, /Order ID/);
+    assert.match(ownerEmail.html, /11111111-1111-4111-8111-111111111111/);
+    assert.match(ownerEmail.html, /Submitted at/);
+    assert.match(ownerEmail.html, /2026-07-19T16:30:00.000Z/);
+    assert.match(ownerEmail.html, /Ready by/);
+    assert.match(ownerEmail.html, /2026-08-02/);
+    assert.match(ownerEmail.html, /Status/);
+    assert.match(ownerEmail.html, />New</);
+    assert.equal(calls[0].options.headers["Idempotency-Key"], "norie-owner-11111111-1111-4111-8111-111111111111");
 
     const customerEmail = JSON.parse(calls[1].options.body);
     assert.deepEqual(customerEmail.to, ["chloe@example.com"]);
@@ -183,16 +196,23 @@ test("custom order sends an escaped order email to the configured inbox", { conc
     assert.doesNotMatch(customerEmail.html, /<Chloe>/);
     assert.match(customerEmail.html, /One random free gift/);
     assert.match(customerEmail.html, /CAD \$30/);
+    assert.match(customerEmail.html, /Item subtotal/);
+    assert.match(customerEmail.html, /Delivery fee/);
     assert.match(customerEmail.html, /CAD \$65/);
+    assert.match(customerEmail.html, /Delivery/);
+    assert.match(customerEmail.html, /123 Finch Ave W/);
+    assert.match(customerEmail.html, /M2N 1M6/);
+    assert.match(customerEmail.html, /approximately 14 days/);
+    assert.doesNotMatch(customerEmail.html, /Status|Page URL|Submitted at|Ready by/);
     assert.doesNotMatch(customerEmail.html, /CAD \$999/);
-    assert.match(customerEmail.html, /7–10 days/);
     assert.match(customerEmail.html, /<caption[^>]*>\s*Your request summary\s*<\/caption>/i);
     assert.match(customerEmail.html, /<th scope="row"/i);
     assert.match(customerEmail.text, /Hi Chloe Lee,/);
     assert.match(customerEmail.text, /Custom text: <Chloe>/);
     assert.match(customerEmail.text, /Quantity: 2/);
     assert.match(customerEmail.text, /Estimated total: CAD \$65/);
-    assert.match(customerEmail.text, /7–10 days/);
+    assert.match(customerEmail.text, /approximately 14 days/);
+    assert.equal(calls[1].options.headers["Idempotency-Key"], "norie-customer-11111111-1111-4111-8111-111111111111");
   } finally {
     global.fetch = originalFetch;
     restoreEnv("RESEND_API_KEY", originalApiKey);
@@ -227,14 +247,19 @@ test("custom order succeeds when only the customer confirmation fails", { concur
       customText: "Norie",
       customerName: "Ava Chen",
       customerEmail: "ava@example.com",
-      customerContact: "ava_wechat"
+      customerContact: "ava_wechat",
+      fulfillment: "pickup"
     }));
 
     assert.equal(res.statusCode, 200);
-    assert.deepEqual(JSON.parse(res.body), { ok: true });
+    assert.deepEqual(JSON.parse(res.body), {
+      ok: true,
+      orderId: "11111111-1111-4111-8111-111111111111"
+    });
     assert.equal(calls.length, 2);
     assert.deepEqual(JSON.parse(calls[0].options.body).to, ["orders@example.com"]);
     assert.deepEqual(JSON.parse(calls[1].options.body).to, ["ava@example.com"]);
+    assert.match(JSON.parse(calls[1].options.body).html, /North York \/ Finch/);
     assert.equal(errors.length, 1);
     assert.equal(errors[0][0], "Customer confirmation email failed");
   } finally {
