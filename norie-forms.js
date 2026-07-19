@@ -1,5 +1,6 @@
 (() => {
   const headers = { "Content-Type": "application/json" };
+  const DELIVERY_FEE = 5;
 
   function clean(value) {
     return String(value || "").replace(/\s+/g, " ").trim();
@@ -89,8 +90,35 @@
     input.focus();
   }
 
+  function orderRequestId(form) {
+    const input = form.elements.requestId;
+    if (!input.value) {
+      input.value = crypto.randomUUID();
+    }
+    return input.value;
+  }
+
+  function selectedFulfillment(form) {
+    return clean(form.elements.fulfillment?.value);
+  }
+
+  function updateFulfillment(form) {
+    const isDelivery = selectedFulfillment(form) === "delivery";
+    const address = form.querySelector("#deliveryAddress");
+    const subtotal = Number.parseInt(form.dataset.itemSubtotal, 10) || 0;
+    const fee = isDelivery ? DELIVERY_FEE : 0;
+
+    address.hidden = !isDelivery;
+    address.querySelectorAll("input").forEach((input) => {
+      input.disabled = !isDelivery;
+    });
+    form.querySelector("#deliveryFee").textContent = `CAD $${fee}`;
+    form.querySelector("#totalPrice").textContent = `CAD $${subtotal + fee}`;
+  }
+
   function orderPayload(form) {
     return {
+      requestId: orderRequestId(form),
       product: clean(form.elements.product?.value),
       variant: clean(form.elements.variant?.value),
       quantity: Number.parseInt(form.elements.quantity?.value, 10) || 1,
@@ -99,6 +127,12 @@
       customerName: clean(form.querySelector("#customerName")?.value),
       customerEmail: clean(form.querySelector("#orderEmail")?.value),
       customerContact: clean(form.querySelector("#customerContact")?.value),
+      fulfillment: clean(form.elements.fulfillment?.value),
+      streetAddress: clean(form.elements.streetAddress?.value),
+      addressUnit: clean(form.elements.addressUnit?.value),
+      city: clean(form.elements.city?.value),
+      province: clean(form.elements.province?.value),
+      postalCode: clean(form.elements.postalCode?.value),
       pageUrl: window.location.href
     };
   }
@@ -123,13 +157,23 @@
     const customerName = form?.querySelector("#customerName");
     const customerEmail = form?.querySelector("#orderEmail");
     const customerContact = form?.querySelector("#customerContact");
-    if (!form || !button || !customerName || !customerEmail || !customerContact) {
+    const fulfillmentInputs = [...(form?.querySelectorAll("input[name='fulfillment']") || [])];
+    const deliveryAddress = form?.querySelector("#deliveryAddress");
+    if (!form || !button || !customerName || !customerEmail || !customerContact || !deliveryAddress) {
       return;
     }
 
     customerName.addEventListener("input", () => clearFieldError(customerName, "order-status"));
     customerEmail.addEventListener("input", () => clearFieldError(customerEmail, "order-status"));
     customerContact.addEventListener("input", () => clearFieldError(customerContact, "order-status"));
+    fulfillmentInputs.forEach((input) => input.addEventListener("change", () => {
+      clearFieldError(input, "order-status");
+      updateFulfillment(form);
+    }));
+    deliveryAddress.querySelectorAll("input").forEach((input) => {
+      input.addEventListener("input", () => clearFieldError(input, "order-status"));
+    });
+    form.addEventListener("norie:pricechange", () => updateFulfillment(form));
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
       if (isBusy(button)) {
@@ -147,6 +191,24 @@
         showFieldError(customerContact, button, "order-status", "Contact: enter your WeChat ID.");
         return;
       }
+      const fulfillment = selectedFulfillment(form);
+      if (!fulfillment) {
+        showFieldError(fulfillmentInputs[0], button, "order-status", "Fulfillment: choose Delivery or Pickup.");
+        return;
+      }
+      if (fulfillment === "delivery") {
+        const requiredAddressFields = [
+          [form.elements.streetAddress, "Street address: enter the delivery street address."],
+          [form.elements.city, "City: enter the delivery city."],
+          [form.elements.province, "Province: enter the delivery province."],
+          [form.elements.postalCode, "Postal code: enter the delivery postal code."]
+        ];
+        const missing = requiredAddressFields.find(([input]) => !clean(input.value));
+        if (missing) {
+          showFieldError(missing[0], button, "order-status", missing[1]);
+          return;
+        }
+      }
 
       setBusy(button, true);
       setStatus(button, "Sending your custom order request...", { id: "order-status" });
@@ -163,6 +225,7 @@
         setBusy(button, false);
       }
     });
+    updateFulfillment(form);
   }
 
   function bindSubscribeForm() {

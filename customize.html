@@ -783,6 +783,67 @@
         opacity: 1;
       }
 
+      .fulfillment-options,
+      .delivery-address {
+        margin-top: 0.25rem;
+      }
+
+      .fulfillment-grid {
+        display: grid;
+        gap: 0.75rem;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        margin-top: 0.75rem;
+      }
+
+      .fulfillment-option {
+        position: relative;
+      }
+
+      .fulfillment-option input {
+        opacity: 0;
+        position: absolute;
+      }
+
+      .fulfillment-option span {
+        background: var(--cream);
+        border: 1.5px solid #9d5369;
+        display: block;
+        min-height: 64px;
+        padding: 0.85rem;
+      }
+
+      .fulfillment-option small {
+        color: var(--soft-ink);
+        display: block;
+        margin-top: 0.2rem;
+      }
+
+      .fulfillment-option input:checked + span {
+        background: var(--shell);
+        border-color: var(--berry);
+        box-shadow: inset 0 0 0 2px var(--berry);
+      }
+
+      .fulfillment-option input:focus-visible + span {
+        outline: 3px solid var(--focus);
+        outline-offset: 3px;
+      }
+
+      .delivery-address[hidden] {
+        display: none;
+      }
+
+      .address-grid {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        margin-top: 0.75rem;
+      }
+
+      .address-grid .street-field {
+        grid-column: 1 / -1;
+      }
+
       .contact-section .button {
         width: 100%;
       }
@@ -890,6 +951,15 @@
         .contact-grid {
           grid-template-columns: 1fr;
         }
+
+        .fulfillment-grid,
+        .address-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .address-grid .street-field {
+          grid-column: auto;
+        }
       }
 
       @media (max-width: 560px) {
@@ -966,7 +1036,7 @@
       </section>
 
       <div class="customizer">
-        <form id="customForm" novalidate>
+        <form id="customForm" data-item-subtotal="25" novalidate>
           <section class="choice-section configuration-section" aria-label="Product and rhinestone choices">
             <div class="config-row">
               <div class="controls-stack">
@@ -984,6 +1054,7 @@
                 <input name="product" type="hidden" value="flat-brush">
                 <input name="variant" type="hidden" value="baby-pink">
                 <input name="quantity" type="hidden" value="1">
+                <input name="requestId" type="hidden" value="">
               </div>
 
               <section class="product-stage" aria-labelledby="product-preview-title">
@@ -1078,10 +1149,14 @@
               <strong id="originalPrice">CAD $25 each</strong>
             </div>
             <div class="summary-line">
-              <span>Launch price</span>
-              <strong id="discountPrice">CAD $25</strong>
+              <span>Item subtotal</span>
+              <strong id="itemSubtotal">CAD $25</strong>
             </div>
-            <div class="price" id="totalPrice">CAD $25</div>
+            <div class="summary-line">
+              <span>Delivery fee</span>
+              <strong id="deliveryFee">CAD $0</strong>
+            </div>
+            <div class="price" id="totalPrice" aria-live="polite">CAD $25</div>
           </section>
 
           <section class="summary contact-section" aria-labelledby="contact-section-title">
@@ -1101,6 +1176,44 @@
                 <input id="customerContact" name="customerContact" type="text" maxlength="100" autocomplete="off" placeholder="wechat_id" required aria-required="true">
               </div>
             </div>
+            <fieldset class="fulfillment-options">
+              <legend>Fulfillment</legend>
+              <div class="fulfillment-grid">
+                <label class="fulfillment-option">
+                  <input type="radio" name="fulfillment" value="delivery" required aria-required="true">
+                  <span>Delivery <small>+ CAD $5</small></span>
+                </label>
+                <label class="fulfillment-option">
+                  <input type="radio" name="fulfillment" value="pickup">
+                  <span>Pickup <small>North York / Finch (Free)</small></span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="delivery-address" id="deliveryAddress" hidden>
+              <legend>Delivery address</legend>
+              <div class="address-grid">
+                <div class="contact-field street-field">
+                  <label class="text-label" for="streetAddress">Street address</label>
+                  <input id="streetAddress" name="streetAddress" type="text" maxlength="160" autocomplete="street-address" disabled required aria-required="true">
+                </div>
+                <div class="contact-field">
+                  <label class="text-label" for="addressUnit">Unit / apartment <small>(optional)</small></label>
+                  <input id="addressUnit" name="addressUnit" type="text" maxlength="40" autocomplete="address-line2" disabled>
+                </div>
+                <div class="contact-field">
+                  <label class="text-label" for="addressCity">City</label>
+                  <input id="addressCity" name="city" type="text" maxlength="80" autocomplete="address-level2" disabled required aria-required="true">
+                </div>
+                <div class="contact-field">
+                  <label class="text-label" for="addressProvince">Province</label>
+                  <input id="addressProvince" name="province" type="text" maxlength="80" autocomplete="address-level1" disabled required aria-required="true">
+                </div>
+                <div class="contact-field">
+                  <label class="text-label" for="addressPostalCode">Postal code</label>
+                  <input id="addressPostalCode" name="postalCode" type="text" maxlength="20" autocomplete="postal-code" disabled required aria-required="true">
+                </div>
+              </div>
+            </fieldset>
             <button class="button" type="submit">Request custom order</button>
           </section>
         </form>
@@ -1178,7 +1291,7 @@
       const changeStyleLink = document.querySelector("#changeStyleLink");
       const summaryProduct = document.querySelector("#summaryProduct");
       const originalPrice = document.querySelector("#originalPrice");
-      const discountPrice = document.querySelector("#discountPrice");
+      const itemSubtotal = document.querySelector("#itemSubtotal");
       const totalPrice = document.querySelector("#totalPrice");
       const photoNote = document.querySelector("#photoNote");
       const customText = document.querySelector("#customText");
@@ -1415,8 +1528,9 @@
         form.elements.quantity.value = String(orderSelection.quantity);
         summaryProduct.textContent = `${orderSelection.fullName} × ${orderSelection.quantity}`;
         originalPrice.textContent = `CAD $${orderSelection.unitPrice} each`;
-        discountPrice.textContent = `CAD $${orderSelection.totalPrice}`;
-        totalPrice.textContent = `CAD $${orderSelection.totalPrice}`;
+        itemSubtotal.textContent = `CAD $${orderSelection.totalPrice}`;
+        form.dataset.itemSubtotal = String(orderSelection.totalPrice);
+        form.dispatchEvent(new Event("norie:pricechange"));
       }
 
       form.addEventListener("change", updatePreview);

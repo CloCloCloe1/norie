@@ -80,6 +80,30 @@ test("contact details follow pricing in a responsive required field group", asyn
   assert.match(html, /\.contact-field input::placeholder\s*\{[^}]*font-style:\s*italic/s);
 });
 
+test("Customize offers accessible delivery and pickup fulfillment", async () => {
+  const html = await read("customize.html");
+
+  assert.match(html, /<fieldset[^>]+class="fulfillment-options"[^>]*>[\s\S]*<legend>\s*Fulfillment\s*<\/legend>/i);
+  assert.match(html, /<input[^>]+type="radio"[^>]+name="fulfillment"[^>]+value="delivery"[^>]+required/i);
+  assert.match(html, /Delivery\s*<small>\+ CAD \$5<\/small>/i);
+  assert.match(html, /<input[^>]+type="radio"[^>]+name="fulfillment"[^>]+value="pickup"/i);
+  assert.match(html, /Pickup\s*<small>North York \/ Finch \(Free\)<\/small>/i);
+  assert.match(html, /<fieldset[^>]+id="deliveryAddress"[^>]+hidden[^>]*>[\s\S]*<legend>\s*Delivery address\s*<\/legend>/i);
+  assert.match(html, /id="streetAddress"[^>]+autocomplete="street-address"[^>]+disabled[^>]+required/i);
+  assert.match(html, /id="addressUnit"[^>]+autocomplete="address-line2"[^>]+disabled/i);
+  assert.match(html, /id="addressCity"[^>]+autocomplete="address-level2"[^>]+disabled[^>]+required/i);
+  assert.match(html, /id="addressProvince"[^>]+autocomplete="address-level1"[^>]+disabled[^>]+required/i);
+  assert.match(html, /id="addressPostalCode"[^>]+autocomplete="postal-code"[^>]+disabled[^>]+required/i);
+});
+
+test("Customize price summary separates subtotal, delivery fee, and total", async () => {
+  const html = await read("customize.html");
+
+  assert.match(html, /id="itemSubtotal"[^>]*>\s*CAD \$25\s*</i);
+  assert.match(html, /id="deliveryFee"[^>]*>\s*CAD \$0\s*</i);
+  assert.match(html, /id="totalPrice"[^>]*aria-live="polite"[^>]*>\s*CAD \$25\s*</i);
+});
+
 test("the shared controller exposes pending and validation state accessibly", async () => {
   const script = await read("norie-forms.js");
 
