@@ -2,9 +2,13 @@ import assert from "node:assert/strict";
 import { Readable } from "node:stream";
 import test from "node:test";
 
-import customOrder from "../api/custom-order.js";
+import productionCustomOrder, { createCustomOrderHandler } from "../api/custom-order.js";
 import subscribe from "../api/subscribe.js";
 import { isEmail, readJson } from "../api/_utils.js";
+
+const customOrder = createCustomOrderHandler({
+  persist: async () => ({ existing: false })
+});
 
 function response({ ok = true, status = 200, data = {} } = {}) {
   return {
@@ -91,6 +95,32 @@ test("endpoints distinguish malformed and oversized JSON requests", async () => 
 
   assert.equal(malformed.statusCode, 400);
   assert.equal(oversized.statusCode, 413);
+});
+
+test("production custom order persistence failure sends no email", { concurrency: false }, async () => {
+  const originalFetch = global.fetch;
+  const originalOrderEmail = process.env.ORDER_TO_EMAIL;
+  const originalConsoleError = console.error;
+  let requested = false;
+
+  process.env.ORDER_TO_EMAIL = "orders@example.com";
+  global.fetch = async () => {
+    requested = true;
+    return response();
+  };
+  console.error = () => {};
+
+  try {
+    const res = await invoke(productionCustomOrder, validOrder());
+
+    assert.equal(res.statusCode, 500);
+    assert.equal(JSON.parse(res.body).error, "Could not send order request");
+    assert.equal(requested, false);
+  } finally {
+    global.fetch = originalFetch;
+    console.error = originalConsoleError;
+    restoreEnv("ORDER_TO_EMAIL", originalOrderEmail);
+  }
 });
 
 test("custom order sends an escaped order email to the configured inbox", { concurrency: false }, async () => {

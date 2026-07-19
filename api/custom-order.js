@@ -1,5 +1,6 @@
 import { escapeHtml, isEmail, readJson, sendEmail, sendJson } from "./_utils.js";
 import { buildOrder } from "./_order.js";
+import { persistOrder } from "./_google-sheets.js";
 
 const CONFIRMATION_LOGO_URL = "https://norie-hair.vercel.app/assets/norie-logo.png?v=transparent-1";
 
@@ -22,7 +23,11 @@ function configuredRecipients(value) {
   return recipients;
 }
 
-export default async function handler(req, res) {
+export function createCustomOrderHandler({
+  persist = persistOrder,
+  now = () => new Date()
+} = {}) {
+  return async function handler(req, res) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
     sendJson(res, 405, { error: "Method not allowed" });
@@ -32,7 +37,8 @@ export default async function handler(req, res) {
   try {
     const payload = await readJson(req);
     const destinations = configuredRecipients(process.env.ORDER_TO_EMAIL);
-    const normalized = buildOrder(payload);
+    const normalized = buildOrder(payload, now());
+    await persist(normalized);
     const formattedAddress = [
       normalized.address.streetAddress,
       normalized.address.addressUnit,
@@ -150,4 +156,7 @@ export default async function handler(req, res) {
     console.error(error);
     sendJson(res, 500, { error: "Could not send order request" });
   }
+  };
 }
+
+export default createCustomOrderHandler();
