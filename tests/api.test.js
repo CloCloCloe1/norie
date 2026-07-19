@@ -50,6 +50,7 @@ async function invokeRequest(handler, req) {
 
 function validOrder(overrides = {}) {
   return {
+    requestId: "11111111-1111-4111-8111-111111111111",
     product: "bamboo-paddle-brush",
     variant: "baby-pink",
     quantity: 2,
@@ -58,6 +59,12 @@ function validOrder(overrides = {}) {
     customerName: "Chloe Lee",
     customerEmail: "chloe@example.com",
     customerContact: "chloe_wechat",
+    fulfillment: "delivery",
+    streetAddress: "123 Finch Ave W",
+    addressUnit: "Unit 8",
+    city: "North York",
+    province: "ON",
+    postalCode: "M2N 1M6",
     pageUrl: "https://norie.example/customize",
     ...overrides
   };
@@ -117,6 +124,10 @@ test("custom order sends an escaped order email to the configured inbox", { conc
     assert.match(ownerEmail.html, /Chloe Lee/);
     assert.match(ownerEmail.html, /CAD \$30/);
     assert.match(ownerEmail.html, /CAD \$60/);
+    assert.match(ownerEmail.html, /CAD \$5/);
+    assert.match(ownerEmail.html, /CAD \$65/);
+    assert.match(ownerEmail.html, /123 Finch Ave W/);
+    assert.match(ownerEmail.html, /M2N 1M6/);
     assert.match(ownerEmail.html, /Quantity/);
     assert.match(ownerEmail.html, />2</);
     assert.doesNotMatch(ownerEmail.html, /CAD \$999/);
@@ -142,7 +153,7 @@ test("custom order sends an escaped order email to the configured inbox", { conc
     assert.doesNotMatch(customerEmail.html, /<Chloe>/);
     assert.match(customerEmail.html, /One random free gift/);
     assert.match(customerEmail.html, /CAD \$30/);
-    assert.match(customerEmail.html, /CAD \$60/);
+    assert.match(customerEmail.html, /CAD \$65/);
     assert.doesNotMatch(customerEmail.html, /CAD \$999/);
     assert.match(customerEmail.html, /7–10 days/);
     assert.match(customerEmail.html, /<caption[^>]*>\s*Your request summary\s*<\/caption>/i);
@@ -150,7 +161,7 @@ test("custom order sends an escaped order email to the configured inbox", { conc
     assert.match(customerEmail.text, /Hi Chloe Lee,/);
     assert.match(customerEmail.text, /Custom text: <Chloe>/);
     assert.match(customerEmail.text, /Quantity: 2/);
-    assert.match(customerEmail.text, /Estimated total: CAD \$60/);
+    assert.match(customerEmail.text, /Estimated total: CAD \$65/);
     assert.match(customerEmail.text, /7–10 days/);
   } finally {
     global.fetch = originalFetch;

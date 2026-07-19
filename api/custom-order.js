@@ -1,7 +1,6 @@
 import { escapeHtml, isEmail, readJson, sendEmail, sendJson } from "./_utils.js";
-import { resolveSelection } from "../product-catalog.js";
+import { buildOrder } from "./_order.js";
 
-const STONE_COLORS = new Set(["Pink stones", "White stones"]);
 const CONFIRMATION_LOGO_URL = "https://norie-hair.vercel.app/assets/norie-logo.png?v=transparent-1";
 
 function clean(value) {
@@ -23,20 +22,6 @@ function configuredRecipients(value) {
   return recipients;
 }
 
-function validPageUrl(value) {
-  const url = clean(value);
-  if (!url || url.length > 2048) {
-    return "";
-  }
-
-  try {
-    const parsed = new URL(url);
-    return parsed.protocol === "https:" || parsed.protocol === "http:" ? parsed.href : "";
-  } catch {
-    return "";
-  }
-}
-
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
@@ -47,51 +32,32 @@ export default async function handler(req, res) {
   try {
     const payload = await readJson(req);
     const destinations = configuredRecipients(process.env.ORDER_TO_EMAIL);
-
-    const customerName = clean(payload.customerName);
-    const customerEmail = clean(payload.customerEmail).toLowerCase();
-    const customerContact = clean(payload.customerContact);
-    const productKey = clean(payload.product);
-    const variantKey = clean(payload.variant);
-    const quantity = Number(payload.quantity);
-    const rhinestoneColor = clean(payload.rhinestoneColor);
-    const customText = clean(payload.customText);
-    const selection = resolveSelection(productKey, variantKey, quantity);
-
-    if (!customerName || customerName.length > 100) {
-      sendJson(res, 400, { error: "Please enter your name." });
-      return;
-    }
-    if (!isEmail(customerEmail)) {
-      sendJson(res, 400, { error: "Please enter a valid email." });
-      return;
-    }
-    if (!customerContact || customerContact.length > 100) {
-      sendJson(res, 400, { error: "Please enter your contact information." });
-      return;
-    }
-    if (!selection || !STONE_COLORS.has(rhinestoneColor)) {
-      sendJson(res, 400, { error: "Please choose a valid product and color combination." });
-      return;
-    }
-    if (customText.length > 8) {
-      sendJson(res, 400, { error: "Custom text must be 8 characters or fewer." });
-      return;
-    }
+    const normalized = buildOrder(payload);
+    const formattedAddress = [
+      normalized.address.streetAddress,
+      normalized.address.addressUnit,
+      normalized.address.city,
+      normalized.address.province,
+      normalized.address.postalCode
+    ].filter(Boolean).join(", ");
 
     const order = {
-      "Customer name": customerName,
-      "Customer email": customerEmail,
-      Contact: customerContact,
-      Product: selection.fullName,
-      Style: selection.label,
-      Quantity: String(selection.quantity),
-      "Rhinestone color": rhinestoneColor,
-      "Custom text": customText || "Not entered",
-      "Free gift": "One random free gift",
-      "Unit price": `CAD $${selection.unitPrice}`,
-      "Estimated total": `CAD $${selection.totalPrice}`,
-      "Page URL": validPageUrl(payload.pageUrl)
+      "Customer name": normalized.customerName,
+      "Customer email": normalized.customerEmail,
+      Contact: normalized.customerContact,
+      Fulfillment: normalized.fulfillmentLabel,
+      Address: formattedAddress || normalized.pickupLocation,
+      Product: normalized.productName,
+      Style: normalized.style,
+      Quantity: String(normalized.quantity),
+      "Rhinestone color": normalized.rhinestoneColor,
+      "Custom text": normalized.customText,
+      "Free gift": normalized.freeGift,
+      "Unit price": `CAD $${normalized.unitPrice}`,
+      "Item subtotal": `CAD $${normalized.itemSubtotal}`,
+      "Delivery fee": `CAD $${normalized.deliveryFee}`,
+      "Estimated total": `CAD $${normalized.total}`,
+      "Page URL": normalized.pageUrl
     };
 
     const rows = Object.entries(order).map(([label, value]) => (
@@ -103,8 +69,8 @@ export default async function handler(req, res) {
 
     await sendEmail({
       to: destinations,
-      replyTo: customerEmail,
-      subject: `Norie custom order request - ${selection.fullName}`,
+      replyTo: normalized.customerEmail,
+      subject: `Norie custom order request - ${normalized.productName}`,
       html: `
         <h1 style="font-family:Georgia,serif;color:#6b243d;">New custom order request</h1>
         <table cellspacing="0" cellpadding="0" style="border-collapse:collapse;font-family:Arial,sans-serif;">${rows}</table>
@@ -113,15 +79,15 @@ export default async function handler(req, res) {
     });
 
     const customerSummary = {
-      Name: customerName,
-      Product: selection.fullName,
-      Style: selection.label,
-      Quantity: String(selection.quantity),
-      "Rhinestone color": rhinestoneColor,
-      "Custom text": customText || "Not entered",
-      "Free gift": "One random free gift",
-      "Unit price": `CAD $${selection.unitPrice}`,
-      "Estimated total": `CAD $${selection.totalPrice}`
+      Name: normalized.customerName,
+      Product: normalized.productName,
+      Style: normalized.style,
+      Quantity: String(normalized.quantity),
+      "Rhinestone color": normalized.rhinestoneColor,
+      "Custom text": normalized.customText,
+      "Free gift": normalized.freeGift,
+      "Unit price": `CAD $${normalized.unitPrice}`,
+      "Estimated total": `CAD $${normalized.total}`
     };
 
     const customerRows = Object.entries(customerSummary).map(([label, value]) => (
@@ -132,7 +98,7 @@ export default async function handler(req, res) {
     )).join("");
 
     const customerText = [
-      `Hi ${customerName},`,
+      `Hi ${normalized.customerName},`,
       "",
       "Welcome to Norie. Thank you for creating something special with us — we’ve received your custom order request.",
       "",
@@ -151,7 +117,7 @@ export default async function handler(req, res) {
         <img src="${CONFIRMATION_LOGO_URL}" alt="Norie" width="240" style="display:block;height:auto;margin:0 auto 24px;max-width:70%;width:240px;">
         <p style="color:#64243a;font-size:13px;font-weight:700;letter-spacing:0.18em;margin:0 0 12px;text-align:center;">IT ALL STARTS HERE</p>
         <h1 style="color:#64243a;font-family:Georgia,serif;font-size:32px;line-height:1.2;margin:0 0 24px;text-align:center;">Your custom order request</h1>
-        <p>Hi ${escapeHtml(customerName)},</p>
+        <p>Hi ${escapeHtml(normalized.customerName)},</p>
         <p>Welcome to Norie. Thank you for creating something special with us — we’ve received your custom order request.</p>
         <table cellspacing="0" cellpadding="0" style="border-collapse:collapse;margin:28px 0;width:100%;">
           <caption style="color:#64243a;font-family:Georgia,serif;font-size:24px;font-weight:700;padding:0 0 12px;text-align:left;">Your request summary</caption>
@@ -165,7 +131,7 @@ export default async function handler(req, res) {
 
     try {
       await sendEmail({
-        to: customerEmail,
+        to: normalized.customerEmail,
         replyTo: destinations[0],
         subject: "We received your Norie custom order request",
         html: customerHtml,
