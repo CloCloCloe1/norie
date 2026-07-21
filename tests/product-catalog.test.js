@@ -30,6 +30,25 @@ test("catalog maps approved variant names, images, and prices", () => {
   assert.equal(paddle.unitPrice, 30);
 });
 
+test("baby-pink variants keep their key but display Ballet Pink", () => {
+  const productKeys = [
+    "bamboo-paddle-brush",
+    "flat-brush",
+    "claw-clip",
+    "essentials-hairstyling-set",
+    "baby-hairstyling-set"
+  ];
+
+  for (const productKey of productKeys) {
+    const selection = resolveSelection(productKey, "baby-pink", 1);
+    assert.equal(selection.variantKey, "baby-pink");
+    assert.equal(selection.label, "Ballet Pink");
+    assert.match(selection.fullName, /Ballet Pink/);
+    assert.match(selection.alt, /Ballet pink/i);
+    assert.doesNotMatch(`${selection.label} ${selection.fullName} ${selection.alt}`, /Baby Pink/i);
+  }
+});
+
 test("selection validation rejects unknown combinations and quantity outside 1 through 10", () => {
   assert.equal(resolveSelection("claw-clip", "unknown", 1), null);
   assert.equal(resolveSelection("unknown", "baby-pink", 1), null);

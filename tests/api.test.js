@@ -185,7 +185,7 @@ test("custom order sends an escaped order email to the configured inbox", { conc
     const ownerEmail = JSON.parse(calls[0].options.body);
     assert.deepEqual(ownerEmail.to, ["orders@example.com", "backup@example.com"]);
     assert.equal(ownerEmail.reply_to, "chloe@example.com");
-    assert.match(ownerEmail.subject, /Bamboo Paddle Brush in Baby Pink/);
+    assert.match(ownerEmail.subject, /Bamboo Paddle Brush in Ballet Pink/);
     assert.match(ownerEmail.html, /Chloe Lee/);
     assert.match(ownerEmail.html, /CAD \$30/);
     assert.match(ownerEmail.html, /CAD \$60/);
@@ -220,8 +220,8 @@ test("custom order sends an escaped order email to the configured inbox", { conc
     assert.match(customerEmail.html, /IT ALL STARTS HERE/);
     assert.match(customerEmail.html, /Hi Chloe Lee,/);
     assert.match(customerEmail.html, /Your request summary/);
-    assert.match(customerEmail.html, /Bamboo Paddle Brush in Baby Pink/);
-    assert.match(customerEmail.html, /Baby Pink/);
+    assert.match(customerEmail.html, /Bamboo Paddle Brush in Ballet Pink/);
+    assert.match(customerEmail.html, /Ballet Pink/);
     assert.match(customerEmail.html, /White stones/);
     assert.match(customerEmail.html, /&lt;Chloe&gt;/);
     assert.doesNotMatch(customerEmail.html, /<Chloe>/);

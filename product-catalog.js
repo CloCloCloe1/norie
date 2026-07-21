@@ -25,7 +25,7 @@ export const PRODUCT_CATALOG = {
     note: "Due to the natural characteristics of cellulose acetate, slight variations in color and pattern may occur, making each brush uniquely yours.",
     variants: {
       "pearl-white": { label: "Pearl White", fullName: "Bamboo Paddle Brush in Pearl White", image: "assets/shop-large-white.png", alt: "Pearl white bamboo paddle brush", baseColor: "white", swatch: "#f4eee3" },
-      "baby-pink": { label: "Baby Pink", fullName: "Bamboo Paddle Brush in Baby Pink", image: "assets/shop-large-pink.png", alt: "Baby pink bamboo paddle brush", baseColor: "pink", swatch: "#f2cbd4" }
+      "baby-pink": { label: "Ballet Pink", fullName: "Bamboo Paddle Brush in Ballet Pink", image: "assets/shop-large-pink.png", alt: "Ballet pink bamboo paddle brush", baseColor: "pink", swatch: "#f2cbd4" }
     }
   },
   "flat-brush": {
@@ -38,7 +38,7 @@ export const PRODUCT_CATALOG = {
     dimensions: "14 × 7 cm (5.5\" × 2.8\")",
     variants: {
       "pearl-white": { label: "Pearl White", fullName: "Flat Brush in Pearl White", image: "assets/shop-small-white.png", alt: "Pearl white flat brush", baseColor: "white", swatch: "#f4eee3" },
-      "baby-pink": { label: "Baby Pink", fullName: "Flat Brush in Baby Pink", image: "assets/shop-small-pink.png", alt: "Baby pink flat brush", baseColor: "pink", swatch: "#e7a9b8" }
+      "baby-pink": { label: "Ballet Pink", fullName: "Flat Brush in Ballet Pink", image: "assets/shop-small-pink.png", alt: "Ballet pink flat brush", baseColor: "pink", swatch: "#e7a9b8" }
     }
   },
   "claw-clip": {
@@ -50,7 +50,7 @@ export const PRODUCT_CATALOG = {
     material: "Custom Cellulose Acetate",
     dimensions: "10.5 × 5 cm (4.1\" × 2.0\")",
     variants: {
-      "baby-pink": { label: "Baby Pink", fullName: "Norie Clip in Baby Pink", image: "assets/shop-claw-pink-1.png", alt: "Norie translucent baby pink claw clip", baseColor: "pink", swatch: "#edc0cc" },
+      "baby-pink": { label: "Ballet Pink", fullName: "Norie Clip in Ballet Pink", image: "assets/shop-claw-pink-1.png", alt: "Norie translucent ballet pink claw clip", baseColor: "pink", swatch: "#edc0cc" },
       "pink-bow": { label: "Pink Bow", fullName: "Norie Clip in Pink Bow", image: "assets/shop-claw-pink-2.png", alt: "Norie pink claw clip with bow details", baseColor: "pink", swatch: "#e4a5b6" },
       "pink-cherry": { label: "Pink Cherry", fullName: "Norie Clip in Pink Cherry", image: "assets/shop-claw-pink-3.png", alt: "Norie pink claw clip with cherry crystals", baseColor: "pink", swatch: "#efb9c9" },
       "florie-pearl": { label: "Florie Pearl", fullName: "Norie Clip in Florie Pearl", image: "assets/shop-claw-white-1.png", alt: "Norie pearl claw clip with flower details", baseColor: "white", swatch: "#f0e8dc" },
@@ -67,7 +67,7 @@ export const PRODUCT_CATALOG = {
     material: "Custom Cellulose Acetate",
     variants: {
       "pearl-white": { label: "Pearl White", fullName: "Essentials Hairstyling Set in Pearl White", image: "assets/shop-set-essentials-white.png", alt: "Pearl white Essentials Hairstyling Set", baseColor: "white", swatch: "#f4eee3" },
-      "baby-pink": { label: "Baby Pink", fullName: "Essentials Hairstyling Set in Baby Pink", image: "assets/shop-set-essentials-pink.png", alt: "Baby pink Essentials Hairstyling Set", baseColor: "pink", swatch: "#efc4cf" }
+      "baby-pink": { label: "Ballet Pink", fullName: "Essentials Hairstyling Set in Ballet Pink", image: "assets/shop-set-essentials-pink.png", alt: "Ballet pink Essentials Hairstyling Set", baseColor: "pink", swatch: "#efc4cf" }
     }
   },
   "baby-hairstyling-set": {
@@ -79,7 +79,7 @@ export const PRODUCT_CATALOG = {
     material: "Custom Cellulose Acetate",
     variants: {
       "pearl-white": { label: "Pearl White", fullName: "Baby Hairstyling Set in Pearl White", image: "assets/shop-set-baby-white.png", alt: "Pearl white Baby Hairstyling Set", baseColor: "white", swatch: "#f4eee3" },
-      "baby-pink": { label: "Baby Pink", fullName: "Baby Hairstyling Set in Baby Pink", image: "assets/shop-set-baby-pink.png", alt: "Baby pink Baby Hairstyling Set", baseColor: "pink", swatch: "#e8b5c4" }
+      "baby-pink": { label: "Ballet Pink", fullName: "Baby Hairstyling Set in Ballet Pink", image: "assets/shop-set-baby-pink.png", alt: "Ballet pink Baby Hairstyling Set", baseColor: "pink", swatch: "#e8b5c4" }
     }
   }
 };

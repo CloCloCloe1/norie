@@ -35,11 +35,11 @@ test("Shop renders one unified twelve-card catalog in the approved order", () =>
   assert.deepEqual(names, [
     "ESSENTIALS HAIRSTYLING SET",
     "BABY HAIRSTYLING SET",
-    "BAMBOO PADDLE BRUSH IN BABY PINK",
+    "BAMBOO PADDLE BRUSH IN BALLET PINK",
     "BAMBOO PADDLE BRUSH IN PEARL WHITE",
-    "FLAT BRUSH IN BABY PINK",
+    "FLAT BRUSH IN BALLET PINK",
     "FLAT BRUSH IN PEARL WHITE",
-    "NORIE CLIP IN BABY PINK",
+    "NORIE CLIP IN BALLET PINK",
     "NORIE CLIP IN PINK BOW",
     "NORIE CLIP IN PINK CHERRY",
     "NORIE CLIP IN FLORIE PEARL",
@@ -49,6 +49,15 @@ test("Shop renders one unified twelve-card catalog in the approved order", () =>
   assert.equal((section.match(/<article class="product-card">/g) ?? []).length, 12);
   assert.equal((section.match(/class="product-action"[^>]+>VIEW DETAILS<\/a>/g) ?? []).length, 12);
   assert.doesNotMatch(html, /single-products-title|set-products-title/);
+});
+
+test("customer-facing pages display Ballet Pink while legacy variant URLs remain stable", () => {
+  const pages = ["index.html", "shop.html", "customize.html", "claw-clip.html"];
+  const customerCopy = pages.map((page) => readFileSync(page, "utf8")).join("\n");
+
+  assert.doesNotMatch(customerCopy, /Baby Pink/i);
+  assert.match(customerCopy, /Ballet Pink/i);
+  assert.match(customerCopy, /variant=baby-pink/);
 });
 
 test("Shop images, names, and actions link to the approved product details", () => {
