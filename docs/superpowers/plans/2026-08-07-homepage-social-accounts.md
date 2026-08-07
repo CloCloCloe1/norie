@@ -16,7 +16,7 @@
 - Modify: `tests/site-integration.test.js`
 - Test: `tests/site-integration.test.js`
 
-- [ ] **Step 1: Replace the sample-account assertions with the four approved pairs**
+- [x] **Step 1: Replace the sample-account assertions with the four approved pairs**
 
 ```js
 assert.match(html, /<dt>\s*IG\s*<\/dt>\s*<dd>\s*norie_hair\s*<\/dd>/i);
@@ -26,7 +26,7 @@ assert.match(html, /<dt>\s*WeChat\s*<\/dt>\s*<dd>\s*NorieToronto\s*<\/dd>/i);
 assert.doesNotMatch(html, /sampleigacc|sampleacc/i);
 ```
 
-- [ ] **Step 2: Run the focused test and verify RED**
+- [x] **Step 2: Run the focused test and verify RED**
 
 Run: `node --test tests/site-integration.test.js`
 
@@ -38,7 +38,7 @@ Expected: the test fails because the static Homepage still contains the two samp
 - Modify: `index.html`
 - Test: `tests/site-integration.test.js`
 
-- [ ] **Step 1: Update the two existing values and add the two approved rows**
+- [x] **Step 1: Update the two existing values and add the two approved rows**
 
 Replace `sampleigacc` with `norie_hair`, replace `sampleacc` with `Norie`, then add:
 
@@ -55,13 +55,13 @@ Replace `sampleigacc` with `norie_hair`, replace `sampleacc` with `Norie`, then 
 
 Keep the card text-only and retain the existing `aria-label`.
 
-- [ ] **Step 2: Run the focused test and verify GREEN**
+- [x] **Step 2: Run the focused test and verify GREEN**
 
 Run: `node --test tests/site-integration.test.js`
 
 Expected: all tests in the file pass.
 
-- [ ] **Step 3: Commit the implementation**
+- [x] **Step 3: Commit the implementation**
 
 ```powershell
 git add -- index.html tests/site-integration.test.js
@@ -73,7 +73,7 @@ git commit -m "feat: update homepage social accounts"
 **Files:**
 - Verify: all tracked project files
 
-- [ ] **Step 1: Run complete verification**
+- [x] **Step 1: Run complete verification**
 
 Run: `npm.cmd test; git diff --check; git status --short`
 
