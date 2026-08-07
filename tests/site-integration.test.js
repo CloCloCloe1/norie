@@ -142,14 +142,15 @@ test("Shop keeps the collection heading concise and its guidance on one desktop 
   assert.match(html, /@media \(max-width: 900px\)\s*\{[\s\S]*\.shop-guidance\s*\{[\s\S]*white-space:\s*normal;/i);
 });
 
-test("Customize presents Cherry stones with the approved deeper pink lettering reference", async () => {
+test("Customize keeps Pink and White stones and adds Cherry stones with the approved deeper pink reference", async () => {
   const html = await read("customize.html");
 
   await access("assets/lettering-cherry-stones.png");
-  assert.match(html, /value="pink" checked>[\s\S]*Cherry stones\s*<small>Deep pink sparkle<\/small>/i);
+  assert.match(html, /value="pink" checked>[\s\S]*Pink stones\s*<small>Soft pink sparkle<\/small>/i);
+  assert.match(html, /value="white">[\s\S]*White stones\s*<small>Clear pearl shine<\/small>/i);
+  assert.match(html, /value="cherry">[\s\S]*Cherry stones\s*<small>Deep pink sparkle<\/small>/i);
   assert.match(html, /assets\/lettering-cherry-stones\.png/i);
   assert.match(html, /Cherry rhinestone lettering reference/i);
-  assert.doesNotMatch(html, /Pink stones\s*<small>Soft pink sparkle<\/small>/i);
 });
 
 test("every public page footer includes Norie's four text-only contact channels", async () => {

@@ -81,6 +81,12 @@ test("delivery requires every shipping field except unit", () => {
   );
 });
 
+test("Cherry stones are accepted as a third rhinestone color", () => {
+  const order = buildOrder(payload({ rhinestoneColor: "Cherry stones" }));
+
+  assert.equal(order.rhinestoneColor, "Cherry stones");
+});
+
 test("order IDs must be browser-generated UUIDs", () => {
   assert.throws(
     () => buildOrder(payload({ requestId: "not-an-order-id" })),

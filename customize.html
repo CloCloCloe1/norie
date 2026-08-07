@@ -1089,11 +1089,15 @@
                   <div class="option-grid">
                     <label class="option">
                       <input type="radio" name="stoneColor" value="pink" checked>
-                      <span>Cherry stones <small>Deep pink sparkle</small></span>
+                      <span>Pink stones <small>Soft pink sparkle</small></span>
                     </label>
                     <label class="option">
                       <input type="radio" name="stoneColor" value="white">
                       <span>White stones <small>Clear pearl shine</small></span>
+                    </label>
+                    <label class="option">
+                      <input type="radio" name="stoneColor" value="cherry">
+                      <span>Cherry stones <small>Deep pink sparkle</small></span>
                     </label>
                   </div>
                 </fieldset>
@@ -1102,8 +1106,8 @@
               <section class="lettering-preview-card" aria-labelledby="lettering-preview-title">
                 <div>
                   <h2 class="section-title" id="lettering-preview-title">Rhinestone lettering reference</h2>
-                  <div id="letteringPreviewImage" class="lettering-art" role="img" aria-label="Cherry rhinestone lettering reference">
-                    <img id="letteringPreviewStatic" src="assets/lettering-cherry-stones.png" alt="Cherry rhinestone lettering reference">
+                  <div id="letteringPreviewImage" class="lettering-art" role="img" aria-label="Pink rhinestone lettering reference">
+                    <img id="letteringPreviewStatic" src="assets/lettering-pink-stones.png" alt="Pink rhinestone lettering reference">
                   </div>
                 </div>
               </section>
@@ -1264,6 +1268,15 @@
           shadow: "rgba(112, 82, 78, 0.24)",
           background: "#f4c8d2",
           imageKey: "white"
+        },
+        cherry: {
+          main: "#b63668",
+          shine: "#ffd5e3",
+          rim: "#7d1742",
+          deep: "#67102f",
+          shadow: "rgba(100, 20, 51, 0.28)",
+          background: "#f3f1eb",
+          imageKey: "cherry"
         }
       };
 
@@ -1275,6 +1288,10 @@
         white: {
           src: "assets/lettering-white-stones.png",
           alt: "White rhinestone lettering reference"
+        },
+        cherry: {
+          src: "assets/lettering-cherry-stones.png",
+          alt: "Cherry rhinestone lettering reference"
         }
       };
 

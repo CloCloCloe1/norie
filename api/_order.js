@@ -4,7 +4,7 @@ import { resolveSelection } from "../product-catalog.js";
 export const DELIVERY_FEE = 5;
 export const PICKUP_LOCATION = "North York / Finch";
 
-const STONE_COLORS = new Set(["Pink stones", "White stones"]);
+const STONE_COLORS = new Set(["Pink stones", "White stones", "Cherry stones"]);
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 function requestError(message) {
