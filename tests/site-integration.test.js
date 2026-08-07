@@ -31,14 +31,17 @@ test("the Homepage uses the supplied lifestyle photos in the approved lookbook p
   assert.match(html, /\.lookbook-photo\s*\{[\s\S]*object-fit:\s*cover;/i);
 });
 
-test("the home contact section shows text-only sample social accounts", async () => {
+test("the home contact section shows Norie's text-only social accounts", async () => {
   const html = await read("index.html");
 
   assert.match(html, /Follow Norie for new samples, custom-order updates, and launch news\./);
-  assert.match(html, /<dt>\s*IG\s*<\/dt>\s*<dd>\s*sampleigacc\s*<\/dd>/i);
-  assert.match(html, /<dt>\s*Rednote\s*<\/dt>\s*<dd>\s*sampleacc\s*<\/dd>/i);
+  assert.match(html, /<dt>\s*IG\s*<\/dt>\s*<dd>\s*norie_hair\s*<\/dd>/i);
+  assert.match(html, /<dt>\s*Rednote\s*<\/dt>\s*<dd>\s*Norie\s*<\/dd>/i);
+  assert.match(html, /<dt>\s*Douyin\s*<\/dt>\s*<dd>\s*Norie\s*<\/dd>/i);
+  assert.match(html, /<dt>\s*WeChat\s*<\/dt>\s*<dd>\s*NorieToronto\s*<\/dd>/i);
+  assert.doesNotMatch(html, /sampleigacc|sampleacc/i);
   assert.doesNotMatch(html, /id="subscribeForm"|>\s*Subscribe\s*<|id="email"/i);
-  assert.doesNotMatch(html, /<a[^>]*>\s*(?:sampleigacc|sampleacc)\s*<\/a>/i);
+  assert.doesNotMatch(html, /<a[^>]*>\s*(?:norie_hair|Norie|NorieToronto)\s*<\/a>/i);
   assert.match(html, /id="waitlist"/);
 });
 
