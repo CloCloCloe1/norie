@@ -132,3 +132,44 @@ test("pages use a canonical doctype and do not name generic div elements", async
     assert.doesNotMatch(html, /<div(?=[^>]*aria-label)(?![^>]*\brole=)[^>]*>/i);
   }
 });
+
+test("Shop keeps the collection heading concise and its guidance on one desktop line", async () => {
+  const html = await read("shop.html");
+
+  assert.doesNotMatch(html, /shop all Norie custom combs, acetate claw clips, and launch gift sets in pink and white\./i);
+  assert.match(html, /<p class="shop-guidance">Explore limited-edition sets and individual pieces, then customize your selection\.<\/p>/i);
+  assert.match(html, /\.shop-guidance\s*\{[\s\S]*white-space:\s*nowrap;/i);
+  assert.match(html, /@media \(max-width: 900px\)\s*\{[\s\S]*\.shop-guidance\s*\{[\s\S]*white-space:\s*normal;/i);
+});
+
+test("Customize presents Cherry stones with the approved deeper pink lettering reference", async () => {
+  const html = await read("customize.html");
+
+  await access("assets/lettering-cherry-stones.png");
+  assert.match(html, /value="pink" checked>[\s\S]*Cherry stones\s*<small>Deep pink sparkle<\/small>/i);
+  assert.match(html, /assets\/lettering-cherry-stones\.png/i);
+  assert.match(html, /Cherry rhinestone lettering reference/i);
+  assert.doesNotMatch(html, /Pink stones\s*<small>Soft pink sparkle<\/small>/i);
+});
+
+test("every public page footer includes Norie's four text-only contact channels", async () => {
+  const pages = [
+    "index.html",
+    "shop.html",
+    "customize.html",
+    "claw-clip.html",
+    "flat-brush.html",
+    "bamboo-paddle-brush.html",
+    "essentials-hairstyling-set.html",
+    "baby-hairstyling-set.html"
+  ];
+
+  for (const page of pages) {
+    const html = await read(page);
+    const footer = html.slice(html.lastIndexOf("<footer"));
+    assert.match(footer, /IG:\s*<span>norie_hair<\/span>/i, `${page} must include IG`);
+    assert.match(footer, /Rednote:\s*<span>Norie<\/span>/i, `${page} must include Rednote`);
+    assert.match(footer, /Douyin:\s*<span>Norie<\/span>/i, `${page} must include Douyin`);
+    assert.match(footer, /WeChat:\s*<span>NorieToronto<\/span>/i, `${page} must include WeChat`);
+  }
+});

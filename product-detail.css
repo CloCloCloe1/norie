@@ -74,6 +74,9 @@ legend { color:var(--soft-ink); font-weight:700; padding:0 .35rem 0 0; text-tran
 .site-footer { background:var(--berry); color:#fff; margin-top:3rem; padding:2rem clamp(1rem,4vw,2rem); }
 .footer-inner { display:flex; flex-wrap:wrap; gap:1rem; justify-content:space-between; margin:0 auto; max-width:1240px; }
 .footer-inner a { color:inherit; }
+.footer-contact { font-size:.82rem; margin:0; overflow-wrap:anywhere; }
+.footer-contact span { font-weight:700; }
+.site-footer a:focus-visible { outline-color:#fff; }
 
 @media (max-width:980px) {
   .recommendation-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }

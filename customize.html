@@ -920,6 +920,19 @@
         margin: 0;
       }
 
+      .footer-contact {
+        font-size: 0.82rem;
+        overflow-wrap: anywhere;
+      }
+
+      .footer-contact span {
+        font-weight: 700;
+      }
+
+      .site-footer a:focus-visible {
+        outline-color: var(--white);
+      }
+
       @media (max-width: 920px) {
         .nav,
         .page-intro,
@@ -1076,7 +1089,7 @@
                   <div class="option-grid">
                     <label class="option">
                       <input type="radio" name="stoneColor" value="pink" checked>
-                      <span>Pink stones <small>Soft pink sparkle</small></span>
+                      <span>Cherry stones <small>Deep pink sparkle</small></span>
                     </label>
                     <label class="option">
                       <input type="radio" name="stoneColor" value="white">
@@ -1089,8 +1102,8 @@
               <section class="lettering-preview-card" aria-labelledby="lettering-preview-title">
                 <div>
                   <h2 class="section-title" id="lettering-preview-title">Rhinestone lettering reference</h2>
-                  <div id="letteringPreviewImage" class="lettering-art" role="img" aria-label="Pink rhinestone lettering reference">
-                    <img id="letteringPreviewStatic" src="assets/lettering-pink-stones.png" alt="Pink rhinestone lettering reference">
+                  <div id="letteringPreviewImage" class="lettering-art" role="img" aria-label="Cherry rhinestone lettering reference">
+                    <img id="letteringPreviewStatic" src="assets/lettering-cherry-stones.png" alt="Cherry rhinestone lettering reference">
                   </div>
                 </div>
               </section>
@@ -1224,6 +1237,7 @@
       <div class="footer-inner">
         <p>&copy; 2026 Norie</p>
         <a href="index.html">Back to home</a>
+        <p class="footer-contact">IG: <span>norie_hair</span> · Rednote: <span>Norie</span> · Douyin: <span>Norie</span> · WeChat: <span>NorieToronto</span></p>
       </div>
     </footer>
 
@@ -1255,8 +1269,8 @@
 
       const letteringReferenceImages = {
         pink: {
-          src: "assets/lettering-pink-stones.png",
-          alt: "Pink rhinestone lettering reference"
+          src: "assets/lettering-cherry-stones.png",
+          alt: "Cherry rhinestone lettering reference"
         },
         white: {
           src: "assets/lettering-white-stones.png",

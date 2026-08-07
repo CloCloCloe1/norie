@@ -217,6 +217,11 @@
         max-width: 29rem;
       }
 
+      .shop-guidance {
+        max-width: none !important;
+        white-space: nowrap;
+      }
+
       .shop-grid {
         display: grid;
         gap: 1rem;
@@ -453,6 +458,20 @@
         display: block;
       }
 
+      .footer-contact {
+        font-size: 0.82rem;
+        margin: 0;
+        overflow-wrap: anywhere;
+      }
+
+      .footer-contact span {
+        font-weight: 700;
+      }
+
+      .site-footer a:focus-visible {
+        outline-color: var(--white);
+      }
+
       @media (prefers-reduced-motion: reduce) {
         .product-action {
           transition: none;
@@ -479,6 +498,10 @@
 
         .shop-grid {
           grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .shop-guidance {
+          white-space: normal;
         }
       }
 
@@ -520,14 +543,13 @@
       <section class="shop-hero" aria-labelledby="shop-title">
         <div class="shop-hero-inner">
           <h1 id="shop-title">Shop All</h1>
-          <p>shop all Norie custom combs, acetate claw clips, and launch gift sets in pink and white.</p>
         </div>
       </section>
 
       <section class="section" aria-labelledby="shop-products-title">
         <div class="section-heading">
           <h2 id="shop-products-title">Shop All</h2>
-          <p>Explore limited-edition sets and individual pieces, then customize your selection.</p>
+          <p class="shop-guidance">Explore limited-edition sets and individual pieces, then customize your selection.</p>
         </div>
         <div class="shop-grid">
           <article class="product-card">
@@ -725,6 +747,7 @@
           <li><a href="customize.html">Customize</a></li>
           <li><a href="mailto:hello@norie.ca?subject=Norie%20custom%20order">Contact</a></li>
         </ul>
+        <p class="footer-contact">IG: <span>norie_hair</span> · Rednote: <span>Norie</span> · Douyin: <span>Norie</span> · WeChat: <span>NorieToronto</span></p>
       </div>
     </footer>
     <script type="module" src="norie-carousel.js"></script>
