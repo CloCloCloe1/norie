@@ -16,7 +16,7 @@
 - Modify: `tests/site-integration.test.js`
 - Test: `tests/site-integration.test.js`
 
-- [ ] **Step 1: Replace the lookbook test with exact new asset expectations**
+- [x] **Step 1: Replace the lookbook test with exact new asset expectations**
 
 Change the lookbook test so it checks these three new deployable assets and this exact order:
 
@@ -41,7 +41,7 @@ test("the Homepage uses the supplied lifestyle photos in the approved lookbook p
 });
 ```
 
-- [ ] **Step 2: Replace the Coming Soon presence test with an absence test**
+- [x] **Step 2: Replace the Coming Soon presence test with an absence test**
 
 ```js
 test("the Homepage omits the Coming Soon section and its dedicated styles", async () => {
@@ -52,7 +52,7 @@ test("the Homepage omits the Coming Soon section and its dedicated styles", asyn
 });
 ```
 
-- [ ] **Step 3: Run the focused test and verify RED**
+- [x] **Step 3: Run the focused test and verify RED**
 
 Run: `node --test tests/site-integration.test.js`
 
@@ -67,7 +67,7 @@ Expected: FAIL because the three new asset files and Homepage references do not 
 - Modify: `index.html`
 - Test: `tests/site-integration.test.js`
 
-- [ ] **Step 1: Copy the supplied source images into deployable assets**
+- [x] **Step 1: Copy the supplied source images into deployable assets**
 
 Run from `C:\Users\limin\Documents\Norie-pr`:
 
@@ -77,7 +77,7 @@ Copy-Item -LiteralPath 'C:\Users\limin\Desktop\Norie\图片_20260727103003_1_1.j
 Copy-Item -LiteralPath 'C:\Users\limin\Desktop\Norie\Codex 图像 2026年8月4日 16_48_23.png' -Destination 'assets\white-lookbook-norie-clip.png'
 ```
 
-- [ ] **Step 2: Replace the exact lookbook image elements**
+- [x] **Step 2: Replace the exact lookbook image elements**
 
 Use these three elements in `index.html`, preserving the current third images:
 
@@ -87,17 +87,17 @@ Use these three elements in `index.html`, preserving the current third images:
 <img class="lookbook-photo" src="assets/white-lookbook-norie-clip.png" alt="Pearl white Norie claw clip with pink crystal lettering styled on embroidered fabric">
 ```
 
-- [ ] **Step 3: Remove Coming Soon markup and dedicated CSS**
+- [x] **Step 3: Remove Coming Soon markup and dedicated CSS**
 
 Delete the complete `<section class="section coming-soon" ...>` block. Delete the `.coming-grid`, `.coming-photo`, and `.coming-photo img` rules, plus `.coming-grid` entries in both responsive selector groups. Do not remove the supplied image files already in `assets/`.
 
-- [ ] **Step 4: Run the focused test and verify GREEN**
+- [x] **Step 4: Run the focused test and verify GREEN**
 
 Run: `node --test tests/site-integration.test.js`
 
 Expected: all tests in the file pass.
 
-- [ ] **Step 5: Commit the implementation**
+- [x] **Step 5: Commit the implementation**
 
 ```powershell
 git add -- index.html tests/site-integration.test.js assets/pink-lookbook-hair-clip.jpg assets/pink-lookbook-bag-detail.jpg assets/white-lookbook-norie-clip.png
@@ -109,7 +109,7 @@ git commit -m "feat: refresh homepage lookbook"
 **Files:**
 - Verify: all tracked project files
 
-- [ ] **Step 1: Run complete local verification**
+- [x] **Step 1: Run complete local verification**
 
 Run:
 
@@ -121,13 +121,13 @@ git status --short
 
 Expected: all tests pass, `git diff --check` prints nothing, and the worktree is clean after committing.
 
-- [ ] **Step 2: Push the existing feature branch**
+- [x] **Step 2: Push the existing feature branch**
 
 Run: `git push origin codex/shop-unified-grid-pr`
 
 Expected: remote branch advances to the Homepage implementation commit.
 
-- [ ] **Step 3: Deploy to Vercel production**
+- [x] **Step 3: Deploy to Vercel production**
 
 Run:
 
@@ -137,6 +137,6 @@ Run:
 
 Expected: deployment reaches `READY` and aliases to `https://norie-hair.vercel.app`.
 
-- [ ] **Step 4: Verify the live Homepage**
+- [x] **Step 4: Verify the live Homepage**
 
 Fetch the production Homepage with a cache-busting query and assert that all three new asset filenames are present, `Coming Soon` and `coming-grid` are absent, and each asset URL returns HTTP 200.
