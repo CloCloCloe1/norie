@@ -149,6 +149,7 @@ test("Customize keeps Pink and White stones and adds Cherry stones with the appr
   assert.match(html, /value="pink" checked>[\s\S]*Pink stones\s*<small>Soft pink sparkle<\/small>/i);
   assert.match(html, /value="white">[\s\S]*White stones\s*<small>Clear pearl shine<\/small>/i);
   assert.match(html, /value="cherry">[\s\S]*Cherry stones\s*<small>Deep pink sparkle<\/small>/i);
+  assert.match(html, /pink:\s*\{\s*src:\s*"assets\/lettering-pink-stones\.png",\s*alt:\s*"Pink rhinestone lettering reference"/i);
   assert.match(html, /assets\/lettering-cherry-stones\.png/i);
   assert.match(html, /Cherry rhinestone lettering reference/i);
 });
