@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -298,10 +298,6 @@
         overflow: hidden;
       }
 
-      .set-grid .product-image {
-        aspect-ratio: 1 / 1;
-      }
-
       .product-image img,
       .category-image img {
         height: 100%;
@@ -309,25 +305,80 @@
         width: 100%;
       }
 
-      .coming-grid {
-        display: grid;
-        gap: 1rem;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+      .set-carousel {
+        aspect-ratio: 3 / 4;
+        background: #f8f1ef;
+        overflow: hidden;
+        position: relative;
       }
 
-      .coming-placeholder {
-        align-items: center;
-        aspect-ratio: 4 / 5;
-        background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(247, 203, 211, 0.34));
-        border: 1px solid rgba(191, 111, 135, 0.72);
-        color: rgba(113, 37, 67, 0.58);
+      .set-carousel-track {
         display: flex;
-        font-family: "Inter", Arial, sans-serif;
-        font-size: 0.78rem;
-        font-weight: 800;
+        height: 100%;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+      }
+
+      .set-carousel-track::-webkit-scrollbar {
+        display: none;
+      }
+
+      .set-carousel-slide {
+        flex: 0 0 100%;
+        height: 100%;
+        object-fit: cover;
+        scroll-snap-align: start;
+        width: 100%;
+      }
+
+      .set-carousel-button {
+        align-items: center;
+        background: rgba(255, 255, 255, 0.92);
+        border: 1px solid var(--berry);
+        border-radius: 999px;
+        color: var(--berry);
+        cursor: pointer;
+        display: inline-flex;
+        font-size: 1.25rem;
+        height: 2.75rem;
         justify-content: center;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 2.75rem;
+      }
+
+      .set-carousel-button[data-carousel-previous] {
+        left: 0.75rem;
+      }
+
+      .set-carousel-button[data-carousel-next] {
+        right: 0.75rem;
+      }
+
+      .set-carousel-button[hidden],
+      .set-carousel-status[hidden] {
+        display: none;
+      }
+
+      .set-carousel-button:focus-visible {
+        box-shadow: 0 0 0 6px #fff;
+        outline: 3px solid var(--berry);
+        outline-offset: 3px;
+      }
+
+      .set-carousel-status {
+        border: 0;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
       }
 
       .card-copy {
@@ -505,49 +556,48 @@
         grid-template-columns: 1fr 1fr;
       }
 
-      .signup-form {
+      .social-card {
         background: var(--white);
         border: 1px solid rgba(191, 111, 135, 0.72);
         padding: clamp(1rem, 3vw, 1.6rem);
       }
 
-      label {
+      .social-list {
+        display: grid;
+        gap: 0;
+        margin: 0;
+      }
+
+      .social-list div {
+        align-items: baseline;
+        border-bottom: 1px solid rgba(191, 111, 135, 0.28);
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: minmax(5rem, 0.35fr) 1fr;
+        padding: 1rem 0;
+      }
+
+      .social-list div:first-child {
+        padding-top: 0;
+      }
+
+      .social-list div:last-child {
+        border-bottom: 0;
+        padding-bottom: 0;
+      }
+
+      .social-list dt {
         color: var(--berry);
-        display: block;
         font-size: 0.82rem;
         font-weight: 800;
         letter-spacing: 0.07em;
-        margin-bottom: 0.45rem;
         text-transform: uppercase;
       }
 
-      input {
-        background: var(--cream);
-        border: 1.5px solid #9d5369;
+      .social-list dd {
         color: var(--ink);
-        min-height: 48px;
-        padding: 0.85rem 1rem;
-        width: 100%;
-      }
-
-      .hint {
-        color: var(--soft-ink);
-        font-size: 0.9rem;
-        margin: 0.45rem 0 1rem;
-      }
-
-      .signup-form button {
-        background: var(--berry);
-        border: 1px solid var(--berry);
-        border-radius: 999px;
-        color: var(--white);
-        cursor: pointer;
-        font-size: 0.78rem;
-        font-weight: 800;
-        letter-spacing: 0.08em;
-        min-height: 44px;
-        padding: 0.9rem 1.35rem;
-        text-transform: uppercase;
+        margin: 0;
+        overflow-wrap: anywhere;
       }
 
       .site-footer {
@@ -581,6 +631,20 @@
         display: block;
       }
 
+      .footer-contact {
+        font-size: 0.82rem;
+        margin: 0;
+        overflow-wrap: anywhere;
+      }
+
+      .footer-contact span {
+        font-weight: 700;
+      }
+
+      .site-footer a:focus-visible {
+        outline-color: var(--white);
+      }
+
       @media (max-width: 900px) {
         .nav {
           grid-template-columns: 1fr;
@@ -611,8 +675,7 @@
         }
 
         .product-grid,
-        .category-grid,
-        .coming-grid {
+        .category-grid {
           grid-template-columns: repeat(2, minmax(0, 1fr));
         }
 
@@ -629,8 +692,7 @@
 
         .product-grid,
         .category-grid,
-        .custom-grid,
-        .coming-grid {
+        .custom-grid {
           grid-template-columns: 1fr;
         }
 
@@ -648,8 +710,7 @@
           flex-direction: column;
         }
 
-        .button,
-        .signup-form button {
+        .button {
           width: 100%;
         }
       }
@@ -694,10 +755,10 @@
       </section>
 
       <section class="collection-feature pink-edit" aria-labelledby="pink-edit-title">
-        <div class="lookbook-strip" aria-label="Pink product lifestyle photos">
-          <img class="lookbook-photo" src="assets/pink-lookbook-bag.png" alt="Pink Norie claw clip and hair mist styled on a blush handbag">
-          <img class="lookbook-photo" src="assets/pink-lookbook-car.png" alt="Pink hair mist and soft pink styling details held in a car selfie">
-          <img class="lookbook-photo" src="assets/pink-lookbook-sandals.png" alt="Pink hair mist and claw clip styled with bright pink sandals">
+        <div class="lookbook-strip">
+          <img class="lookbook-photo" src="assets/pink-lookbook-hair-clip.jpg" alt="Ballet pink claw clip styled in long dark hair with a pink handbag">
+          <img class="lookbook-photo" src="assets/pink-lookbook-bag-detail.jpg" alt="Pink handbag styled with a satin scrunchie and white flower accessory">
+          <img class="lookbook-photo" src="assets/pink-lookbook-accessories.png" alt="A curated collection of pink combs, claw clips, scrunchies, and hair accessories">
         </div>
         <div class="collection-copy">
           <div class="collection-copy-inner">
@@ -709,10 +770,10 @@
       </section>
 
       <section class="collection-feature white-edit" aria-labelledby="white-edit-title">
-        <div class="lookbook-strip" aria-label="White product lifestyle photos">
+        <div class="lookbook-strip">
           <img class="lookbook-photo" src="assets/white-lookbook-spray.png" alt="White claw clip styled in hair with a matching beauty spray">
-          <img class="lookbook-photo" src="assets/white-lookbook-cafe.png" alt="White and yellow claw clips styled on a cafe table with summer beauty products">
-          <img class="lookbook-photo" src="assets/white-lookbook-pool.png" alt="Pink and white poolside styling with a woven tote and hair accessories">
+          <img class="lookbook-photo" src="assets/white-lookbook-norie-clip.png" alt="Pearl white Norie claw clip with pink crystal lettering styled on embroidered fabric">
+          <img class="lookbook-photo" src="assets/white-lookbook-accessories.png" alt="A curated collection of pearl white combs, claw clips, scrunchies, and hair accessories">
         </div>
         <div class="collection-copy">
           <div class="collection-copy-inner">
@@ -726,28 +787,38 @@
       <section class="section" id="shop" aria-labelledby="shop-title">
         <div class="section-heading">
           <h2 id="shop-title">Comb and Clip Set</h2>
-          <p>First sample direction for the white and pink collection: glossy combs, soft acetate clips, and custom crystal lettering.</p>
+          <p>First month limited edition.</p>
         </div>
         <div class="product-grid set-grid">
           <article class="product-card">
-            <div class="product-image">
-              <img src="assets/set-large-comb-claw.jpg" alt="White large comb and cream claw clip set with pink rhinestone lettering reference">
+            <div class="set-carousel" data-carousel role="region" aria-labelledby="home-set-1-title">
+              <div class="set-carousel-track" data-carousel-track>
+                <img class="set-carousel-slide" data-carousel-slide src="assets/set-bamboo-white.png" alt="White limited-edition bamboo paddle brush and cream claw clip set" loading="lazy" decoding="async" width="1414" height="2000">
+                <img class="set-carousel-slide" data-carousel-slide src="assets/set-bamboo-pink.png" alt="Pink limited-edition bamboo paddle brush and pink claw clip set" loading="lazy" decoding="async" width="1414" height="2000">
+              </div>
+              <button class="set-carousel-button" type="button" data-carousel-previous aria-label="Previous Essentials Hairstyling Set image" hidden><span aria-hidden="true">&#8592;</span></button>
+              <button class="set-carousel-button" type="button" data-carousel-next aria-label="Next Essentials Hairstyling Set image" hidden><span aria-hidden="true">&#8594;</span></button>
+              <span class="set-carousel-status" data-carousel-status hidden>1 / 2</span>
             </div>
             <div class="card-copy">
               <span class="badge">Set 1</span>
-              <h3>Large Comb + Claw Clip</h3>
-              <p>A full-size comb paired with a glossy claw clip for a complete custom gift box.</p>
+              <h3 id="home-set-1-title">ESSENTIALS HAIRSTYLING SET</h3>
               <p class="price">CAD $38 <span class="original-price">CAD $48</span></p>
             </div>
           </article>
           <article class="product-card">
-            <div class="product-image">
-              <img src="assets/set-small-comb-claw.jpg" alt="Pink small comb and pink bow claw clip set with white rhinestone lettering reference">
+            <div class="set-carousel" data-carousel role="region" aria-labelledby="home-set-2-title">
+              <div class="set-carousel-track" data-carousel-track>
+                <img class="set-carousel-slide" data-carousel-slide src="assets/set-flat-white.png" alt="White limited-edition flat brush and floral cream claw clip set" loading="lazy" decoding="async" width="1414" height="2000">
+                <img class="set-carousel-slide" data-carousel-slide src="assets/set-flat-pink.png" alt="Pink limited-edition flat brush and pink claw clip set" loading="lazy" decoding="async" width="1414" height="2000">
+              </div>
+              <button class="set-carousel-button" type="button" data-carousel-previous aria-label="Previous Baby Hairstyling Set image" hidden><span aria-hidden="true">&#8592;</span></button>
+              <button class="set-carousel-button" type="button" data-carousel-next aria-label="Next Baby Hairstyling Set image" hidden><span aria-hidden="true">&#8594;</span></button>
+              <span class="set-carousel-status" data-carousel-status hidden>1 / 2</span>
             </div>
             <div class="card-copy">
               <span class="badge">Set 2</span>
-              <h3>Small Comb + Claw Clip</h3>
-              <p>A compact comb and matching claw clip for bags, birthdays, and first custom orders.</p>
+              <h3 id="home-set-2-title">BABY HAIRSTYLING SET</h3>
               <p class="price">CAD $32 <span class="original-price">CAD $40</span></p>
             </div>
           </article>
@@ -794,7 +865,7 @@
               <img src="assets/mood-pinky-box.jpg" alt="White boxed crystal comb with ribbon and handwritten card">
             </div>
             <h3>Pinky Promise</h3>
-            <p>Baby pink clips, silver sparkles, and bestie energy.</p>
+            <p>Ballet pink clips, silver sparkles, and bestie energy.</p>
           </a>
           <a class="category-card" href="shop.html">
             <div class="category-image">
@@ -820,30 +891,32 @@
         </div>
       </section>
 
-      <section class="section coming-soon" aria-labelledby="coming-soon-title">
-        <div class="section-heading">
-          <h2 id="coming-soon-title">Coming Soon</h2>
-          <p>New sample photos for launch extras, packaging details, and limited gift add-ons.</p>
-        </div>
-        <div class="coming-grid" aria-label="Coming soon image placeholders">
-          <div class="coming-placeholder"><span>Photo 01</span></div>
-          <div class="coming-placeholder"><span>Photo 02</span></div>
-          <div class="coming-placeholder"><span>Photo 03</span></div>
-        </div>
-      </section>
-
       <section class="section newsletter" id="waitlist" aria-labelledby="waitlist-title">
         <div>
           <p class="eyebrow">Toronto-based, handmade-to-order</p>
           <h2 id="waitlist-title">keep in touch</h2>
-          <p>Use this area for your launch waitlist, early custom slots, or Instagram order form once the sample photos are ready.</p>
+          <p>Follow Norie for new samples, custom-order updates, and launch news.</p>
         </div>
-        <form class="signup-form" action="#" method="post">
-          <label for="email">Email address</label>
-          <input id="email" name="email" type="email" autocomplete="email" aria-describedby="email-hint" required>
-          <p class="hint" id="email-hint">Get sample photos, pricing, and first custom slot updates.</p>
-          <button type="submit">Subscribe</button>
-        </form>
+        <aside class="social-card" aria-label="Social accounts">
+          <dl class="social-list">
+            <div>
+              <dt>IG</dt>
+              <dd>norie_hair</dd>
+            </div>
+            <div>
+              <dt>Rednote</dt>
+              <dd>Norie</dd>
+            </div>
+            <div>
+              <dt>Douyin</dt>
+              <dd>Norie</dd>
+            </div>
+            <div>
+              <dt>WeChat</dt>
+              <dd>NorieToronto</dd>
+            </div>
+          </dl>
+        </aside>
       </section>
     </main>
 
@@ -857,7 +930,9 @@
           <li><a href="#waitlist">Contact</a></li>
           <li><a href="#waitlist">Instagram soon</a></li>
         </ul>
+        <p class="footer-contact">IG: <span>norie_hair</span> · Rednote: <span>Norie</span> · Douyin: <span>Norie</span> · WeChat: <span>NorieToronto</span></p>
       </div>
     </footer>
+    <script type="module" src="norie-carousel.js"></script>
   </body>
 </html>

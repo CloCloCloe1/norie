@@ -1,0 +1,20 @@
+{
+  "checks": [
+    {
+      "id": "footer-contact-text",
+      "foreground": "#ffffff",
+      "background": "#64243a",
+      "type": "text-normal",
+      "state": "default",
+      "notes": "Text-only social contacts in the Norie footer"
+    },
+    {
+      "id": "footer-contact-link-focus",
+      "foreground": "#ffffff",
+      "background": "#64243a",
+      "type": "ui",
+      "state": "focus",
+      "notes": "Existing keyboard focus outline beside the footer"
+    }
+  ]
+}

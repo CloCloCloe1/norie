@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -285,13 +285,18 @@
         gap: 0.45rem;
       }
 
-      .text-field input {
+      .text-field input,
+      .contact-field input {
         background: var(--cream);
         border: 1.5px solid #9d5369;
         color: var(--ink);
         min-height: 48px;
         padding: 0.85rem 1rem;
         width: 100%;
+      }
+
+      .text-field .text-label:not(:first-child) {
+        margin-top: 0.7rem;
       }
 
       .select-field {
@@ -363,6 +368,37 @@
       .product-options .option span {
         min-height: 64px;
       }
+
+      .selected-style {
+        background: var(--white);
+        border: 1px solid rgba(191, 111, 135, 0.72);
+        padding: clamp(1rem, 2.5vw, 1.35rem);
+      }
+
+      .selected-style h2 {
+        font-size: 1rem;
+        font-family: inherit;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        line-height: 1.4;
+        text-transform: uppercase;
+      }
+
+      .selected-style dl {
+        margin: 1rem 0;
+      }
+
+      .selected-style dl div {
+        border-top: 1px solid rgba(191, 111, 135, 0.28);
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: minmax(8rem, 0.7fr) 1fr;
+        padding: 0.55rem 0;
+      }
+
+      .selected-style dt { font-weight: 800; }
+      .selected-style dd { margin: 0; overflow-wrap: anywhere; }
+      .selected-style a { font-weight: 800; }
 
       .section-title {
         color: var(--berry);
@@ -715,6 +751,103 @@
         margin-top: clamp(1rem, 3vw, 1.4rem);
       }
 
+      .contact-section {
+        margin-top: clamp(1rem, 3vw, 1.4rem);
+      }
+
+      .contact-section h2 {
+        font-size: clamp(1.6rem, 3vw, 2.4rem);
+      }
+
+      .contact-note {
+        color: var(--soft-ink);
+        font-size: 0.9rem;
+        margin: 0;
+      }
+
+      .contact-grid {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .contact-field {
+        display: grid;
+        gap: 0.5rem;
+        min-width: 0;
+      }
+
+      .contact-field input::placeholder {
+        color: rgba(107, 77, 89, 0.72);
+        font-style: italic;
+        opacity: 1;
+      }
+
+      .fulfillment-options,
+      .delivery-address {
+        margin-top: 0.25rem;
+      }
+
+      .fulfillment-grid {
+        display: grid;
+        gap: 0.75rem;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        margin-top: 0.75rem;
+      }
+
+      .fulfillment-option {
+        position: relative;
+      }
+
+      .fulfillment-option input {
+        opacity: 0;
+        position: absolute;
+      }
+
+      .fulfillment-option span {
+        background: var(--cream);
+        border: 1.5px solid #9d5369;
+        display: block;
+        min-height: 64px;
+        padding: 0.85rem;
+      }
+
+      .fulfillment-option small {
+        color: var(--soft-ink);
+        display: block;
+        margin-top: 0.2rem;
+      }
+
+      .fulfillment-option input:checked + span {
+        background: var(--shell);
+        border-color: var(--berry);
+        box-shadow: inset 0 0 0 2px var(--berry);
+      }
+
+      .fulfillment-option input:focus-visible + span {
+        outline: 3px solid var(--focus);
+        outline-offset: 3px;
+      }
+
+      .delivery-address[hidden] {
+        display: none;
+      }
+
+      .address-grid {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        margin-top: 0.75rem;
+      }
+
+      .address-grid .street-field {
+        grid-column: 1 / -1;
+      }
+
+      .contact-section .button {
+        width: 100%;
+      }
+
       .summary-line {
         display: flex;
         gap: 1rem;
@@ -763,6 +896,11 @@
         text-transform: uppercase;
       }
 
+      .button[aria-disabled="true"] {
+        cursor: wait;
+        opacity: 0.68;
+      }
+
       .site-footer {
         background: var(--berry);
         color: var(--white);
@@ -780,6 +918,19 @@
 
       .footer-inner p {
         margin: 0;
+      }
+
+      .footer-contact {
+        font-size: 0.82rem;
+        overflow-wrap: anywhere;
+      }
+
+      .footer-contact span {
+        font-weight: 700;
+      }
+
+      .site-footer a:focus-visible {
+        outline-color: var(--white);
       }
 
       @media (max-width: 920px) {
@@ -806,6 +957,21 @@
 
         .gift-strip {
           grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 760px) {
+        .contact-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .fulfillment-grid,
+        .address-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .address-grid .street-field {
+          grid-column: auto;
         }
       }
 
@@ -883,41 +1049,25 @@
       </section>
 
       <div class="customizer">
-        <form id="customForm">
+        <form id="customForm" data-item-subtotal="25" novalidate>
           <section class="choice-section configuration-section" aria-label="Product and rhinestone choices">
             <div class="config-row">
               <div class="controls-stack">
-                <fieldset>
-                  <legend id="product-section-title">Product</legend>
-                  <div class="option-grid product-options">
-                    <label class="option">
-                      <input type="radio" name="product" value="small-comb" checked>
-                      <span>Small comb <small>Mini oval brush</small></span>
-                    </label>
-                    <label class="option">
-                      <input type="radio" name="product" value="large-comb">
-                      <span>Large comb <small>Square paddle comb</small></span>
-                    </label>
-                    <label class="option">
-                      <input type="radio" name="product" value="claw-clip">
-                      <span>Claw clip <small>Glossy acetate clip</small></span>
-                    </label>
-                  </div>
-                </fieldset>
-
-                <fieldset>
-                  <legend>Base color</legend>
-                  <div class="option-grid">
-                    <label class="option">
-                      <input type="radio" name="baseColor" value="pink" checked>
-                      <span>Pink <small>Soft blush acetate</small></span>
-                    </label>
-                    <label class="option">
-                      <input type="radio" name="baseColor" value="white">
-                      <span>White <small>Pearl white acetate</small></span>
-                    </label>
-                  </div>
-                </fieldset>
+                <section class="selected-style" aria-labelledby="selected-style-title">
+                  <h2 id="selected-style-title">Selected style</h2>
+                  <dl>
+                    <div><dt>Product</dt><dd id="selectedProductName">Flat Brush in Ballet Pink</dd></div>
+                    <div><dt>Color</dt><dd id="selectedVariantName">Ballet Pink</dd></div>
+                    <div><dt>Quantity</dt><dd id="selectedQuantity">1</dd></div>
+                    <div><dt>Unit price</dt><dd id="selectedUnitPrice">CAD $25</dd></div>
+                    <div><dt>Estimated total</dt><dd id="selectedTotalPrice">CAD $25</dd></div>
+                  </dl>
+                  <a id="changeStyleLink" href="flat-brush.html?variant=baby-pink&amp;quantity=1">Change style or quantity</a>
+                </section>
+                <input name="product" type="hidden" value="flat-brush">
+                <input name="variant" type="hidden" value="baby-pink">
+                <input name="quantity" type="hidden" value="1">
+                <input name="requestId" type="hidden" value="">
               </div>
 
               <section class="product-stage" aria-labelledby="product-preview-title">
@@ -944,6 +1094,10 @@
                     <label class="option">
                       <input type="radio" name="stoneColor" value="white">
                       <span>White stones <small>Clear pearl shine</small></span>
+                    </label>
+                    <label class="option">
+                      <input type="radio" name="stoneColor" value="cherry">
+                      <span>Cherry stones <small>Deep pink sparkle</small></span>
                     </label>
                   </div>
                 </fieldset>
@@ -1008,15 +1162,76 @@
           <section class="summary price-section" aria-labelledby="summary-title">
             <h2 id="summary-title">Estimated price</h2>
             <div class="summary-line">
-              <span id="summaryProduct">Small comb</span>
-              <strong id="originalPrice" class="original-price">CAD $32</strong>
+              <span id="summaryProduct">Flat Brush in Ballet Pink × 1</span>
+              <strong id="originalPrice">CAD $25 each</strong>
             </div>
             <div class="summary-line">
-              <span>Launch price</span>
-              <strong id="discountPrice">CAD $25</strong>
+              <span>Item subtotal</span>
+              <strong id="itemSubtotal">CAD $25</strong>
             </div>
-            <div class="price" id="totalPrice">CAD $25</div>
-            <a class="button" href="mailto:hello@norie.ca?subject=Norie%20custom%20order&body=Hi%20Norie%2C%0A%0AI%20would%20like%20to%20place%20a%20custom%20order.%0A">Request custom order</a>
+            <div class="summary-line">
+              <span>Delivery fee</span>
+              <strong id="deliveryFee">CAD $0</strong>
+            </div>
+            <div class="price" id="totalPrice" aria-live="polite">CAD $25</div>
+          </section>
+
+          <section class="summary contact-section" aria-labelledby="contact-section-title">
+            <h2 id="contact-section-title">Contact details</h2>
+            <p class="contact-note">All fields are required.</p>
+            <div class="contact-grid">
+              <div class="contact-field">
+                <label class="text-label" for="customerName">Your name</label>
+                <input id="customerName" name="customerName" type="text" maxlength="100" autocomplete="name" placeholder="Name" required aria-required="true">
+              </div>
+              <div class="contact-field">
+                <label class="text-label" for="orderEmail">Email address</label>
+                <input id="orderEmail" name="customerEmail" type="email" maxlength="254" autocomplete="email" placeholder="you@email.com" required aria-required="true">
+              </div>
+              <div class="contact-field">
+                <label class="text-label" for="customerContact">Contact</label>
+                <input id="customerContact" name="customerContact" type="text" maxlength="100" autocomplete="off" placeholder="wechat_id" required aria-required="true">
+              </div>
+            </div>
+            <fieldset class="fulfillment-options">
+              <legend>Fulfillment</legend>
+              <div class="fulfillment-grid">
+                <label class="fulfillment-option">
+                  <input type="radio" name="fulfillment" value="delivery" required aria-required="true">
+                  <span>Delivery <small>+ CAD $5</small></span>
+                </label>
+                <label class="fulfillment-option">
+                  <input type="radio" name="fulfillment" value="pickup">
+                  <span>Pickup <small>North York / Finch (Free)</small></span>
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="delivery-address" id="deliveryAddress" hidden>
+              <legend>Delivery address</legend>
+              <div class="address-grid">
+                <div class="contact-field street-field">
+                  <label class="text-label" for="streetAddress">Street address</label>
+                  <input id="streetAddress" name="streetAddress" type="text" maxlength="160" autocomplete="street-address" disabled required aria-required="true">
+                </div>
+                <div class="contact-field">
+                  <label class="text-label" for="addressUnit">Unit / apartment <small>(optional)</small></label>
+                  <input id="addressUnit" name="addressUnit" type="text" maxlength="40" autocomplete="address-line2" disabled>
+                </div>
+                <div class="contact-field">
+                  <label class="text-label" for="addressCity">City</label>
+                  <input id="addressCity" name="city" type="text" maxlength="80" autocomplete="address-level2" disabled required aria-required="true">
+                </div>
+                <div class="contact-field">
+                  <label class="text-label" for="addressProvince">Province</label>
+                  <input id="addressProvince" name="province" type="text" maxlength="80" autocomplete="address-level1" disabled required aria-required="true">
+                </div>
+                <div class="contact-field">
+                  <label class="text-label" for="addressPostalCode">Postal code</label>
+                  <input id="addressPostalCode" name="postalCode" type="text" maxlength="20" autocomplete="postal-code" disabled required aria-required="true">
+                </div>
+              </div>
+            </fieldset>
+            <button class="button" type="submit">Request custom order</button>
           </section>
         </form>
       </div>
@@ -1026,59 +1241,14 @@
       <div class="footer-inner">
         <p>&copy; 2026 Norie</p>
         <a href="index.html">Back to home</a>
+        <p class="footer-contact">IG: <span>norie_hair</span> · Rednote: <span>Norie</span> · Douyin: <span>Norie</span> · WeChat: <span>NorieToronto</span></p>
       </div>
     </footer>
 
-    <script>
-      const productData = {
-        "small-comb": {
-          label: "Small comb",
-          originalPrice: 32,
-          salePrice: 25,
-          pink: "assets/product-small-pink-square.jpg",
-          white: "assets/product-small-white-square.jpg",
-          alt: {
-            pink: "Pink small acetate comb preview",
-            white: "White small acetate comb preview"
-          }
-        },
-        "large-comb": {
-          label: "Large comb",
-          originalPrice: 38,
-          salePrice: 30,
-          pink: "assets/product-large-pink-square.jpg",
-          white: "assets/product-large-white-square.jpg",
-          alt: {
-            pink: "Pink large paddle comb preview",
-            white: "White large paddle comb preview"
-          }
-        },
-        "claw-clip": {
-          label: "Claw clip",
-          originalPrice: 16,
-          salePrice: 12,
-          pink: "assets/product-claw-pink-square.jpg",
-          white: "assets/product-claw-white-square.jpg",
-          gallery: {
-            white: [
-              {
-                src: "assets/product-claw-white-square.jpg",
-                alt: "White acetate claw clip preview",
-                fit: "cover"
-              },
-              {
-                src: "assets/product-claw-white-measurement.png",
-                alt: "White claw clip size preview, 9 centimeters wide and 4.5 centimeters tall",
-                fit: "contain"
-              }
-            ]
-          },
-          alt: {
-            pink: "Pink acetate claw clip preview",
-            white: "White acetate claw clip preview"
-          }
-        }
-      };
+    <script type="module">
+      import { selectionFromSearch, detailUrl } from "./product-catalog.js";
+
+      const orderSelection = selectionFromSearch(window.location.search);
 
       const stoneColors = {
         pink: {
@@ -1098,17 +1268,30 @@
           shadow: "rgba(112, 82, 78, 0.24)",
           background: "#f4c8d2",
           imageKey: "white"
+        },
+        cherry: {
+          main: "#b63668",
+          shine: "#ffd5e3",
+          rim: "#7d1742",
+          deep: "#67102f",
+          shadow: "rgba(100, 20, 51, 0.28)",
+          background: "#f3f1eb",
+          imageKey: "cherry"
         }
       };
 
       const letteringReferenceImages = {
         pink: {
-          src: "assets/lettering-pink-stones.png",
-          alt: "Pink rhinestone lettering reference"
+          src: "assets/lettering-cherry-stones.png",
+          alt: "Cherry rhinestone lettering reference"
         },
         white: {
           src: "assets/lettering-white-stones.png",
           alt: "White rhinestone lettering reference"
+        },
+        cherry: {
+          src: "assets/lettering-cherry-stones.png",
+          alt: "Cherry rhinestone lettering reference"
         }
       };
 
@@ -1131,25 +1314,20 @@
       const letteringPreviewCard = document.querySelector(".lettering-preview-card");
       const galleryButtons = document.querySelectorAll(".gallery-arrow");
       const galleryStatus = document.querySelector("#galleryStatus");
+      const selectedProductName = document.querySelector("#selectedProductName");
+      const selectedVariantName = document.querySelector("#selectedVariantName");
+      const selectedQuantity = document.querySelector("#selectedQuantity");
+      const selectedUnitPrice = document.querySelector("#selectedUnitPrice");
+      const selectedTotalPrice = document.querySelector("#selectedTotalPrice");
+      const changeStyleLink = document.querySelector("#changeStyleLink");
       const summaryProduct = document.querySelector("#summaryProduct");
       const originalPrice = document.querySelector("#originalPrice");
-      const discountPrice = document.querySelector("#discountPrice");
+      const itemSubtotal = document.querySelector("#itemSubtotal");
       const totalPrice = document.querySelector("#totalPrice");
       const photoNote = document.querySelector("#photoNote");
       const customText = document.querySelector("#customText");
       const scriptPreviewText = document.querySelector("#scriptPreviewText");
       const stage = document.querySelector(".product-stage");
-      let productSlideIndex = 0;
-      let activeGalleryKey = "";
-
-      function productImages(data, baseColor) {
-        if (data.gallery && data.gallery[baseColor]) return data.gallery[baseColor];
-        return [{
-          src: data[baseColor],
-          alt: data.alt[baseColor],
-          fit: "cover"
-        }];
-      }
 
       function selected(name) {
         const checked = form.querySelector(`input[name="${name}"]:checked`);
@@ -1349,25 +1527,14 @@
       }
 
       function updatePreview() {
-        const product = selected("product");
-        const baseColor = selected("baseColor");
         const stoneColor = selected("stoneColor");
-        const data = productData[product];
-        const images = productImages(data, baseColor);
-        const galleryKey = `${product}-${baseColor}`;
-        if (galleryKey !== activeGalleryKey) {
-          activeGalleryKey = galleryKey;
-          productSlideIndex = 0;
-        }
-        productSlideIndex = Math.min(productSlideIndex, images.length - 1);
-        const activeImage = images[productSlideIndex];
         const letteringReference = letteringReferenceImages[stoneColor];
 
-        productImage.src = activeImage.src;
-        productImage.alt = activeImage.alt;
-        stage.dataset.gallery = images.length > 1 ? "multiple" : "single";
-        stage.dataset.fit = activeImage.fit;
-        galleryStatus.textContent = `${productSlideIndex + 1} / ${images.length}`;
+        productImage.src = orderSelection.image;
+        productImage.alt = orderSelection.alt;
+        stage.dataset.gallery = "single";
+        stage.dataset.fit = "contain";
+        galleryStatus.textContent = "1 / 1";
         letteringPreviewImage.setAttribute("aria-label", letteringReference.alt);
         letteringPreviewStatic.src = letteringReference.src;
         letteringPreviewStatic.alt = letteringReference.alt;
@@ -1375,29 +1542,33 @@
         letteringPreviewCard.style.setProperty("--lettering-stone", stoneColors[stoneColor].main);
         letteringPreviewCard.style.setProperty("--lettering-shine", stoneColors[stoneColor].shine);
         letteringPreviewCard.style.setProperty("--lettering-shadow", stoneColors[stoneColor].shadow);
-        stage.dataset.product = product;
-        stage.dataset.base = baseColor;
+        stage.dataset.product = orderSelection.productKey;
+        stage.dataset.base = orderSelection.baseColor;
         stage.style.setProperty("--stone", stoneColors[stoneColor].main);
         stage.style.setProperty("--stone-shine", stoneColors[stoneColor].shine);
 
         photoNote.style.display = "none";
-        summaryProduct.textContent = data.label;
-        originalPrice.textContent = `CAD $${data.originalPrice}`;
-        discountPrice.textContent = `CAD $${data.salePrice}`;
-        totalPrice.textContent = `CAD $${data.salePrice}`;
+        selectedProductName.textContent = orderSelection.fullName;
+        selectedVariantName.textContent = orderSelection.label;
+        selectedQuantity.textContent = String(orderSelection.quantity);
+        selectedUnitPrice.textContent = `CAD $${orderSelection.unitPrice}`;
+        selectedTotalPrice.textContent = `CAD $${orderSelection.totalPrice}`;
+        changeStyleLink.href = detailUrl(orderSelection.productKey, orderSelection.variantKey, orderSelection.quantity);
+        form.elements.product.value = orderSelection.productKey;
+        form.elements.variant.value = orderSelection.variantKey;
+        form.elements.quantity.value = String(orderSelection.quantity);
+        summaryProduct.textContent = `${orderSelection.fullName} × ${orderSelection.quantity}`;
+        originalPrice.textContent = `CAD $${orderSelection.unitPrice} each`;
+        itemSubtotal.textContent = `CAD $${orderSelection.totalPrice}`;
+        form.dataset.itemSubtotal = String(orderSelection.totalPrice);
+        form.dispatchEvent(new Event("norie:pricechange"));
       }
 
       form.addEventListener("change", updatePreview);
       customText.addEventListener("input", updateScriptTextPreview);
       galleryButtons.forEach((button) => {
         button.addEventListener("click", () => {
-          const product = selected("product");
-          const baseColor = selected("baseColor");
-          const images = productImages(productData[product], baseColor);
-          if (images.length <= 1) return;
-          const direction = button.dataset.direction === "next" ? 1 : -1;
-          productSlideIndex = (productSlideIndex + direction + images.length) % images.length;
-          updatePreview();
+          return;
         });
       });
       updatePreview();
@@ -1411,5 +1582,6 @@
         document.fonts.ready.then(updatePreview);
       }
     </script>
+    <script src="norie-forms.js" defer></script>
   </body>
 </html>

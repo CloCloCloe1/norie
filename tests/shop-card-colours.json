@@ -1,0 +1,46 @@
+{
+  "checks": [
+    {
+      "id": "product-name-on-white",
+      "foreground": "#64243a",
+      "background": "#ffffff",
+      "type": "text-normal"
+    },
+    {
+      "id": "original-price-on-white",
+      "foreground": "#6b4d59",
+      "background": "#ffffff",
+      "type": "text-normal"
+    },
+    {
+      "id": "action-text-on-white",
+      "foreground": "#6b4d59",
+      "background": "#ffffff",
+      "type": "text-normal"
+    },
+    {
+      "id": "action-text-on-hover",
+      "foreground": "#6b4d59",
+      "background": "#f1f1f1",
+      "type": "text-normal"
+    },
+    {
+      "id": "action-border-on-white",
+      "foreground": "#6b4d59",
+      "background": "#ffffff",
+      "type": "ui"
+    },
+    {
+      "id": "focus-ring-on-white",
+      "foreground": "#64243a",
+      "background": "#ffffff",
+      "type": "ui"
+    },
+    {
+      "id": "carousel-arrow-on-white",
+      "foreground": "#64243a",
+      "background": "#ffffff",
+      "type": "graphic"
+    }
+  ]
+}
