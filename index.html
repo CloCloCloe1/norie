@@ -381,26 +381,6 @@
         width: 1px;
       }
 
-      .coming-grid {
-        display: grid;
-        gap: 1rem;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-
-      .coming-photo {
-        aspect-ratio: 3 / 4;
-        border: 1px solid rgba(191, 111, 135, 0.72);
-        margin: 0;
-        overflow: hidden;
-      }
-
-      .coming-photo img {
-        display: block;
-        height: 100%;
-        object-fit: cover;
-        width: 100%;
-      }
-
       .card-copy {
         padding: 1rem;
       }
@@ -681,8 +661,7 @@
         }
 
         .product-grid,
-        .category-grid,
-        .coming-grid {
+        .category-grid {
           grid-template-columns: repeat(2, minmax(0, 1fr));
         }
 
@@ -699,8 +678,7 @@
 
         .product-grid,
         .category-grid,
-        .custom-grid,
-        .coming-grid {
+        .custom-grid {
           grid-template-columns: 1fr;
         }
 
@@ -764,8 +742,8 @@
 
       <section class="collection-feature pink-edit" aria-labelledby="pink-edit-title">
         <div class="lookbook-strip">
-          <img class="lookbook-photo" src="assets/pink-lookbook-bag.png" alt="Pink Norie claw clip and hair mist styled on a blush handbag">
-          <img class="lookbook-photo" src="assets/pink-lookbook-car.png" alt="Pink hair mist and soft pink styling details held in a car selfie">
+          <img class="lookbook-photo" src="assets/pink-lookbook-hair-clip.jpg" alt="Ballet pink claw clip styled in long dark hair with a pink handbag">
+          <img class="lookbook-photo" src="assets/pink-lookbook-bag-detail.jpg" alt="Pink handbag styled with a satin scrunchie and white flower accessory">
           <img class="lookbook-photo" src="assets/pink-lookbook-accessories.png" alt="A curated collection of pink combs, claw clips, scrunchies, and hair accessories">
         </div>
         <div class="collection-copy">
@@ -780,7 +758,7 @@
       <section class="collection-feature white-edit" aria-labelledby="white-edit-title">
         <div class="lookbook-strip">
           <img class="lookbook-photo" src="assets/white-lookbook-spray.png" alt="White claw clip styled in hair with a matching beauty spray">
-          <img class="lookbook-photo" src="assets/white-lookbook-cafe.png" alt="White and yellow claw clips styled on a cafe table with summer beauty products">
+          <img class="lookbook-photo" src="assets/white-lookbook-norie-clip.png" alt="Pearl white Norie claw clip with pink crystal lettering styled on embroidered fabric">
           <img class="lookbook-photo" src="assets/white-lookbook-accessories.png" alt="A curated collection of pearl white combs, claw clips, scrunchies, and hair accessories">
         </div>
         <div class="collection-copy">
@@ -896,24 +874,6 @@
             <h3>Bluebell Baby</h3>
             <p>Sky blue ribbons, gingham textures, and clean white boxes.</p>
           </a>
-        </div>
-      </section>
-
-      <section class="section coming-soon" aria-labelledby="coming-soon-title">
-        <div class="section-heading">
-          <h2 id="coming-soon-title">Coming Soon</h2>
-          <p>New sample photos for launch extras, packaging details, and limited gift add-ons.</p>
-        </div>
-        <div class="coming-grid">
-          <figure class="coming-photo">
-            <img src="assets/coming-soon-blue-shelf.png" alt="Blue floral claw clips styled with haircare products on cream shelves" loading="lazy">
-          </figure>
-          <figure class="coming-photo">
-            <img src="assets/coming-soon-pink-bag.png" alt="Pink pearl claw clip and flower clips styled with haircare products inside a fabric bag" loading="lazy">
-          </figure>
-          <figure class="coming-photo">
-            <img src="assets/coming-soon-brown-clip.png" alt="Brown rhinestone flower claw clip styled with hair mist and lip tint on white fabric" loading="lazy">
-          </figure>
         </div>
       </section>
 

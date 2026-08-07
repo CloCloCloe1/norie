@@ -12,21 +12,23 @@ test("the customer confirmation logo is a deployable transparent PNG", async () 
   assert.ok([4, 6].includes(logo[25]), "PNG must contain an alpha channel");
 });
 
-test("the pink and white lookbooks use the supplied 3:4 accessory images third", async () => {
+test("the Homepage uses the supplied lifestyle photos in the approved lookbook positions", async () => {
   const html = await read("index.html");
 
-  await access("assets/pink-lookbook-accessories.png");
-  await access("assets/white-lookbook-accessories.png");
+  await access("assets/pink-lookbook-hair-clip.jpg");
+  await access("assets/pink-lookbook-bag-detail.jpg");
+  await access("assets/white-lookbook-norie-clip.png");
 
   assert.match(
     html,
-    /pink-lookbook-bag\.png[\s\S]*pink-lookbook-car\.png[\s\S]*pink-lookbook-accessories\.png[^>]+alt="A curated collection of pink combs, claw clips, scrunchies, and hair accessories"/i
+    /pink-lookbook-hair-clip\.jpg[^>]+alt="Ballet pink claw clip styled in long dark hair with a pink handbag"[\s\S]*pink-lookbook-bag-detail\.jpg[^>]+alt="Pink handbag styled with a satin scrunchie and white flower accessory"[\s\S]*pink-lookbook-accessories\.png/i
   );
   assert.match(
     html,
-    /white-lookbook-spray\.png[\s\S]*white-lookbook-cafe\.png[\s\S]*white-lookbook-accessories\.png[^>]+alt="A curated collection of pearl white combs, claw clips, scrunchies, and hair accessories"/i
+    /white-lookbook-spray\.png[\s\S]*white-lookbook-norie-clip\.png[^>]+alt="Pearl white Norie claw clip with pink crystal lettering styled on embroidered fabric"[\s\S]*white-lookbook-accessories\.png/i
   );
   assert.match(html, /\.lookbook-photo\s*\{[\s\S]*aspect-ratio:\s*3\s*\/\s*4;/i);
+  assert.match(html, /\.lookbook-photo\s*\{[\s\S]*object-fit:\s*cover;/i);
 });
 
 test("the home contact section shows text-only sample social accounts", async () => {
@@ -113,15 +115,11 @@ test("the shared controller exposes pending and validation state accessibly", as
   assert.match(script, /setAttribute\("role",\s*"status"\)/);
 });
 
-test("the Coming Soon section renders the supplied photos at a 3:4 ratio", async () => {
+test("the Homepage omits the Coming Soon section and its dedicated styles", async () => {
   const home = await read("index.html");
 
-  assert.doesNotMatch(home, /coming-placeholder|Photo 0[1-3]/);
-  assert.match(home, /assets\/coming-soon-blue-shelf\.png/);
-  assert.match(home, /assets\/coming-soon-pink-bag\.png/);
-  assert.match(home, /assets\/coming-soon-brown-clip\.png/);
-  assert.match(home, /\.coming-photo\s*\{[^}]*aspect-ratio:\s*3\s*\/\s*4/s);
-  assert.match(home, /\.coming-photo img\s*\{[^}]*object-fit:\s*cover/s);
+  assert.doesNotMatch(home, /coming-soon-title|Coming Soon|coming-grid|coming-photo/i);
+  assert.doesNotMatch(home, /coming-soon-blue-shelf|coming-soon-pink-bag|coming-soon-brown-clip/i);
 });
 
 test("pages use a canonical doctype and do not name generic div elements", async () => {
