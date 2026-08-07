@@ -79,7 +79,7 @@ Run: `npm.cmd test; git diff --check; git status --short`
 
 Expected: all tests pass, no whitespace errors, and no uncommitted changes after the commit.
 
-- [ ] **Step 2: Push and deploy production**
+- [x] **Step 2: Push and deploy production**
 
 Run:
 
@@ -90,6 +90,6 @@ git push origin codex/shop-unified-grid-pr
 
 Expected: Vercel reports a ready deployment aliased to `https://norie-hair.vercel.app`.
 
-- [ ] **Step 3: Verify the live card**
+- [x] **Step 3: Verify the live card**
 
 Fetch the Homepage with a cache-busting query and assert it contains `norie_hair`, two `Norie` values, and `NorieToronto`, while neither sample account remains.
