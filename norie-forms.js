@@ -1,5 +1,6 @@
 (() => {
   const headers = { "Content-Type": "application/json" };
+  const t = (key, fallback) => window.NorieI18n?.translate(key, fallback) ?? fallback;
 
   function clean(value) {
     return String(value || "").replace(/\s+/g, " ").trim();
@@ -135,26 +136,26 @@
         return;
       }
       if (!clean(customerName.value)) {
-        showFieldError(customerName, button, "order-status", "Name: enter your name.");
+        showFieldError(customerName, button, "order-status", t("form.error.name", "Name: enter your name."));
         return;
       }
       if (!clean(customerEmail.value) || !customerEmail.validity.valid) {
-        showFieldError(customerEmail, button, "order-status", "Email address: enter a valid email address.");
+        showFieldError(customerEmail, button, "order-status", t("form.error.email", "Email address: enter a valid email address."));
         return;
       }
       if (!clean(customerContact.value)) {
-        showFieldError(customerContact, button, "order-status", "Contact: enter your WeChat ID.");
+        showFieldError(customerContact, button, "order-status", t("form.error.contact", "Contact: enter your WeChat ID."));
         return;
       }
 
       setBusy(button, true);
-      setStatus(button, "Sending your custom order request...", { id: "order-status" });
+      setStatus(button, t("form.order.pending", "Sending your custom order request..."), { id: "order-status" });
 
       try {
         await postJson("/api/custom-order", orderPayload(form));
-        setStatus(button, "Sent. We will reply by email soon.", { id: "order-status" });
+        setStatus(button, t("form.order.success", "Sent. We will reply by email soon."), { id: "order-status" });
       } catch (error) {
-        setStatus(button, error.message || "Could not send right now.", {
+        setStatus(button, error.message || t("form.order.failure", "Could not send right now."), {
           id: "order-status",
           isError: true
         });

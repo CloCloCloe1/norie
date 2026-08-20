@@ -107,3 +107,37 @@ test("pages use a canonical doctype and do not name generic div elements", async
     assert.doesNotMatch(html, /<div(?=[^>]*aria-label)(?![^>]*\brole=)[^>]*>/i);
   }
 });
+
+test("every public page exposes the shared bilingual language control", async () => {
+  for (const page of ["index.html", "shop.html", "customize.html"]) {
+    const html = await read(page);
+    assert.match(html, /<html lang="en">/);
+    assert.match(html, /data-language-switcher/);
+    assert.match(html, /<button[^>]+data-locale="en"[^>]+aria-pressed="true"[^>]*>EN<\/button>/);
+    assert.match(html, /<button[^>]+data-locale="zh-CN"[^>]+aria-pressed="false"[^>]*>中文<\/button>/);
+    assert.match(html, /<script[^>]+type="module"[^>]+src="norie-i18n\.js"[^>]*><\/script>/);
+  }
+});
+
+test("dynamic order messages use the active site locale", async () => {
+  const script = await read("norie-forms.js");
+  assert.match(script, /NorieI18n\?\.translate/);
+  for (const key of [
+    "form.error.name",
+    "form.error.email",
+    "form.error.contact",
+    "form.order.pending",
+    "form.order.success",
+    "form.order.failure"
+  ]) {
+    assert.match(script, new RegExp(key.replaceAll(".", "\\.")));
+  }
+});
+
+test("the customizer refreshes its dynamic summary after a locale change", async () => {
+  const html = await read("customize.html");
+  assert.match(html, /addEventListener\("norie:localechange",\s*updatePreview\)/);
+  assert.match(html, /NorieI18n\?\.translate\("shop\.small"/);
+  assert.match(html, /NorieI18n\?\.translate\("shop\.large"/);
+  assert.match(html, /NorieI18n\?\.translate\("shop\.clip"/);
+});

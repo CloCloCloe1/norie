@@ -140,6 +140,33 @@
         width: 28px;
       }
 
+      .language-switcher {
+        align-items: center;
+        display: flex;
+        gap: 0.35rem;
+        justify-self: start;
+        white-space: nowrap;
+      }
+
+      .language-switcher button {
+        background: transparent;
+        border: 0;
+        color: #676168;
+        cursor: pointer;
+        font-size: 0.72rem;
+        font-weight: 800;
+        min-height: 44px;
+        min-width: 44px;
+        padding: 0.4rem;
+      }
+
+      .language-switcher button[aria-pressed="true"] {
+        color: var(--berry);
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+        text-underline-offset: 0.3em;
+      }
+
       .nav-list a:hover,
       .brand-logo:hover,
       .cart-link:hover {
@@ -723,10 +750,14 @@
       }
     </style>
   </head>
-  <body>
+  <body data-page="home">
     <header class="site-header">
       <nav class="nav" aria-label="Main">
-        <span aria-hidden="true"></span>
+        <div class="language-switcher" data-language-switcher role="group" aria-label="Language">
+          <button type="button" data-locale="en" aria-pressed="true">EN</button>
+          <span aria-hidden="true">/</span>
+          <button type="button" data-locale="zh-CN" aria-pressed="false">中文</button>
+        </div>
         <a class="brand-logo" href="index.html" aria-label="Norie homepage">
           <span>Norie</span>
           <span class="brand-heart" aria-hidden="true">♥</span>
@@ -951,6 +982,7 @@
         </ul>
       </div>
     </footer>
+    <script type="module" src="norie-i18n.js"></script>
     <script type="module" src="norie-carousel.js"></script>
   </body>
 </html>
