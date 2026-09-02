@@ -610,3 +610,43 @@ test("cart order validates lines and sends trusted totals with pending-payment s
     restoreEnv("ORDER_TO_EMAIL", originalOrderEmail);
   }
 });
+
+test("cart order accepts fixed decorative clips at trusted prices and rejects customization", { concurrency: false }, async () => {
+  const originalFetch = global.fetch;
+  const originalApiKey = process.env.RESEND_API_KEY;
+  const originalOrderEmail = process.env.ORDER_TO_EMAIL;
+  process.env.RESEND_API_KEY = "test-key";
+  process.env.ORDER_TO_EMAIL = "owner@example.com";
+  global.fetch = async () => response({ data: { id: "email" } });
+
+  const base = {
+    customerName: "Clo",
+    customerEmail: "clo@example.com",
+    customerContact: "wechat-clo",
+    attemptId: "123e4567-e89b-42d3-a456-426614174001"
+  };
+
+  try {
+    for (const [productId, baseColor] of [
+      ["pink-bow", "Pink"], ["cherry-pink", "Pink"],
+      ["florie-white", "White"], ["cherry-white", "White"]
+    ]) {
+      const accepted = await invoke(cartOrder, {
+        ...base,
+        lines: [{ productId, baseColor, customText: "", quantity: 1 }]
+      });
+      assert.equal(accepted.statusCode, 200, `${productId} should be accepted`);
+      assert.equal(JSON.parse(accepted.body).total, "CAD $12");
+
+      const customized = await invoke(cartOrder, {
+        ...base,
+        lines: [{ productId, baseColor, customText: "C", quantity: 1 }]
+      });
+      assert.equal(customized.statusCode, 400, `${productId} must reject custom text`);
+    }
+  } finally {
+    global.fetch = originalFetch;
+    restoreEnv("RESEND_API_KEY", originalApiKey);
+    restoreEnv("ORDER_TO_EMAIL", originalOrderEmail);
+  }
+});

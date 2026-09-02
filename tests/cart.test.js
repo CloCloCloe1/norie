@@ -24,6 +24,23 @@ test("Plumeria is a non-customizable CAD $10 three-piece set", () => {
   });
 });
 
+test("fixed decorative claw clips accept only their pictured color and no custom text", () => {
+  for (const [productId, baseColor] of [
+    ["pink-bow", "Pink"],
+    ["cherry-pink", "Pink"],
+    ["florie-white", "White"],
+    ["cherry-white", "White"]
+  ]) {
+    assert.equal(productCatalog[productId].customizable, false);
+    assert.deepEqual(productCatalog[productId].variants, [baseColor]);
+    assert.equal(productCatalog[productId].launchPrice, 12);
+    assert.equal(normalizeCart([{ productId, baseColor, customText: "C", quantity: 1 }]).length, 0);
+    assert.deepEqual(normalizeCart([{ productId, baseColor, customText: "", quantity: 1 }]), [
+      { productId, baseColor, customText: "", quantity: 1 }
+    ]);
+  }
+});
+
 test("customizable products derive contrasting stones", () => {
   assert.equal(deriveStoneColor("Pink"), "White stones");
   assert.equal(deriveStoneColor("White"), "Pink stones");

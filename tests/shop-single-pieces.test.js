@@ -27,7 +27,7 @@ test("the ten Single Pieces product assets exist and are tracked", () => {
   assert.deepEqual(productAssets.filter((asset) => !trackedFiles.has(asset)), []);
 });
 
-test("Shop renders one unified thirteen-card catalog in the approved order", () => {
+test("Shop renders one unified fourteen-card catalog in the approved order", () => {
   const html = readFileSync("shop.html", "utf8");
   const section = html.match(
     /<section class="section" aria-labelledby="shop-products-title">([\s\S]*?)<\/section>/
@@ -36,37 +36,29 @@ test("Shop renders one unified thirteen-card catalog in the approved order", () 
 
   assert.deepEqual(names, [
     "Essentials Hairstyling Set",
-    "Plumeria Clip Set",
     "Baby Hairstyling Set",
+    "Plumeria White",
+    "Plumeria Pink",
     "Pink Bamboo Paddle Brush",
     "White Bamboo Paddle Brush",
     "Pink Flat Brush",
     "White Flat Brush",
-    "Pink Claw Clip 1",
-    "Pink Claw Clip 2",
-    "Pink Claw Clip 3",
-    "White Claw Clip 1",
-    "White Claw Clip 2",
-    "White Claw Clip 3"
+    "Norie Claw Clip in Pink",
+    "Claw Clip in Pink Bow",
+    "Claw Clip in Cherry Pink",
+    "Claw Clip in Florie White",
+    "Norie Claw Clip in White",
+    "Claw Clip in Cherry White"
   ]);
-  assert.equal((section.match(/<article class="product-card"(?:\s[^>]*)?>/g) ?? []).length, 13);
+  assert.equal((section.match(/<article class="product-card"(?:\s[^>]*)?>/g) ?? []).length, 14);
   assert.doesNotMatch(html, /single-products-title|set-products-title/);
 });
 
-test("Shop presents Plumeria as one two-color three-piece set", () => {
+test("Shop presents Plumeria as two cards that share a detail route", () => {
   const html = readFileSync("shop.html", "utf8");
-  const card = html.match(/<article class="product-card" data-product="plumeria">([\s\S]*?)<\/article>/)?.[1] ?? "";
-
-  assert.match(card, /gift-flower-white\.jpg/);
-  assert.match(card, /gift-flower-pink\.jpg/);
-  assert.equal((card.match(/data-carousel-slide/g) ?? []).length, 2);
-  assert.match(card, /<h3[^>]*>Plumeria Clip Set<\/h3>/);
-  assert.match(card, /one large[^<]+two small/i);
-  assert.match(card, /CAD \$10/);
-  assert.match(card, /CAD \$12/);
-  assert.match(card, /type="radio"[^>]+value="White"/);
-  assert.match(card, /type="radio"[^>]+value="Pink"/);
-  assert.match(card, /<button[^>]+type="submit"[^>]*>\s*Add to cart\s*<\/button>/i);
+  assert.match(html, /gift-flower-white\.jpg[\s\S]*?<h3[^>]*>Plumeria White<\/h3>[\s\S]*?product\.html\?product=plumeria&amp;color=White/i);
+  assert.match(html, /gift-flower-pink\.jpg[\s\S]*?<h3[^>]*>Plumeria Pink<\/h3>[\s\S]*?product\.html\?product=plumeria&amp;color=Pink/i);
+  assert.equal((html.match(/product\.html\?product=plumeria&amp;color=/g) ?? []).length, 2);
 });
 
 test("Shop maps all ten square assets with accessible loading metadata", () => {

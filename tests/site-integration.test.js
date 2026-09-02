@@ -217,11 +217,12 @@ test("every public page exposes the shared bilingual language control", async ()
   }
 });
 
-test("every public page exposes the shared shopping cart", async () => {
-  for (const page of ["index.html", "shop.html", "customize.html", "lookbooks.html", "cart.html"]) {
+test("every public page exposes a bag-only cart link with an accessible name", async () => {
+  for (const page of ["index.html", "shop.html", "customize.html", "lookbooks.html", "cart.html", "product.html"]) {
     const html = await read(page);
-    assert.match(html, /<a[^>]+class="cart-link"[^>]+href="cart\.html"/i, `${page} must link to the cart`);
+    assert.match(html, /<a(?=[^>]*class="cart-link")(?=[^>]*href="cart\.html")(?=[^>]*aria-label="Cart, empty")[^>]*>/i, `${page} must expose an accessible cart link`);
     assert.match(html, /data-cart-count/i, `${page} must expose the cart count`);
+    assert.doesNotMatch(html, /<span[^>]*data-cart-label/i, `${page} must not render visible cart status text`);
     assert.match(html, /norie-cart\.js/i, `${page} must load the cart module`);
   }
 });
