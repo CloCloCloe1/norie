@@ -3,6 +3,13 @@ import { getLocale, translate } from "./norie-i18n.js";
 
 const fixed = (value) => Object.freeze(value);
 
+export const decorativeClawStyles = Object.freeze({
+  "pink-bow": fixed({ id: "pink-bow", cartProductId: "pink-bow", name: "Claw Clip in Pink Bow", color: "Pink", image: "assets/shop-claw-pink-2.png", alt: "Pink claw clip with white bow details and crystals", descriptionKey: "product.pinkBow.description", contentsKey: "product.pinkBow.contents" }),
+  "cherry-pink": fixed({ id: "cherry-pink", cartProductId: "cherry-pink", name: "Claw Clip in Cherry Pink", color: "Pink", image: "assets/shop-claw-pink-3.png", alt: "Pink claw clip with red cherry crystal details", descriptionKey: "product.cherryPink.description", contentsKey: "product.cherryPink.contents" }),
+  "florie-white": fixed({ id: "florie-white", cartProductId: "florie-white", name: "Claw Clip in Florie White", color: "White", image: "assets/shop-claw-white-1.png", alt: "White claw clip with pale pink flower and butterfly details", descriptionKey: "product.florieWhite.description", contentsKey: "product.florieWhite.contents" }),
+  "cherry-white": fixed({ id: "cherry-white", cartProductId: "cherry-white", name: "Claw Clip in Cherry White", color: "White", image: "assets/shop-claw-white-3.png", alt: "White claw clip with red cherry crystal details", descriptionKey: "product.cherryWhite.description", contentsKey: "product.cherryWhite.contents" })
+});
+
 export const detailCatalog = Object.freeze({
   plumeria: fixed({
     cartProductId: "plumeria",
@@ -16,32 +23,17 @@ export const detailCatalog = Object.freeze({
     launchPrice: 10,
     originalPrice: 12
   }),
-  "pink-bow": fixed({
-    cartProductId: "pink-bow", name: "Claw Clip in Pink Bow", image: "assets/shop-claw-pink-2.png",
-    alt: "Pink claw clip with white bow details and crystals", defaultColor: "Pink",
-    descriptionKey: "product.pinkBow.description", contentsKey: "product.pinkBow.contents", launchPrice: 12, originalPrice: 16
-  }),
-  "cherry-pink": fixed({
-    cartProductId: "cherry-pink", name: "Claw Clip in Cherry Pink", image: "assets/shop-claw-pink-3.png",
-    alt: "Pink claw clip with red cherry crystal details", defaultColor: "Pink",
-    descriptionKey: "product.cherryPink.description", contentsKey: "product.cherryPink.contents", launchPrice: 12, originalPrice: 16
-  }),
-  "florie-white": fixed({
-    cartProductId: "florie-white", name: "Claw Clip in Florie White", image: "assets/shop-claw-white-1.png",
-    alt: "White claw clip with pale pink flower and butterfly details", defaultColor: "White",
-    descriptionKey: "product.florieWhite.description", contentsKey: "product.florieWhite.contents", launchPrice: 12, originalPrice: 16
-  }),
-  "cherry-white": fixed({
-    cartProductId: "cherry-white", name: "Claw Clip in Cherry White", image: "assets/shop-claw-white-3.png",
-    alt: "White claw clip with red cherry crystal details", defaultColor: "White",
-    descriptionKey: "product.cherryWhite.description", contentsKey: "product.cherryWhite.contents", launchPrice: 12, originalPrice: 16
-  })
+  "decorative-claw": fixed({ launchPrice: 12, originalPrice: 16 })
 });
 
 export function selectDetail(search) {
   const params = new URLSearchParams(search);
   const detail = detailCatalog[params.get("product")];
   if (!detail) return null;
+  if (params.get("product") === "decorative-claw") {
+    const style = decorativeClawStyles[params.get("style")] || decorativeClawStyles["pink-bow"];
+    return { detail: fixed({ ...detail, ...style, defaultColor: style.color }), color: style.color, style };
+  }
   const requested = params.get("color");
   const color = detail.colors?.includes(requested) ? requested : detail.defaultColor || detail.colors?.[0];
   return { detail, color };
@@ -59,13 +51,14 @@ function initialize() {
     return;
   }
 
-  const { detail } = selection;
+  let detail = selection.detail;
   let selectedColor = selection.color;
   const image = document.querySelector("[data-product-image]");
   const name = document.querySelector("[data-product-name]");
   const description = document.querySelector("[data-product-description]");
   const contents = document.querySelector("[data-product-contents]");
   const selector = document.querySelector("[data-color-selector]");
+  const styleSelector = document.querySelector("[data-style-selector]");
   const status = document.querySelector("[data-product-status]");
   const store = createCartStore();
 
@@ -92,6 +85,27 @@ function initialize() {
       input.addEventListener("change", () => {
         selectedColor = input.value;
         renderImage();
+      });
+    });
+  }
+
+  if (selection.style) {
+    styleSelector.hidden = false;
+    styleSelector.querySelectorAll("input[name='productStyle']").forEach((input) => {
+      input.checked = input.value === selection.style.id;
+      input.addEventListener("change", () => {
+        const next = decorativeClawStyles[input.value];
+        if (!next) return;
+        detail = fixed({ ...detailCatalog["decorative-claw"], ...next, defaultColor: next.color });
+        selectedColor = next.color;
+        name.textContent = next.name;
+        renderImage();
+        renderLocale();
+        const url = new URL(window.location.href);
+        url.searchParams.set("product", "decorative-claw");
+        url.searchParams.set("style", next.id);
+        window.history.replaceState({}, "", url);
+        status.textContent = `${next.name}: ${translate("product.styleSelected", getLocale())}`;
       });
     });
   }

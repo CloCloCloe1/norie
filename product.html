@@ -37,6 +37,13 @@
       legend { color:var(--berry); font-weight:800; margin-bottom:.5rem; }
       .color-options { display:flex; flex-wrap:wrap; gap:.75rem; }
       .color-options label { align-items:center; border:1px solid var(--line); cursor:pointer; display:inline-flex; gap:.45rem; min-height:44px; padding:.55rem .9rem; }
+      .style-options { display:flex; flex-wrap:wrap; gap:.85rem; }
+      .style-swatch { border:2px solid transparent; border-radius:50%; cursor:pointer; display:block; height:64px; min-height:44px; min-width:44px; object-fit:cover; width:64px; }
+      .style-choice { display:block; min-height:44px; min-width:44px; position:relative; }
+      .style-choice input { height:100%; inset:0; margin:0; opacity:0; position:absolute; width:100%; z-index:1; }
+      .style-choice input:checked + .style-swatch { border-color:var(--berry); box-shadow:0 0 0 2px var(--cream),0 0 0 4px var(--berry); }
+      .style-choice input:focus-visible + .style-swatch { outline:3px solid var(--focus); outline-offset:4px; }
+      .visually-hidden { clip:rect(0 0 0 0); clip-path:inset(50%); height:1px; overflow:hidden; position:absolute; white-space:nowrap; width:1px; }
       .add-button { background:var(--berry); border:2px solid var(--berry); color:#fff; cursor:pointer; font-size:1rem; font-weight:800; min-height:48px; padding:.75rem 1.5rem; width:min(100%,24rem); }
       .status { min-height:1.6em; }
       .unavailable { background:var(--white); border:1px solid var(--line); padding:clamp(1.5rem,5vw,4rem); text-align:center; }
@@ -77,6 +84,15 @@
             <div class="color-options">
               <label for="product-color-white"><input id="product-color-white" type="radio" name="productColor" value="White"> White</label>
               <label for="product-color-pink"><input id="product-color-pink" type="radio" name="productColor" value="Pink"> Pink</label>
+            </div>
+          </fieldset>
+          <fieldset data-style-selector hidden>
+            <legend data-i18n="product.style">Style</legend>
+            <div class="style-options">
+              <label class="style-choice" for="product-style-pink-bow"><input id="product-style-pink-bow" type="radio" name="productStyle" value="pink-bow"><img class="style-swatch" src="assets/shop-claw-pink-2.png" alt="" width="64" height="64"><span class="visually-hidden" data-i18n="product.style.pinkBow">Pink Bow</span></label>
+              <label class="style-choice" for="product-style-cherry-pink"><input id="product-style-cherry-pink" type="radio" name="productStyle" value="cherry-pink"><img class="style-swatch" src="assets/shop-claw-pink-3.png" alt="" width="64" height="64"><span class="visually-hidden" data-i18n="product.style.cherryPink">Cherry Pink</span></label>
+              <label class="style-choice" for="product-style-florie-white"><input id="product-style-florie-white" type="radio" name="productStyle" value="florie-white"><img class="style-swatch" src="assets/shop-claw-white-1.png" alt="" width="64" height="64"><span class="visually-hidden" data-i18n="product.style.florieWhite">Florie White</span></label>
+              <label class="style-choice" for="product-style-cherry-white"><input id="product-style-cherry-white" type="radio" name="productStyle" value="cherry-white"><img class="style-swatch" src="assets/shop-claw-white-3.png" alt="" width="64" height="64"><span class="visually-hidden" data-i18n="product.style.cherryWhite">Cherry White</span></label>
             </div>
           </fieldset>
           <button class="add-button" type="button" data-add-to-cart data-i18n="product.add">Add to cart</button>
