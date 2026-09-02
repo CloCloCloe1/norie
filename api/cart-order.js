@@ -1,12 +1,16 @@
 import { escapeHtml, isEmail, readJson, sendEmail, sendJson } from "./_utils.js";
 
 const CATALOG = Object.freeze({
-  "essentials-set": { name: "Essentials Hairstyling Set", price: 38, customizable: true },
-  "baby-set": { name: "Baby Hairstyling Set", price: 32, customizable: true },
-  "large-comb": { name: "Bamboo Paddle Brush", price: 30, customizable: true },
-  "small-comb": { name: "Flat Brush", price: 25, customizable: true },
-  "claw-clip": { name: "Claw Clip", price: 12, customizable: true },
-  plumeria: { name: "Plumeria Clip Set", price: 10, customizable: false }
+  "essentials-set": { name: "Essentials Hairstyling Set", price: 38, customizable: true, variants: ["Pink", "White"] },
+  "baby-set": { name: "Baby Hairstyling Set", price: 32, customizable: true, variants: ["Pink", "White"] },
+  "large-comb": { name: "Bamboo Paddle Brush", price: 30, customizable: true, variants: ["Pink", "White"] },
+  "small-comb": { name: "Flat Brush", price: 25, customizable: true, variants: ["Pink", "White"] },
+  "claw-clip": { name: "Claw Clip", price: 12, customizable: true, variants: ["Pink", "White"] },
+  "pink-bow": { name: "Claw Clip in Pink Bow", price: 12, customizable: false, variants: ["Pink"] },
+  "cherry-pink": { name: "Claw Clip in Cherry Pink", price: 12, customizable: false, variants: ["Pink"] },
+  "florie-white": { name: "Claw Clip in Florie White", price: 12, customizable: false, variants: ["White"] },
+  "cherry-white": { name: "Claw Clip in Cherry White", price: 12, customizable: false, variants: ["White"] },
+  plumeria: { name: "Plumeria Clip Set", price: 10, customizable: false, variants: ["Pink", "White"] }
 });
 const COLORS = new Set(["Pink", "White"]);
 const ATTEMPT_ID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -27,7 +31,7 @@ function normalizeLines(lines) {
     const color = clean(line?.baseColor);
     const customText = clean(line?.customText);
     const quantity = Number(line?.quantity);
-    if (!product || !COLORS.has(color) || !Number.isInteger(quantity) || quantity < 1 || quantity > 20) {
+    if (!product || !COLORS.has(color) || !product.variants.includes(color) || !Number.isInteger(quantity) || quantity < 1 || quantity > 20) {
       throw new Error("Choose a valid product, color, and quantity.");
     }
     if (customText.length > 8 || (!product.customizable && customText)) throw new Error("Choose a valid customization.");

@@ -8,6 +8,10 @@ export const productCatalog = Object.freeze({
   "large-comb": { name: "Bamboo Paddle Brush", customizable: true, launchPrice: 30, originalPrice: 38, variants: ["Pink", "White"] },
   "small-comb": { name: "Flat Brush", customizable: true, launchPrice: 25, originalPrice: 32, variants: ["Pink", "White"] },
   "claw-clip": { name: "Claw Clip", customizable: true, launchPrice: 12, originalPrice: 16, variants: ["Pink", "White"] },
+  "pink-bow": { name: "Claw Clip in Pink Bow", customizable: false, launchPrice: 12, originalPrice: 16, variants: ["Pink"] },
+  "cherry-pink": { name: "Claw Clip in Cherry Pink", customizable: false, launchPrice: 12, originalPrice: 16, variants: ["Pink"] },
+  "florie-white": { name: "Claw Clip in Florie White", customizable: false, launchPrice: 12, originalPrice: 16, variants: ["White"] },
+  "cherry-white": { name: "Claw Clip in Cherry White", customizable: false, launchPrice: 12, originalPrice: 16, variants: ["White"] },
   plumeria: { name: "Plumeria Clip Set", customizable: false, launchPrice: 10, originalPrice: 12, variants: ["Pink", "White"] }
 });
 
