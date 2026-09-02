@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { execFileSync } from "node:child_process";
 import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
@@ -105,40 +106,67 @@ test("homepage hero uses the supplied Norie bag photograph", async () => {
   assert.doesNotMatch(html, /\.hero-visual\s*\{[^}]*aspect-ratio:\s*4\s*\/\s*5;/i);
 });
 
-test("the home contact section links to the official social accounts", async () => {
+test("the homepage social gallery has eight local tiles with two fixed platform cycles", async () => {
   const html = await read("index.html");
   const main = html.match(/<main[^>]*>[\s\S]*?<\/main>/i)?.[0] ?? "";
-  const footer = html.match(/<footer[^>]+class="site-footer"[^>]*>[\s\S]*?<\/footer>/i)?.[0] ?? "";
+  const tiles = [...main.matchAll(/<a(?=[^>]*data-social-tile)(?=[^>]*href="([^"]+)")(?=[^>]*target="_blank")(?=[^>]*rel="noopener noreferrer")[^>]*>[\s\S]*?<\/a>/gi)];
+  const cycle = [
+    "https://www.instagram.com/norie_hair/",
+    "https://www.tiktok.com/@norie_hair",
+    "https://xhslink.cn/m/38rRNyaQEbA",
+    "https://v.douyin.com/S4fAA1Zxzbs/"
+  ];
 
-  const assertExternalAccount = (href, platform, account) => {
-    const escapedHref = href.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-    const row = main.match(
-      new RegExp(`<div class="social-row">\\s*<dt>\\s*${platform}\\s*<\\/dt>[\\s\\S]*?<\\/div>`, "i")
-    )?.[0] ?? "";
-    const link = row.match(
-      new RegExp(`<a(?=[^>]*href="${escapedHref}")(?=[^>]*target="_blank")(?=[^>]*rel="noopener noreferrer")[^>]*>[\\s\\S]*?<\\/a>`, "i")
-    )?.[0] ?? "";
+  assert.equal(tiles.length, 8);
+  assert.deepEqual(tiles.map((tile) => tile[1]), [...cycle, ...cycle]);
+  const trackedFiles = new Set(execFileSync("git", ["ls-files"], { encoding: "utf8" }).trim().split(/\r?\n/));
+  for (const tile of tiles) {
+    assert.match(tile[0], /<img[^>]+src="assets\/[^"]+"[^>]+alt="[^"]+"[^>]+loading="lazy"/i);
+    assert.match(tile[0], /data-i18n="home\.social\.view(?:Instagram|TikTok|RedNote|Douyin)"/i);
+    const asset = tile[0].match(/<img[^>]+src="(assets\/[^"]+)"/i)?.[1];
+    assert.ok(asset, "each social tile must use a local asset");
+    await access(asset);
+    assert.ok(trackedFiles.has(asset), `${asset} must be tracked for deployment`);
+  }
+  assert.match(html, /\.social-gallery[^}]*grid-template-columns:\s*repeat\(4,\s*minmax\(0,\s*1fr\)\)/i);
+  assert.match(html, /@media[^{}]*\(max-width:\s*640px\)[\s\S]*?\.social-gallery[^}]*grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/i);
+});
 
-    assert.match(link, new RegExp(`>\\s*${account}\\s*<span[^>]*aria-hidden="true"[^>]*>\\s*→\\s*<\\/span>`, "i"));
-    assert.match(
-      link,
-      /<span(?=[^>]*class="visually-hidden")(?=[^>]*data-i18n="common\.opensNewTab")[^>]*>\s*— opens in a new tab\s*<\/span>/i
-    );
-  };
+test("the homepage uses one inline Follow Us line with every official account", async () => {
+  const html = await read("index.html");
+  const main = html.match(/<main[^>]*>[\s\S]*?<\/main>/i)?.[0] ?? "";
+  const follow = main.match(/<(?:p|div)[^>]+class="follow-line"[^>]*>[\s\S]*?<\/(?:p|div)>/i)?.[0] ?? "";
+  const accounts = [
+    ["https://www.instagram.com/norie_hair/", "Instagram @norie_hair"],
+    ["https://www.tiktok.com/@norie_hair", "TikTok @norie_hair"],
+    ["https://xhslink.cn/m/38rRNyaQEbA", "RedNote @itschloe_eee"],
+    ["https://v.douyin.com/S4fAA1Zxzbs/", "Douyin @40950053692"]
+  ];
 
-  assert.match(html, /Follow Norie for new samples, custom-order updates, and launch news\./);
-  assert.match(main, /class="social-card"/i);
-  assertExternalAccount("https://www.instagram.com/norie_hair/", "IG", "norie_hair");
-  assertExternalAccount("https://www.tiktok.com/@norie_hair", "TikTok", "norie_hair");
-  assertExternalAccount("https://xhslink.cn/m/38rRNyaQEbA", "Rednote", "itschloe_eee");
-  assertExternalAccount("https://v.douyin.com/S4fAA1Zxzbs/", "Douyin", "40950053692");
-  assert.match(main, /<div class="social-row">\s*<dt>\s*WeChat\s*<\/dt>\s*<dd>\s*NorieToronto\s*<\/dd>\s*<\/div>/i);
-  assert.doesNotMatch(main, /<dt>\s*WeChat\s*<\/dt>\s*<dd>\s*<a/i);
-  assert.doesNotMatch(footer, /class="social-card"|>\s*(?:IG|TikTok|Rednote|Douyin)\s*</i);
-  assert.match(footer, /<div class="footer-identity">\s*<p>© 2026 Norie<\/p>\s*<span[^>]*>WeChat\s+NorieToronto<\/span>\s*<\/div>/i);
-  assert.doesNotMatch(html, /id="subscribeForm"|>\s*Subscribe\s*<|id="email"/i);
+  assert.doesNotMatch(main, /class="social-account-list"|class="social-list"|class="social-card"/i);
+  assert.match(follow, /Follow us/i);
+  for (const [href, label] of accounts) {
+    const escaped = href.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    assert.match(follow, new RegExp(`<a(?=[^>]*href="${escaped}")(?=[^>]*target="_blank")(?=[^>]*rel="noopener noreferrer")[^>]*>[\\s\\S]*?${label}`, "i"));
+  }
+  assert.match(follow, /WeChat\s+NorieToronto/i);
+  assert.doesNotMatch(follow, /WeChat[\s\S]*?<a/i);
   assert.doesNotMatch(main, /<(?:iframe|script)[^>]+(?:instagram|tiktok|douyin|xiaohongshu|xhslink)/i);
-  assert.match(html, /id="waitlist"/);
+});
+
+test("the compact Keep in Touch form preserves the subscribe controller hooks", async () => {
+  const html = await read("index.html");
+  const section = html.match(/<section[^>]+class="[^"]*newsletter[^"]*"[^>]*>[\s\S]*?<\/section>/i)?.[0] ?? "";
+
+  assert.match(section, /<h2[^>]*>\s*KEEP IN TOUCH\s*<\/h2>/i);
+  assert.match(section, /class="newsletter-form-row"/i);
+  assert.match(section, /<form(?=[^>]*id="subscribeForm")[^>]*>/i);
+  assert.match(section, /<input(?=[^>]*type="email")(?=[^>]*id="email")(?=[^>]*autocomplete="email")(?=[^>]*required)[^>]*>/i);
+  assert.match(section, /<button[^>]+type="submit"[^>]*>\s*Subscribe\s*<\/button>/i);
+  assert.match(section, /role="status"[^>]+aria-live="polite"/i);
+  assert.match(html, /<script[^>]+src="norie-forms\.js"/i);
+  assert.match(html, /\.newsletter-form-row\s*\{[^}]*display:\s*flex/i);
+  assert.match(html, /@media[^{}]*\(max-width:\s*640px\)[\s\S]*?\.newsletter-form-row\s*\{[^}]*flex-direction:\s*column/i);
 });
 
 test("the customizer adds configured products to the cart", async () => {

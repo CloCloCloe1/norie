@@ -21,21 +21,24 @@ test("Shop uses the approved claw clip names and destinations", async () => {
   ];
 
   for (const [name, id] of fixedProducts) {
-    assert.match(shop, new RegExp(`<h3[^>]*>${name}<\\/h3>[\\s\\S]*?href="product\\.html\\?product=${id}"`, "i"));
+    assert.match(shop, new RegExp(`<h3[^>]*>${name}<\\/h3>[\\s\\S]*?href="product\\.html\\?product=decorative-claw&amp;style=${id}"`, "i"));
   }
   assert.match(shop, /<h3[^>]*>Norie Claw Clip in Pink<\/h3>[\s\S]*?customize\.html\?product=claw-clip/i);
   assert.match(shop, /<h3[^>]*>Norie Claw Clip in White<\/h3>[\s\S]*?customize\.html\?product=claw-clip/i);
 });
 
-test("the reusable detail module allowlists routes and defaults invalid Plumeria colors", async () => {
+test("the reusable detail module allowlists routes and defaults invalid product choices", async () => {
   const module = await import("../norie-product-details.js");
 
   assert.equal(module.selectDetail("?product=unknown"), null);
   assert.equal(module.selectDetail("?product=plumeria&color=Pink").color, "Pink");
   assert.equal(module.selectDetail("?product=plumeria&color=Blue").color, "White");
   for (const id of ["pink-bow", "cherry-pink", "florie-white", "cherry-white"]) {
-    assert.equal(module.selectDetail(`?product=${id}`).detail.cartProductId, id);
+    const selected = module.selectDetail(`?product=decorative-claw&style=${id}`);
+    assert.equal(selected.style.id, id);
+    assert.equal(selected.detail.cartProductId, id);
   }
+  assert.equal(module.selectDetail("?product=decorative-claw&style=not-real").style.id, "pink-bow");
 });
 
 test("product detail markup supports selection, direct cart addition, and live status", async () => {
@@ -44,6 +47,10 @@ test("product detail markup supports selection, direct cart addition, and live s
   assert.match(html, /<main[^>]+id="main"/i);
   assert.match(html, /<h1[^>]+data-product-name/i);
   assert.match(html, /<fieldset[^>]+data-color-selector/i);
+  assert.match(html, /<fieldset[^>]+data-style-selector/i);
+  assert.equal((html.match(/name="productStyle"/g) ?? []).length, 4);
+  assert.match(html, /class="style-swatch"/i);
+  assert.doesNotMatch(html, /class="style-option-card"/i);
   assert.match(html, /<button[^>]+data-add-to-cart/i);
   assert.match(html, /role="status"[^>]+aria-live="polite"/i);
   assert.match(script, /addLine\(store\.read\(\)/);
