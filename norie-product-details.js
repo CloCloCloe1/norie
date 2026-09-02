@@ -85,6 +85,11 @@ function initialize() {
       input.addEventListener("change", () => {
         selectedColor = input.value;
         renderImage();
+        const url = new URL(window.location.href);
+        url.searchParams.set("product", "plumeria");
+        url.searchParams.set("color", selectedColor);
+        window.history.replaceState({}, "", url);
+        status.textContent = translate("product.selection", getLocale(), `${detail.name}: ${selectedColor}`);
       });
     });
   }

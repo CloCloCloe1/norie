@@ -35,8 +35,6 @@
       .original-price { color:var(--muted); text-decoration:line-through; }
       fieldset { border:0; margin:1.25rem 0; padding:0; }
       legend { color:var(--berry); font-weight:800; margin-bottom:.5rem; }
-      .color-options { display:flex; flex-wrap:wrap; gap:.75rem; }
-      .color-options label { align-items:center; border:1px solid var(--line); cursor:pointer; display:inline-flex; gap:.45rem; min-height:44px; padding:.55rem .9rem; }
       .style-options { display:flex; flex-wrap:wrap; gap:.85rem; }
       .style-swatch { border:2px solid transparent; border-radius:50%; cursor:pointer; display:block; height:64px; min-height:44px; min-width:44px; object-fit:cover; width:64px; }
       .style-choice { display:block; min-height:44px; min-width:44px; position:relative; }
@@ -81,9 +79,9 @@
           <p class="contents" data-product-contents></p>
           <fieldset data-color-selector hidden>
             <legend data-i18n="product.color">Color</legend>
-            <div class="color-options">
-              <label for="product-color-white"><input id="product-color-white" type="radio" name="productColor" value="White"> White</label>
-              <label for="product-color-pink"><input id="product-color-pink" type="radio" name="productColor" value="Pink"> Pink</label>
+            <div class="style-options plumeria-style-options">
+              <label class="style-choice" for="product-color-white"><input id="product-color-white" type="radio" name="productColor" value="White"><img class="style-swatch plumeria-swatch" src="assets/gift-flower-white.jpg" alt="" width="64" height="64"><span class="visually-hidden">Plumeria White</span></label>
+              <label class="style-choice" for="product-color-pink"><input id="product-color-pink" type="radio" name="productColor" value="Pink"><img class="style-swatch plumeria-swatch" src="assets/gift-flower-pink.jpg" alt="" width="64" height="64"><span class="visually-hidden">Plumeria Pink</span></label>
             </div>
           </fieldset>
           <fieldset data-style-selector hidden>
