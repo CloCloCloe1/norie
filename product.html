@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Product Details | Norie</title>
+    <style>
+      :root { --cream:#fff9f7; --shell:#fce9ee; --rose:#b74464; --berry:#64243a; --ink:#39222d; --muted:#6b4d59; --line:#bf6f87; --white:#fff; --focus:#1557b0; }
+      * { box-sizing:border-box; }
+      body { margin:0; background:var(--cream); color:var(--ink); font-family:"Inter","Helvetica Neue",Arial,sans-serif; line-height:1.55; }
+      a { color:var(--berry); text-underline-offset:.2em; }
+      a:focus-visible, button:focus-visible, input:focus-visible { outline:3px solid var(--focus); outline-offset:3px; }
+      .skip-link { background:var(--white); left:1rem; padding:.75rem 1rem; position:absolute; top:-5rem; z-index:20; }
+      .skip-link:focus { top:1rem; }
+      .site-header { background:rgba(255,255,255,.96); border-bottom:1px solid var(--line); }
+      .nav { align-items:center; display:grid; gap:.8rem; grid-template-columns:1fr auto 1fr; margin:auto; max-width:1180px; padding:1rem clamp(1rem,4vw,2rem); }
+      .brand-logo { color:#1f1d20; font-size:clamp(1.3rem,3vw,2rem); font-weight:800; justify-self:center; letter-spacing:.28em; text-decoration:none; text-transform:uppercase; }
+      .language-switcher { display:flex; align-items:center; gap:.2rem; }
+      .language-switcher button { background:transparent; border:0; color:var(--muted); cursor:pointer; font-weight:800; min-height:44px; min-width:44px; }
+      .language-switcher button[aria-pressed="true"] { color:var(--berry); text-decoration:underline 2px; text-underline-offset:.3em; }
+      .cart-link { align-items:center; display:inline-flex; justify-content:center; justify-self:end; min-height:44px; min-width:44px; position:relative; }
+      .cart-link svg { height:28px; width:28px; stroke-width:1.7; }
+      .cart-count { align-items:center; background:var(--berry); border-radius:50%; color:#fff; display:flex; font-size:.7rem; height:1.25rem; justify-content:center; position:absolute; right:-.1rem; top:-.1rem; width:1.25rem; }
+      .cart-count[hidden] { display:none; }
+      main { margin:auto; max-width:1180px; padding:clamp(2rem,6vw,5rem) clamp(1rem,4vw,2rem); }
+      .back-link { display:inline-block; font-weight:800; margin-bottom:1.5rem; min-height:44px; padding:.6rem 0; }
+      .product-layout { align-items:start; display:grid; gap:clamp(1.5rem,5vw,4.5rem); grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr); }
+      .product-media { aspect-ratio:1/1; background:var(--white); border:1px solid var(--line); overflow:hidden; }
+      .product-media img { height:100%; object-fit:contain; width:100%; }
+      .product-copy { padding-block:clamp(.5rem,3vw,2rem); }
+      h1 { color:var(--berry); font-family:Georgia,"Times New Roman",serif; font-size:clamp(2.3rem,6vw,4.8rem); font-weight:500; line-height:1; margin:0 0 1rem; text-wrap:balance; }
+      .description, .contents { color:var(--muted); font-size:1.05rem; }
+      .price-row { align-items:baseline; display:flex; flex-wrap:wrap; gap:.75rem; margin:1.5rem 0; }
+      .launch-price { color:var(--berry); font-size:1.6rem; font-weight:800; }
+      .original-price { color:var(--muted); text-decoration:line-through; }
+      fieldset { border:0; margin:1.25rem 0; padding:0; }
+      legend { color:var(--berry); font-weight:800; margin-bottom:.5rem; }
+      .color-options { display:flex; flex-wrap:wrap; gap:.75rem; }
+      .color-options label { align-items:center; border:1px solid var(--line); cursor:pointer; display:inline-flex; gap:.45rem; min-height:44px; padding:.55rem .9rem; }
+      .add-button { background:var(--berry); border:2px solid var(--berry); color:#fff; cursor:pointer; font-size:1rem; font-weight:800; min-height:48px; padding:.75rem 1.5rem; width:min(100%,24rem); }
+      .status { min-height:1.6em; }
+      .unavailable { background:var(--white); border:1px solid var(--line); padding:clamp(1.5rem,5vw,4rem); text-align:center; }
+      [hidden] { display:none !important; }
+      .site-footer { background:var(--berry); color:#fff; padding:2rem clamp(1rem,4vw,2rem); text-align:center; }
+      .site-footer a { color:#fff; }
+      @media (max-width:760px) { .product-layout { grid-template-columns:1fr; } }
+      @media (max-width:520px) { .nav { grid-template-columns:1fr auto; } .language-switcher { grid-column:1/-1; grid-row:2; justify-self:center; } .brand-logo { justify-self:start; } }
+    </style>
+  </head>
+  <body data-page="product">
+    <a class="skip-link" href="#main">Skip to product details</a>
+    <header class="site-header">
+      <nav class="nav" aria-label="Main">
+        <div class="language-switcher" data-language-switcher role="group" aria-label="Language">
+          <button type="button" data-locale="en" aria-pressed="true">EN</button><span aria-hidden="true">/</span>
+          <button type="button" data-locale="zh-CN" aria-pressed="false">中文</button>
+        </div>
+        <a class="brand-logo" href="index.html" aria-label="Norie homepage">Norie</a>
+        <a class="cart-link" href="cart.html" aria-label="Cart, empty">
+          <span class="cart-count" data-cart-count hidden>0</span>
+          <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6.5 8.5h11l.8 11H5.7l.8-11Z"></path><path d="M9 8.5V7a3 3 0 0 1 6 0v1.5"></path></svg>
+        </a>
+      </nav>
+    </header>
+    <main id="main">
+      <a class="back-link" href="shop.html" data-i18n="product.back">Back to Shop</a>
+      <article class="product-layout" data-product-detail>
+        <div class="product-media"><img data-product-image src="assets/gift-flower-white.jpg" alt="" width="1920" height="1920"></div>
+        <div class="product-copy">
+          <h1 data-product-name tabindex="-1">Product Details</h1>
+          <p class="description" data-product-description></p>
+          <div class="price-row"><span class="launch-price" data-launch-price></span><span class="original-price" data-original-price></span></div>
+          <h2 data-i18n="product.contents">Details</h2>
+          <p class="contents" data-product-contents></p>
+          <fieldset data-color-selector hidden>
+            <legend data-i18n="product.color">Color</legend>
+            <div class="color-options">
+              <label for="product-color-white"><input id="product-color-white" type="radio" name="productColor" value="White"> White</label>
+              <label for="product-color-pink"><input id="product-color-pink" type="radio" name="productColor" value="Pink"> Pink</label>
+            </div>
+          </fieldset>
+          <button class="add-button" type="button" data-add-to-cart data-i18n="product.add">Add to cart</button>
+          <p class="status" role="status" aria-live="polite" aria-atomic="true" data-product-status></p>
+        </div>
+      </article>
+      <section class="unavailable" data-product-unavailable hidden>
+        <h1 tabindex="-1" data-i18n="product.unavailable">This product is unavailable.</h1>
+        <p data-unavailable-message>This product is unavailable.</p>
+        <a class="back-link" href="shop.html" data-i18n="product.back">Back to Shop</a>
+      </section>
+    </main>
+    <footer class="site-footer"><p>&copy; 2026 Norie · <a href="shop.html" data-i18n="nav.shop">Shop</a></p></footer>
+    <script type="module" src="norie-i18n.js"></script>
+    <script type="module" src="norie-cart.js"></script>
+    <script type="module" src="norie-product-details.js"></script>
+  </body>
+</html>
