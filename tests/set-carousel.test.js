@@ -42,7 +42,7 @@ test("homepage renders the two updated set carousels", () => {
   assert.match(html, /<script type="module" src="norie-carousel\.js"><\/script>/);
 });
 
-test("Shop page renders the two updated set carousels and Plumeria carousel", () => {
+test("Shop page keeps the two updated set carousels", () => {
   const html = readFileSync("shop.html", "utf8");
 
   assert.match(html, /Essentials Hairstyling Set/);
@@ -55,7 +55,7 @@ test("Shop page renders the two updated set carousels and Plumeria carousel", ()
   assert.match(html, /set-bamboo-pink\.png/);
   assert.match(html, /set-flat-white\.png/);
   assert.match(html, /set-flat-pink\.png/);
-  assert.equal((html.match(/data-carousel role="region"/g) ?? []).length, 3);
+  assert.equal((html.match(/data-carousel role="region"/g) ?? []).length, 2);
   assert.equal((html.match(/href="customize\.html\?product=(?:essentials-set|baby-set)">Build this set<\/a>/g) ?? []).length, 2);
   assert.match(html, /<script type="module" src="norie-carousel\.js"><\/script>/);
 });
@@ -94,7 +94,7 @@ test("set carousel images defer loading and declare intrinsic dimensions", () =>
     const html = readFileSync(page, "utf8");
     const carouselImages = [...html.matchAll(/<img class="set-carousel-slide"[^>]+>/g)].map(([image]) => image);
 
-    assert.equal(carouselImages.length, page === "shop.html" ? 6 : 4);
+    assert.equal(carouselImages.length, 4);
     for (const image of carouselImages) {
       assert.match(image, /loading="lazy"/);
       assert.match(image, /decoding="async"/);

@@ -99,8 +99,8 @@ export function updateCartBadges(cart = createCartStore().read()) {
     badge.textContent = String(count);
     badge.hidden = count === 0;
   });
-  document.querySelectorAll("[data-cart-label]").forEach((label) => {
-    label.textContent = count ? `Cart, ${count} items` : "Cart, empty";
+  document.querySelectorAll(".cart-link").forEach((link) => {
+    link.setAttribute("aria-label", count ? `Cart, ${count} items` : "Cart, empty");
   });
 }
 

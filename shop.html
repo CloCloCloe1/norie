@@ -521,8 +521,8 @@
           <span>Norie</span>
           <span class="brand-heart" aria-hidden="true">♥</span>
         </a>
-        <a class="cart-link" href="cart.html">
-          <span class="visually-hidden" data-cart-label>Cart, empty</span><span class="cart-count" data-cart-count hidden>0</span>
+        <a class="cart-link" href="cart.html" aria-label="Cart, empty">
+          <span class="cart-count" data-cart-count hidden>0</span>
           <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <path d="M6.5 8.5h11l.8 11H5.7l.8-11Z"></path>
             <path d="M9 8.5V7a3 3 0 0 1 6 0v1.5"></path>
@@ -573,33 +573,6 @@
             </div>
           </article>
 
-          <article class="product-card" data-product="plumeria">
-            <div class="set-carousel" data-carousel role="region" aria-labelledby="shop-plumeria-title">
-              <div class="set-carousel-track" data-carousel-track>
-                <img class="set-carousel-slide" data-carousel-slide src="assets/gift-flower-white.jpg" alt="White Plumeria three-piece claw clip set" loading="lazy" decoding="async" width="1920" height="1920">
-                <img class="set-carousel-slide" data-carousel-slide src="assets/gift-flower-pink.jpg" alt="Pink Plumeria three-piece claw clip set" loading="lazy" decoding="async" width="1920" height="1920">
-              </div>
-              <button class="set-carousel-button" type="button" data-carousel-previous aria-label="Previous Plumeria color" hidden><span aria-hidden="true">&#8592;</span></button>
-              <button class="set-carousel-button" type="button" data-carousel-next aria-label="Next Plumeria color" hidden><span aria-hidden="true">&#8594;</span></button>
-              <span class="set-carousel-status" data-carousel-status hidden>1 / 2</span>
-            </div>
-            <div class="card-copy">
-              <p class="product-kicker">Three-piece set</p>
-              <h3 id="shop-plumeria-title">Plumeria Clip Set</h3>
-              <p data-i18n="shop.plumeria.copy">One large and two small Plumeria claw clips in your selected color.</p>
-              <div class="price-row"><span class="sale-price">CAD $10</span><span class="original-price">CAD $12</span></div>
-              <form data-plumeria-form>
-                <fieldset class="variant-options">
-                  <legend data-i18n="shop.plumeria.color">Color</legend>
-                  <label><input type="radio" name="plumeriaColor" value="White" checked> White</label>
-                  <label><input type="radio" name="plumeriaColor" value="Pink"> Pink</label>
-                </fieldset>
-                <button class="add-cart-button" type="submit">Add to cart</button>
-                <p role="status" aria-live="polite" data-plumeria-status></p>
-              </form>
-            </div>
-          </article>
-
           <article class="product-card">
             <div class="set-carousel" data-carousel role="region" aria-labelledby="shop-set-2-title">
               <div class="set-carousel-track" data-carousel-track>
@@ -619,6 +592,32 @@
                 <span class="original-price">CAD $40</span>
               </div>
               <a href="customize.html?product=baby-set">Build this set</a>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-image">
+              <img src="assets/gift-flower-white.jpg" alt="White Plumeria three-piece claw clip set" loading="lazy" decoding="async" width="1920" height="1920">
+            </div>
+            <div class="card-copy">
+              <p class="product-kicker">Three-piece set</p>
+              <h3>Plumeria White</h3>
+              <p>One large and two small Plumeria claw clips in white.</p>
+              <div class="price-row"><span class="sale-price">CAD $10</span><span class="original-price">CAD $12</span></div>
+              <a href="product.html?product=plumeria&amp;color=White">View details</a>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-image">
+              <img src="assets/gift-flower-pink.jpg" alt="Pink Plumeria three-piece claw clip set" loading="lazy" decoding="async" width="1920" height="1920">
+            </div>
+            <div class="card-copy">
+              <p class="product-kicker">Three-piece set</p>
+              <h3>Plumeria Pink</h3>
+              <p>One large and two small Plumeria claw clips in pink.</p>
+              <div class="price-row"><span class="sale-price">CAD $10</span><span class="original-price">CAD $12</span></div>
+              <a href="product.html?product=plumeria&amp;color=Pink">View details</a>
             </div>
           </article>
 
@@ -692,7 +691,7 @@
             </div>
             <div class="card-copy">
               <p class="product-kicker">Claw clip</p>
-              <h3>Pink Claw Clip 1</h3>
+              <h3>Norie Claw Clip in Pink</h3>
               <p>Glossy pink claw clip for bow accents or tiny crystal details.</p>
               <div class="price-row">
                 <span class="sale-price">CAD $12</span>
@@ -708,13 +707,13 @@
             </div>
             <div class="card-copy">
               <p class="product-kicker">Claw clip</p>
-              <h3>Pink Claw Clip 2</h3>
+              <h3>Claw Clip in Pink Bow</h3>
               <p>Glossy pink claw clip for bow accents or tiny crystal details.</p>
               <div class="price-row">
                 <span class="sale-price">CAD $12</span>
                 <span class="original-price">CAD $16</span>
               </div>
-              <a href="customize.html?product=claw-clip">Customize this piece</a>
+              <a href="product.html?product=pink-bow">View details</a>
             </div>
           </article>
 
@@ -724,13 +723,13 @@
             </div>
             <div class="card-copy">
               <p class="product-kicker">Claw clip</p>
-              <h3>Pink Claw Clip 3</h3>
+              <h3>Claw Clip in Cherry Pink</h3>
               <p>Glossy pink claw clip for bow accents or tiny crystal details.</p>
               <div class="price-row">
                 <span class="sale-price">CAD $12</span>
                 <span class="original-price">CAD $16</span>
               </div>
-              <a href="customize.html?product=claw-clip">Customize this piece</a>
+              <a href="product.html?product=cherry-pink">View details</a>
             </div>
           </article>
 
@@ -740,13 +739,13 @@
             </div>
             <div class="card-copy">
               <p class="product-kicker">Claw clip</p>
-              <h3>White Claw Clip 1</h3>
+              <h3>Claw Clip in Florie White</h3>
               <p>Pearl white claw clip with a polished, bridal-style base.</p>
               <div class="price-row">
                 <span class="sale-price">CAD $12</span>
                 <span class="original-price">CAD $16</span>
               </div>
-              <a href="customize.html?product=claw-clip">Customize this piece</a>
+              <a href="product.html?product=florie-white">View details</a>
             </div>
           </article>
 
@@ -756,7 +755,7 @@
             </div>
             <div class="card-copy">
               <p class="product-kicker">Claw clip</p>
-              <h3>White Claw Clip 2</h3>
+              <h3>Norie Claw Clip in White</h3>
               <p>Pearl white claw clip with a polished, bridal-style base.</p>
               <div class="price-row">
                 <span class="sale-price">CAD $12</span>
@@ -772,13 +771,13 @@
             </div>
             <div class="card-copy">
               <p class="product-kicker">Claw clip</p>
-              <h3>White Claw Clip 3</h3>
+              <h3>Claw Clip in Cherry White</h3>
               <p>Pearl white claw clip with a polished, bridal-style base.</p>
               <div class="price-row">
                 <span class="sale-price">CAD $12</span>
                 <span class="original-price">CAD $16</span>
               </div>
-              <a href="customize.html?product=claw-clip">Customize this piece</a>
+              <a href="product.html?product=cherry-white">View details</a>
             </div>
           </article>
         </div>
@@ -800,21 +799,5 @@
     <script type="module" src="norie-i18n.js"></script>
     <script type="module" src="norie-cart.js"></script>
     <script type="module" src="norie-carousel.js"></script>
-    <script type="module">
-      import { addLine, createCartStore } from "./norie-cart.js";
-      const form = document.querySelector("[data-plumeria-form]");
-      const store = createCartStore();
-      form?.addEventListener("submit", (event) => {
-        event.preventDefault();
-        const baseColor = new FormData(form).get("plumeriaColor");
-        const status = form.querySelector("[data-plumeria-status]");
-        try {
-          store.write(addLine(store.read(), { productId: "plumeria", baseColor, customText: "", quantity: 1 }));
-          status.textContent = `${baseColor} Plumeria added to cart.`;
-        } catch {
-          status.textContent = "Could not save this item. Please try again.";
-        }
-      });
-    </script>
   </body>
 </html>
