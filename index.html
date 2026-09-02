@@ -603,67 +603,93 @@
         grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.85fr);
       }
 
-      .social-card {
-        background: var(--white);
-        border: 1px solid rgba(191, 111, 135, 0.72);
-        padding: clamp(1rem, 3vw, 1.6rem);
+      .social-gallery-section {
+        max-width: none;
+        padding-inline: 0;
+        text-align: center;
       }
 
-      .social-list {
-        display: grid;
-        gap: 0;
-        margin: 0;
+      .social-gallery-heading {
+        margin-bottom: clamp(2rem, 6vw, 5rem);
       }
 
-      .social-row {
-        align-items: baseline;
-        border-bottom: 1px solid rgba(191, 111, 135, 0.28);
+      .social-gallery-heading h2 {
+        font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+        font-size: clamp(1rem, 2vw, 1.25rem);
+        letter-spacing: 0.04em;
+      }
+
+      .social-gallery {
         display: grid;
-        gap: 1rem;
-        grid-template-columns: minmax(5rem, 0.35fr) 1fr;
-        padding: 1rem 0;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .social-tile {
+        aspect-ratio: 1;
+        display: block;
+        overflow: hidden;
         position: relative;
       }
 
-      .social-row:first-child {
-        padding-top: 0;
+      .social-tile img {
+        height: 100%;
+        object-fit: cover;
+        width: 100%;
       }
 
-      .social-row:last-child {
-        border-bottom: 0;
-        padding-bottom: 0;
-      }
-
-      .social-link {
-        color: inherit;
-        text-decoration: none;
-      }
-
-      .social-link::after {
-        content: "";
+      .social-tile-overlay {
+        align-items: center;
+        background: rgba(57, 34, 45, 0.72);
+        color: var(--white);
+        display: flex;
+        font-size: 0.8rem;
+        font-weight: 800;
         inset: 0;
+        justify-content: center;
+        letter-spacing: 0.08em;
+        opacity: 0;
+        padding: 1rem;
         position: absolute;
+        text-transform: uppercase;
+        transition: opacity 160ms ease;
       }
 
-      .social-row:hover .social-link {
-        color: var(--berry);
+      .social-tile:hover .social-tile-overlay,
+      .social-tile:focus-visible .social-tile-overlay {
+        opacity: 1;
       }
 
-      .social-link:focus-visible::after {
-        border-radius: 0.2rem;
-        outline: 3px solid var(--berry);
-        outline-offset: 3px;
+      .social-tile:focus-visible {
+        outline: 3px solid var(--focus);
+        outline-offset: -5px;
+        z-index: 1;
       }
 
-      .social-arrow {
-        display: inline-block;
-        margin-left: 0.4rem;
-        transition: transform 160ms ease;
+      .follow-section {
+        padding-block: clamp(2rem, 5vw, 4rem);
       }
 
-      .social-row:hover .social-arrow,
-      .social-link:focus-visible .social-arrow {
-        transform: translateX(0.2rem);
+      .follow-line {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem 1.25rem;
+        justify-content: center;
+        margin: 0;
+        text-align: center;
+      }
+
+      .follow-line a {
+        color: var(--ink);
+        min-height: 44px;
+        padding-block: 0.65rem;
+        text-decoration-thickness: 1px;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .social-tile-overlay {
+          transition: none;
+        }
       }
 
       .visually-hidden {
@@ -676,20 +702,6 @@
         position: absolute;
         white-space: nowrap;
         width: 1px;
-      }
-
-      .social-list dt {
-        color: var(--berry);
-        font-size: 0.82rem;
-        font-weight: 800;
-        letter-spacing: 0.07em;
-        text-transform: uppercase;
-      }
-
-      .social-list dd {
-        color: var(--ink);
-        margin: 0;
-        overflow-wrap: anywhere;
       }
 
       .site-footer {
@@ -805,6 +817,12 @@
 
         .button {
           width: 100%;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .social-gallery {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
         }
       }
     </style>
@@ -992,36 +1010,56 @@
         </div>
       </section>
 
+      <section class="section social-gallery-section" aria-labelledby="social-gallery-title">
+        <div class="social-gallery-heading">
+          <h2 id="social-gallery-title" data-i18n="home.social.title">Follow us and see more from Norie</h2>
+        </div>
+        <div class="social-gallery">
+          <a class="social-tile" data-social-tile href="https://www.instagram.com/norie_hair/" target="_blank" rel="noopener noreferrer" aria-label="View Norie on Instagram — opens in a new tab">
+            <img src="assets/lookbooks-pink-scrunchie.jpg" alt="Pink Norie scrunchie styled with a magazine" loading="lazy">
+            <span class="social-tile-overlay" data-i18n="home.social.viewInstagram">View on Instagram</span>
+          </a>
+          <a class="social-tile" data-social-tile href="https://www.tiktok.com/@norie_hair" target="_blank" rel="noopener noreferrer" aria-label="View Norie on TikTok — opens in a new tab">
+            <img src="assets/lookbooks-white-claw-bag.jpg" alt="White Norie claw clip displayed with a cream bag" loading="lazy">
+            <span class="social-tile-overlay" data-i18n="home.social.viewTikTok">View on TikTok</span>
+          </a>
+          <a class="social-tile" data-social-tile href="https://xhslink.cn/m/38rRNyaQEbA" target="_blank" rel="noopener noreferrer" aria-label="View Norie on RedNote — opens in a new tab">
+            <img src="assets/lookbooks-white-hair-clip.jpg" alt="White Norie claw clip styled in dark hair" loading="lazy">
+            <span class="social-tile-overlay" data-i18n="home.social.viewRedNote">View on RedNote</span>
+          </a>
+          <a class="social-tile" data-social-tile href="https://v.douyin.com/S4fAA1Zxzbs/" target="_blank" rel="noopener noreferrer" aria-label="View Norie on Douyin — opens in a new tab">
+            <img src="assets/lookbooks-pink-brush-walk.jpg" alt="Pink personalized Norie brush carried outdoors" loading="lazy">
+            <span class="social-tile-overlay" data-i18n="home.social.viewDouyin">View on Douyin</span>
+          </a>
+          <a class="social-tile" data-social-tile href="https://www.instagram.com/norie_hair/" target="_blank" rel="noopener noreferrer" aria-label="View Norie on Instagram — opens in a new tab">
+            <img src="assets/lookbooks-pink-claw-street.jpg" alt="Pink Norie claw clip styled in an outdoor updo" loading="lazy">
+            <span class="social-tile-overlay" data-i18n="home.social.viewInstagram">View on Instagram</span>
+          </a>
+          <a class="social-tile" data-social-tile href="https://www.tiktok.com/@norie_hair" target="_blank" rel="noopener noreferrer" aria-label="View Norie on TikTok — opens in a new tab">
+            <img src="assets/lookbooks-pink-brush-detail.jpg" alt="Close view of pink Norie brush lettering" loading="lazy">
+            <span class="social-tile-overlay" data-i18n="home.social.viewTikTok">View on TikTok</span>
+          </a>
+          <a class="social-tile" data-social-tile href="https://xhslink.cn/m/38rRNyaQEbA" target="_blank" rel="noopener noreferrer" aria-label="View Norie on RedNote — opens in a new tab">
+            <img src="assets/lookbooks-pink-flower-clips.jpg" alt="Pink flower claw clips arranged together" loading="lazy">
+            <span class="social-tile-overlay" data-i18n="home.social.viewRedNote">View on RedNote</span>
+          </a>
+          <a class="social-tile" data-social-tile href="https://v.douyin.com/S4fAA1Zxzbs/" target="_blank" rel="noopener noreferrer" aria-label="View Norie on Douyin — opens in a new tab">
+            <img src="assets/lookbooks-white-heart-claw.jpg" alt="White heart-detail Norie claw clip" loading="lazy">
+            <span class="social-tile-overlay" data-i18n="home.social.viewDouyin">View on Douyin</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="section follow-section" aria-label="Social accounts">
+        <p class="follow-line"><span data-i18n="home.social.follow">Follow us</span> <a href="https://www.instagram.com/norie_hair/" target="_blank" rel="noopener noreferrer">Instagram @norie_hair<span class="visually-hidden" data-i18n="common.opensNewTab">— opens in a new tab</span></a> <a href="https://www.tiktok.com/@norie_hair" target="_blank" rel="noopener noreferrer">TikTok @norie_hair<span class="visually-hidden" data-i18n="common.opensNewTab">— opens in a new tab</span></a> <a href="https://xhslink.cn/m/38rRNyaQEbA" target="_blank" rel="noopener noreferrer">RedNote @itschloe_eee<span class="visually-hidden" data-i18n="common.opensNewTab">— opens in a new tab</span></a> <a href="https://v.douyin.com/S4fAA1Zxzbs/" target="_blank" rel="noopener noreferrer">Douyin @40950053692<span class="visually-hidden" data-i18n="common.opensNewTab">— opens in a new tab</span></a> <span>WeChat NorieToronto</span></p>
+      </section>
+
       <section class="section newsletter" id="waitlist" aria-labelledby="waitlist-title">
         <div>
           <p class="eyebrow">Toronto-based, handmade-to-order</p>
           <h2 id="waitlist-title">keep in touch</h2>
           <p>Follow Norie for new samples, custom-order updates, and launch news.</p>
         </div>
-        <aside class="social-card" aria-label="Contact accounts">
-          <dl class="social-list">
-            <div class="social-row">
-              <dt>IG</dt>
-              <dd><a class="social-link" href="https://www.instagram.com/norie_hair/" target="_blank" rel="noopener noreferrer">norie_hair <span class="social-arrow" aria-hidden="true">→</span><span class="visually-hidden" data-i18n="common.opensNewTab">— opens in a new tab</span></a></dd>
-            </div>
-            <div class="social-row">
-              <dt>TikTok</dt>
-              <dd><a class="social-link" href="https://www.tiktok.com/@norie_hair" target="_blank" rel="noopener noreferrer">norie_hair <span class="social-arrow" aria-hidden="true">→</span><span class="visually-hidden" data-i18n="common.opensNewTab">— opens in a new tab</span></a></dd>
-            </div>
-            <div class="social-row">
-              <dt>Rednote</dt>
-              <dd><a class="social-link" href="https://xhslink.cn/m/38rRNyaQEbA" target="_blank" rel="noopener noreferrer">itschloe_eee <span class="social-arrow" aria-hidden="true">→</span><span class="visually-hidden" data-i18n="common.opensNewTab">— opens in a new tab</span></a></dd>
-            </div>
-            <div class="social-row">
-              <dt>Douyin</dt>
-              <dd><a class="social-link" href="https://v.douyin.com/S4fAA1Zxzbs/" target="_blank" rel="noopener noreferrer">40950053692 <span class="social-arrow" aria-hidden="true">→</span><span class="visually-hidden" data-i18n="common.opensNewTab">— opens in a new tab</span></a></dd>
-            </div>
-            <div class="social-row">
-              <dt>WeChat</dt>
-              <dd>NorieToronto</dd>
-            </div>
-          </dl>
-        </aside>
       </section>
     </main>
 
