@@ -56,3 +56,13 @@ test("product detail markup supports selection, direct cart addition, and live s
   assert.match(script, /addLine\(store\.read\(\)/);
   assert.match(script, /customText:\s*""/);
 });
+
+test("Plumeria uses two circular product-image color swatches", async () => {
+  const html = await read("product.html");
+
+  assert.equal((html.match(/name="productColor"/g) ?? []).length, 2);
+  assert.equal((html.match(/class="style-swatch plumeria-swatch"/g) ?? []).length, 2);
+  assert.match(html, /assets\/gift-flower-white\.jpg/);
+  assert.match(html, /assets\/gift-flower-pink\.jpg/);
+  assert.doesNotMatch(html, /class="color-options"/);
+});
