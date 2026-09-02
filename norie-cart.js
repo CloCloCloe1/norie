@@ -87,3 +87,22 @@ export function createCartStore(storage = globalThis.localStorage, eventTarget =
 
   return { read, write, clear: () => write([]) };
 }
+
+export function updateCartBadges(cart = createCartStore().read()) {
+  if (typeof document === "undefined") return;
+  const count = cartCount(cart);
+  document.querySelectorAll("[data-cart-count]").forEach((badge) => {
+    badge.textContent = String(count);
+    badge.hidden = count === 0;
+  });
+  document.querySelectorAll("[data-cart-label]").forEach((label) => {
+    label.textContent = count ? `Cart, ${count} items` : "Cart, empty";
+  });
+}
+
+if (typeof window !== "undefined" && typeof document !== "undefined") {
+  const refresh = (event) => updateCartBadges(event?.detail);
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", () => refresh());
+  else refresh();
+  window.addEventListener("norie:cartchange", refresh);
+}

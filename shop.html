@@ -261,9 +261,13 @@
 
       .product-image,
       .set-placeholder {
-        aspect-ratio: 1 / 1;
+        aspect-ratio: 3 / 4;
         background: #f8f1ef;
         overflow: hidden;
+      }
+
+      .product-image {
+        background: #fff;
       }
 
       .product-image img {
@@ -377,12 +381,49 @@
         margin: 0;
       }
 
+      .card-copy h3 {
+        font-size: clamp(1.35rem, 2vw, 1.8rem);
+        line-height: 1.08;
+        text-wrap: balance;
+      }
+
       .price-row {
         align-items: baseline;
         display: flex;
         flex-wrap: wrap;
         gap: 0.65rem;
         margin-top: 0.25rem;
+      }
+
+      .variant-options {
+        border: 0;
+        display: flex;
+        gap: 0.75rem;
+        margin: 0.9rem 0;
+        padding: 0;
+      }
+
+      .variant-options legend {
+        color: var(--berry);
+        font-weight: 800;
+        margin-bottom: 0.45rem;
+      }
+
+      .variant-options label {
+        align-items: center;
+        display: inline-flex;
+        gap: 0.35rem;
+        min-height: 44px;
+      }
+
+      .add-cart-button {
+        background: var(--berry);
+        border: 1px solid var(--berry);
+        color: #fff;
+        cursor: pointer;
+        font-weight: 800;
+        min-height: 44px;
+        padding: 0.7rem 1rem;
       }
 
       .sale-price {
@@ -480,7 +521,8 @@
           <span>Norie</span>
           <span class="brand-heart" aria-hidden="true">♥</span>
         </a>
-        <a class="cart-link" href="mailto:hello@norie.ca?subject=Norie%20custom%20order&body=Hi%20Norie%2C%0A%0AI%20would%20like%20to%20place%20a%20custom%20order.%0A" aria-label="Email Norie to place a custom order">
+        <a class="cart-link" href="cart.html">
+          <span class="visually-hidden" data-cart-label>Cart, empty</span><span class="cart-count" data-cart-count hidden>0</span>
           <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <path d="M6.5 8.5h11l.8 11H5.7l.8-11Z"></path>
             <path d="M9 8.5V7a3 3 0 0 1 6 0v1.5"></path>
@@ -490,6 +532,7 @@
           <li><a href="index.html">Homepage</a></li>
           <li><a href="shop.html" aria-current="page">Shop</a></li>
           <li><a href="customize.html">Customize</a></li>
+          <li><a href="lookbooks.html" data-i18n="nav.lookbooks">LOOKBOOKS</a></li>
         </ul>
       </nav>
     </header>
@@ -526,7 +569,34 @@
                 <span class="sale-price">CAD $38</span>
                 <span class="original-price">CAD $48</span>
               </div>
-              <a href="customize.html">Build this set</a>
+              <a href="customize.html?product=essentials-set">Build this set</a>
+            </div>
+          </article>
+
+          <article class="product-card" data-product="plumeria">
+            <div class="set-carousel" data-carousel role="region" aria-labelledby="shop-plumeria-title">
+              <div class="set-carousel-track" data-carousel-track>
+                <img class="set-carousel-slide" data-carousel-slide src="assets/gift-flower-white.jpg" alt="White Plumeria three-piece claw clip set" loading="lazy" decoding="async" width="1920" height="1920">
+                <img class="set-carousel-slide" data-carousel-slide src="assets/gift-flower-pink.jpg" alt="Pink Plumeria three-piece claw clip set" loading="lazy" decoding="async" width="1920" height="1920">
+              </div>
+              <button class="set-carousel-button" type="button" data-carousel-previous aria-label="Previous Plumeria color" hidden><span aria-hidden="true">&#8592;</span></button>
+              <button class="set-carousel-button" type="button" data-carousel-next aria-label="Next Plumeria color" hidden><span aria-hidden="true">&#8594;</span></button>
+              <span class="set-carousel-status" data-carousel-status hidden>1 / 2</span>
+            </div>
+            <div class="card-copy">
+              <p class="product-kicker">Three-piece set</p>
+              <h3 id="shop-plumeria-title">Plumeria Clip Set</h3>
+              <p data-i18n="shop.plumeria.copy">One large and two small Plumeria claw clips in your selected color.</p>
+              <div class="price-row"><span class="sale-price">CAD $10</span><span class="original-price">CAD $12</span></div>
+              <form data-plumeria-form>
+                <fieldset class="variant-options">
+                  <legend data-i18n="shop.plumeria.color">Color</legend>
+                  <label><input type="radio" name="plumeriaColor" value="White" checked> White</label>
+                  <label><input type="radio" name="plumeriaColor" value="Pink"> Pink</label>
+                </fieldset>
+                <button class="add-cart-button" type="submit">Add to cart</button>
+                <p role="status" aria-live="polite" data-plumeria-status></p>
+              </form>
             </div>
           </article>
 
@@ -548,7 +618,7 @@
                 <span class="sale-price">CAD $32</span>
                 <span class="original-price">CAD $40</span>
               </div>
-              <a href="customize.html">Build this set</a>
+              <a href="customize.html?product=baby-set">Build this set</a>
             </div>
           </article>
 
@@ -558,13 +628,13 @@
             </div>
             <div class="card-copy">
               <p class="product-kicker">Large comb</p>
-              <h3>Pink Large Comb</h3>
+              <h3>Pink Bamboo Paddle Brush</h3>
               <p>Soft pink paddle comb base for longer names or bolder script.</p>
               <div class="price-row">
                 <span class="sale-price">CAD $30</span>
                 <span class="original-price">CAD $38</span>
               </div>
-              <a href="customize.html">Customize this piece</a>
+              <a href="customize.html?product=large-comb">Customize this piece</a>
             </div>
           </article>
 
@@ -574,13 +644,13 @@
             </div>
             <div class="card-copy">
               <p class="product-kicker">Large comb</p>
-              <h3>White Large Comb</h3>
+              <h3>White Bamboo Paddle Brush</h3>
               <p>Pearl white paddle comb base for silver, pink, or clear stones.</p>
               <div class="price-row">
                 <span class="sale-price">CAD $30</span>
                 <span class="original-price">CAD $38</span>
               </div>
-              <a href="customize.html">Customize this piece</a>
+              <a href="customize.html?product=large-comb">Customize this piece</a>
             </div>
           </article>
 
@@ -590,13 +660,13 @@
             </div>
             <div class="card-copy">
               <p class="product-kicker">Small comb</p>
-              <h3>Pink Small Comb</h3>
+              <h3>Pink Flat Brush</h3>
               <p>Mini oval brush size for initials, short names, and bag photos.</p>
               <div class="price-row">
                 <span class="sale-price">CAD $25</span>
                 <span class="original-price">CAD $32</span>
               </div>
-              <a href="customize.html">Customize this piece</a>
+              <a href="customize.html?product=small-comb">Customize this piece</a>
             </div>
           </article>
 
@@ -606,13 +676,13 @@
             </div>
             <div class="card-copy">
               <p class="product-kicker">Small comb</p>
-              <h3>White Small Comb</h3>
+              <h3>White Flat Brush</h3>
               <p>Compact pearl white comb for clean, delicate lettering.</p>
               <div class="price-row">
                 <span class="sale-price">CAD $25</span>
                 <span class="original-price">CAD $32</span>
               </div>
-              <a href="customize.html">Customize this piece</a>
+              <a href="customize.html?product=small-comb">Customize this piece</a>
             </div>
           </article>
 
@@ -628,7 +698,7 @@
                 <span class="sale-price">CAD $12</span>
                 <span class="original-price">CAD $16</span>
               </div>
-              <a href="customize.html">Customize this piece</a>
+              <a href="customize.html?product=claw-clip">Customize this piece</a>
             </div>
           </article>
 
@@ -644,7 +714,7 @@
                 <span class="sale-price">CAD $12</span>
                 <span class="original-price">CAD $16</span>
               </div>
-              <a href="customize.html">Customize this piece</a>
+              <a href="customize.html?product=claw-clip">Customize this piece</a>
             </div>
           </article>
 
@@ -660,7 +730,7 @@
                 <span class="sale-price">CAD $12</span>
                 <span class="original-price">CAD $16</span>
               </div>
-              <a href="customize.html">Customize this piece</a>
+              <a href="customize.html?product=claw-clip">Customize this piece</a>
             </div>
           </article>
 
@@ -676,7 +746,7 @@
                 <span class="sale-price">CAD $12</span>
                 <span class="original-price">CAD $16</span>
               </div>
-              <a href="customize.html">Customize this piece</a>
+              <a href="customize.html?product=claw-clip">Customize this piece</a>
             </div>
           </article>
 
@@ -692,7 +762,7 @@
                 <span class="sale-price">CAD $12</span>
                 <span class="original-price">CAD $16</span>
               </div>
-              <a href="customize.html">Customize this piece</a>
+              <a href="customize.html?product=claw-clip">Customize this piece</a>
             </div>
           </article>
 
@@ -708,7 +778,7 @@
                 <span class="sale-price">CAD $12</span>
                 <span class="original-price">CAD $16</span>
               </div>
-              <a href="customize.html">Customize this piece</a>
+              <a href="customize.html?product=claw-clip">Customize this piece</a>
             </div>
           </article>
         </div>
@@ -728,6 +798,23 @@
       </div>
     </footer>
     <script type="module" src="norie-i18n.js"></script>
+    <script type="module" src="norie-cart.js"></script>
     <script type="module" src="norie-carousel.js"></script>
+    <script type="module">
+      import { addLine, createCartStore } from "./norie-cart.js";
+      const form = document.querySelector("[data-plumeria-form]");
+      const store = createCartStore();
+      form?.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const baseColor = new FormData(form).get("plumeriaColor");
+        const status = form.querySelector("[data-plumeria-status]");
+        try {
+          store.write(addLine(store.read(), { productId: "plumeria", baseColor, customText: "", quantity: 1 }));
+          status.textContent = `${baseColor} Plumeria added to cart.`;
+        } catch {
+          status.textContent = "Could not save this item. Please try again.";
+        }
+      });
+    </script>
   </body>
 </html>

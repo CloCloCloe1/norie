@@ -3,6 +3,7 @@ import { Readable } from "node:stream";
 import test from "node:test";
 
 import customOrder from "../api/custom-order.js";
+import cartOrder from "../api/cart-order.js";
 import subscribe from "../api/subscribe.js";
 import { isEmail, readJson } from "../api/_utils.js";
 
@@ -556,4 +557,56 @@ test("both endpoints reject non-POST requests", { concurrency: false }, async ()
 
   assert.equal(orderRes.statusCode, 405);
   assert.equal(subscribeRes.statusCode, 405);
+});
+
+test("cart order validates lines and sends trusted totals with pending-payment status", { concurrency: false }, async () => {
+  const originalFetch = global.fetch;
+  const originalApiKey = process.env.RESEND_API_KEY;
+  const originalOrderEmail = process.env.ORDER_TO_EMAIL;
+  const calls = [];
+  process.env.RESEND_API_KEY = "test-key";
+  process.env.ORDER_TO_EMAIL = "owner@example.com";
+  global.fetch = async (url, options = {}) => {
+    calls.push({ url, options, body: JSON.parse(options.body) });
+    return response({ data: { id: `email-${calls.length}` } });
+  };
+
+  const payload = {
+    customerName: "Clo <script>",
+    customerEmail: "clo@example.com",
+    customerContact: "wechat-clo",
+    attemptId: "123e4567-e89b-42d3-a456-426614174000",
+    pageUrl: "https://norie.example/cart.html",
+    prices: [1],
+    lines: [
+      { productId: "plumeria", baseColor: "Pink", customText: "", quantity: 2 },
+      { productId: "large-comb", baseColor: "White", customText: "Norie", quantity: 1 }
+    ]
+  };
+
+  try {
+    const res = await invoke(cartOrder, payload);
+    assert.equal(res.statusCode, 200);
+    assert.deepEqual(JSON.parse(res.body), {
+      ok: true,
+      orderReference: "123E4567",
+      status: "Order confirmed · Payment pending",
+      total: "CAD $50"
+    });
+    assert.equal(calls.length, 2);
+    assert.deepEqual(calls[0].body.to, ["owner@example.com"]);
+    assert.match(calls[0].body.html, /Pink stones/);
+    assert.match(calls[0].body.html, /CAD \$50/);
+    assert.match(calls[0].body.html, /Clo &lt;script&gt;/);
+    assert.doesNotMatch(calls[0].body.html, /CAD \$1(?:\D|$)/);
+    assert.equal(calls[0].options.headers["Idempotency-Key"], payload.attemptId);
+    assert.deepEqual(calls[1].body.to, ["clo@example.com"]);
+
+    const invalid = await invoke(cartOrder, { ...payload, lines: [{ ...payload.lines[0], customText: "No" }] });
+    assert.equal(invalid.statusCode, 400);
+  } finally {
+    global.fetch = originalFetch;
+    restoreEnv("RESEND_API_KEY", originalApiKey);
+    restoreEnv("ORDER_TO_EMAIL", originalOrderEmail);
+  }
 });

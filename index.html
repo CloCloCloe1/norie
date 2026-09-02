@@ -271,7 +271,8 @@
       }
 
       .hero-visual {
-        min-height: 68vh;
+        aspect-ratio: 1 / 1;
+        min-height: 0;
         overflow: hidden;
         position: relative;
       }
@@ -599,7 +600,7 @@
         align-items: center;
         display: grid;
         gap: 1.4rem;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.85fr);
       }
 
       .social-card {
@@ -614,22 +615,67 @@
         margin: 0;
       }
 
-      .social-list div {
+      .social-row {
         align-items: baseline;
         border-bottom: 1px solid rgba(191, 111, 135, 0.28);
         display: grid;
         gap: 1rem;
         grid-template-columns: minmax(5rem, 0.35fr) 1fr;
         padding: 1rem 0;
+        position: relative;
       }
 
-      .social-list div:first-child {
+      .social-row:first-child {
         padding-top: 0;
       }
 
-      .social-list div:last-child {
+      .social-row:last-child {
         border-bottom: 0;
         padding-bottom: 0;
+      }
+
+      .social-link {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .social-link::after {
+        content: "";
+        inset: 0;
+        position: absolute;
+      }
+
+      .social-row:hover .social-link {
+        color: var(--berry);
+      }
+
+      .social-link:focus-visible::after {
+        border-radius: 0.2rem;
+        outline: 3px solid var(--berry);
+        outline-offset: 3px;
+      }
+
+      .social-arrow {
+        display: inline-block;
+        margin-left: 0.4rem;
+        transition: transform 160ms ease;
+      }
+
+      .social-row:hover .social-arrow,
+      .social-link:focus-visible .social-arrow {
+        transform: translateX(0.2rem);
+      }
+
+      .visually-hidden {
+        border: 0;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
       }
 
       .social-list dt {
@@ -663,6 +709,19 @@
 
       .footer-inner p {
         margin: 0;
+      }
+
+      .footer-identity {
+        align-items: center;
+        display: inline-flex;
+        flex-wrap: nowrap;
+        gap: 0.75rem;
+        white-space: nowrap;
+      }
+
+      .footer-identity span {
+        border-left: 1px solid rgba(255, 255, 255, 0.45);
+        padding-left: 0.75rem;
       }
 
       .footer-links {
@@ -703,7 +762,7 @@
         }
 
         .hero-visual {
-          aspect-ratio: 4 / 5;
+          aspect-ratio: 1 / 1;
         }
 
         .product-grid,
@@ -762,7 +821,8 @@
           <span>Norie</span>
           <span class="brand-heart" aria-hidden="true">♥</span>
         </a>
-        <a class="cart-link" href="mailto:hello@norie.ca?subject=Norie%20custom%20order&body=Hi%20Norie%2C%0A%0AI%20would%20like%20to%20place%20a%20custom%20order.%0A" aria-label="Email Norie to place a custom order">
+        <a class="cart-link" href="cart.html">
+          <span class="visually-hidden" data-cart-label>Cart, empty</span><span class="cart-count" data-cart-count hidden>0</span>
           <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <path d="M6.5 8.5h11l.8 11H5.7l.8-11Z"></path>
             <path d="M9 8.5V7a3 3 0 0 1 6 0v1.5"></path>
@@ -772,6 +832,7 @@
           <li><a href="index.html" aria-current="page">Homepage</a></li>
           <li><a href="shop.html">Shop</a></li>
           <li><a href="customize.html">Customize</a></li>
+          <li><a href="lookbooks.html" data-i18n="nav.lookbooks">LOOKBOOKS</a></li>
         </ul>
       </nav>
     </header>
@@ -787,15 +848,15 @@
             </div>
           </div>
           <div class="hero-visual">
-            <img src="assets/hero-packaging.jpg" alt="Pink gift boxes with soft bow-pattern wrapping paper for custom hair accessories">
+            <img src="assets/hero-norie-bag-square.jpg" alt="Open cream shoulder bag filled with personalized Norie hair brushes and claw clips">
           </div>
         </div>
       </section>
 
       <section class="collection-feature pink-edit" aria-labelledby="pink-edit-title">
         <div class="lookbook-strip">
-          <img class="lookbook-photo" src="assets/pink-lookbook-bag.png" alt="Pink Norie claw clip and hair mist styled on a blush handbag">
-          <img class="lookbook-photo" src="assets/pink-lookbook-car.png" alt="Pink hair mist and soft pink styling details held in a car selfie">
+          <img class="lookbook-photo" src="assets/lookbook-pink-bag.jpg" alt="Cream claw clip styled in dark hair above a pink shoulder bag">
+          <img class="lookbook-photo" src="assets/lookbook-pink-flower-bag.jpg" alt="Pink shoulder bag styled with a silver bow pouch and white flowers">
           <img class="lookbook-photo" src="assets/pink-lookbook-accessories.png" alt="A curated collection of pink combs, claw clips, scrunchies, and hair accessories">
         </div>
         <div class="collection-copy">
@@ -809,8 +870,8 @@
 
       <section class="collection-feature white-edit" aria-labelledby="white-edit-title">
         <div class="lookbook-strip">
-          <img class="lookbook-photo" src="assets/white-lookbook-spray.png" alt="White claw clip styled in hair with a matching beauty spray">
-          <img class="lookbook-photo" src="assets/white-lookbook-cafe.png" alt="White and yellow claw clips styled on a cafe table with summer beauty products">
+          <img class="lookbook-photo" src="assets/white-lookbook-hair-clip.jpg" alt="White personalized claw clip styled in a ponytail">
+          <img class="lookbook-photo" src="assets/lookbook-white-product.jpg" alt="White personalized claw clip styled on embroidered white fabric">
           <img class="lookbook-photo" src="assets/white-lookbook-accessories.png" alt="A curated collection of pearl white combs, claw clips, scrunchies, and hair accessories">
         </div>
         <div class="collection-copy">
@@ -931,58 +992,55 @@
         </div>
       </section>
 
-      <section class="section coming-soon" aria-labelledby="coming-soon-title">
-        <div class="section-heading">
-          <h2 id="coming-soon-title">Coming Soon</h2>
-          <p>New sample photos for launch extras, packaging details, and limited gift add-ons.</p>
-        </div>
-        <div class="coming-grid">
-          <figure class="coming-photo">
-            <img src="assets/coming-soon-blue-shelf.png" alt="Blue floral claw clips styled with haircare products on cream shelves" loading="lazy">
-          </figure>
-          <figure class="coming-photo">
-            <img src="assets/coming-soon-pink-bag.png" alt="Pink pearl claw clip and flower clips styled with haircare products inside a fabric bag" loading="lazy">
-          </figure>
-          <figure class="coming-photo">
-            <img src="assets/coming-soon-brown-clip.png" alt="Brown rhinestone flower claw clip styled with hair mist and lip tint on white fabric" loading="lazy">
-          </figure>
-        </div>
-      </section>
-
       <section class="section newsletter" id="waitlist" aria-labelledby="waitlist-title">
         <div>
           <p class="eyebrow">Toronto-based, handmade-to-order</p>
           <h2 id="waitlist-title">keep in touch</h2>
           <p>Follow Norie for new samples, custom-order updates, and launch news.</p>
         </div>
-        <aside class="social-card" aria-label="Social accounts">
+        <aside class="social-card" aria-label="Contact accounts">
           <dl class="social-list">
-            <div>
+            <div class="social-row">
               <dt>IG</dt>
-              <dd>sampleigacc</dd>
+              <dd><a class="social-link" href="https://www.instagram.com/norie_hair/" target="_blank" rel="noopener noreferrer">norie_hair <span class="social-arrow" aria-hidden="true">→</span><span class="visually-hidden" data-i18n="common.opensNewTab">— opens in a new tab</span></a></dd>
             </div>
-            <div>
+            <div class="social-row">
+              <dt>TikTok</dt>
+              <dd><a class="social-link" href="https://www.tiktok.com/@norie_hair" target="_blank" rel="noopener noreferrer">norie_hair <span class="social-arrow" aria-hidden="true">→</span><span class="visually-hidden" data-i18n="common.opensNewTab">— opens in a new tab</span></a></dd>
+            </div>
+            <div class="social-row">
               <dt>Rednote</dt>
-              <dd>sampleacc</dd>
+              <dd><a class="social-link" href="https://xhslink.cn/m/38rRNyaQEbA" target="_blank" rel="noopener noreferrer">itschloe_eee <span class="social-arrow" aria-hidden="true">→</span><span class="visually-hidden" data-i18n="common.opensNewTab">— opens in a new tab</span></a></dd>
+            </div>
+            <div class="social-row">
+              <dt>Douyin</dt>
+              <dd><a class="social-link" href="https://v.douyin.com/S4fAA1Zxzbs/" target="_blank" rel="noopener noreferrer">40950053692 <span class="social-arrow" aria-hidden="true">→</span><span class="visually-hidden" data-i18n="common.opensNewTab">— opens in a new tab</span></a></dd>
+            </div>
+            <div class="social-row">
+              <dt>WeChat</dt>
+              <dd>NorieToronto</dd>
             </div>
           </dl>
         </aside>
       </section>
     </main>
 
-    <footer class="site-footer">
+    <footer class="site-footer" id="contact">
       <div class="footer-inner">
-        <p>© 2026 Norie</p>
+        <div class="footer-identity">
+          <p>© 2026 Norie</p>
+          <span>WeChat NorieToronto</span>
+        </div>
         <ul class="footer-links">
           <li><a href="shop.html">Shop</a></li>
           <li><a href="customize.html">Customize</a></li>
           <li><a href="#custom">Custom</a></li>
-          <li><a href="#waitlist">Contact</a></li>
-          <li><a href="#waitlist">Instagram soon</a></li>
+          <li><a href="#contact">Contact</a></li>
         </ul>
       </div>
     </footer>
     <script type="module" src="norie-i18n.js"></script>
+    <script type="module" src="norie-cart.js"></script>
     <script type="module" src="norie-carousel.js"></script>
   </body>
 </html>

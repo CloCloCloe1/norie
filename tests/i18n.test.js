@@ -26,8 +26,25 @@ test("both locales expose the same complete translation contract", () => {
 });
 
 test("approved Chinese brand lines are present", () => {
-  assert.equal(translate("home.hero.title", "zh-CN"), "把名字戴在头发上");
+  assert.equal(translate("home.hero.title", "zh-CN"), "属于你的闪闪发光");
   assert.equal(translate("home.pink.title", "zh-CN"), "今天也要粉得刚刚好");
-  assert.equal(translate("home.coming.title", "zh-CN"), "新品正在靠近");
+  assert.equal(translate("custom.hero", "zh-CN"), "属于你的闪闪发光");
   assert.equal(translate("custom.submit", "zh-CN"), "提交定制需求");
+});
+
+test("product names stay English while Chinese helper copy is localized", () => {
+  for (const key of [
+    "shop.essentials", "shop.baby", "shop.largePink", "shop.largeWhite",
+    "shop.smallPink", "shop.smallWhite", "custom.pink", "custom.white",
+    "custom.pinkStones", "custom.whiteStones"
+  ]) {
+    assert.equal(translations["zh-CN"][key], translations.en[key]);
+  }
+  assert.equal(translate("custom.helper.flat", "zh-CN"), "迷你椭圆梳");
+  assert.equal(translate("custom.helper.paddle", "zh-CN"), "竹制气垫梳");
+  assert.equal(translate("custom.helper.clip", "zh-CN"), "亮面醋酸抓夹");
+  assert.equal(translate("custom.helper.pinkBase", "zh-CN"), "柔雾粉醋酸材质");
+  assert.equal(translate("custom.helper.whiteBase", "zh-CN"), "珍珠白醋酸材质");
+  assert.equal(translate("custom.helper.pinkStones", "zh-CN"), "柔粉闪光");
+  assert.equal(translate("custom.helper.whiteStones", "zh-CN"), "通透珍珠光");
 });

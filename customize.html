@@ -207,6 +207,11 @@
         font-size: clamp(3.2rem, 8vw, 7.5rem);
       }
 
+      html[lang="zh-CN"] .page-intro h1,
+      html[lang="zh-CN"] .page-intro > p {
+        white-space: nowrap;
+      }
+
       h2 {
         font-size: clamp(1.8rem, 4vw, 3rem);
       }
@@ -889,6 +894,10 @@
       }
 
       @media (max-width: 560px) {
+        html[lang="zh-CN"] .page-intro h1,
+        html[lang="zh-CN"] .page-intro > p {
+          white-space: normal;
+        }
         main {
           padding-inline: 0.75rem;
         }
@@ -942,7 +951,8 @@
           <span>Norie</span>
           <span class="brand-heart" aria-hidden="true">♥</span>
         </a>
-        <a class="cart-link" href="mailto:hello@norie.ca?subject=Norie%20custom%20order&body=Hi%20Norie%2C%0A%0AI%20would%20like%20to%20place%20a%20custom%20order.%0A" aria-label="Email Norie to place a custom order">
+        <a class="cart-link" href="cart.html">
+          <span class="visually-hidden" data-cart-label>Cart, empty</span><span class="cart-count" data-cart-count hidden>0</span>
           <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <path d="M6.5 8.5h11l.8 11H5.7l.8-11Z"></path>
             <path d="M9 8.5V7a3 3 0 0 1 6 0v1.5"></path>
@@ -952,6 +962,7 @@
           <li><a href="index.html">Homepage</a></li>
           <li><a href="shop.html">Shop</a></li>
           <li><a href="customize.html" aria-current="page">Customize</a></li>
+          <li><a href="lookbooks.html" data-i18n="nav.lookbooks">LOOKBOOKS</a></li>
         </ul>
       </nav>
     </header>
@@ -975,15 +986,23 @@
                   <div class="option-grid product-options">
                     <label class="option">
                       <input type="radio" name="product" value="small-comb" checked>
-                      <span>Small comb <small>Mini oval brush</small></span>
+                      <span>Flat Brush <small data-i18n="custom.helper.flat">Mini oval brush</small></span>
                     </label>
                     <label class="option">
                       <input type="radio" name="product" value="large-comb">
-                      <span>Large comb <small>Square paddle comb</small></span>
+                      <span>Bamboo Paddle Brush <small data-i18n="custom.helper.paddle">Square paddle comb</small></span>
                     </label>
                     <label class="option">
                       <input type="radio" name="product" value="claw-clip">
-                      <span>Claw clip <small>Glossy acetate clip</small></span>
+                      <span>Claw Clip <small data-i18n="custom.helper.clip">Glossy acetate clip</small></span>
+                    </label>
+                    <label class="option">
+                      <input type="radio" name="product" value="essentials-set">
+                      <span>Essentials Hairstyling Set <small>Same text on brush and clip</small></span>
+                    </label>
+                    <label class="option">
+                      <input type="radio" name="product" value="baby-set">
+                      <span>Baby Hairstyling Set <small>Same text on brush and clip</small></span>
                     </label>
                   </div>
                 </fieldset>
@@ -993,11 +1012,11 @@
                   <div class="option-grid">
                     <label class="option">
                       <input type="radio" name="baseColor" value="pink" checked>
-                      <span>Pink <small>Soft blush acetate</small></span>
+                      <span>Pink <small data-i18n="custom.helper.pinkBase">Soft blush acetate</small></span>
                     </label>
                     <label class="option">
                       <input type="radio" name="baseColor" value="white">
-                      <span>White <small>Pearl white acetate</small></span>
+                      <span>White <small data-i18n="custom.helper.whiteBase">Pearl white acetate</small></span>
                     </label>
                   </div>
                 </fieldset>
@@ -1017,19 +1036,11 @@
 
             <div class="config-row">
               <div class="controls-stack">
-                <fieldset>
-                  <legend id="lettering-section-title">Rhinestone color</legend>
-                  <div class="option-grid">
-                    <label class="option">
-                      <input type="radio" name="stoneColor" value="pink" checked>
-                      <span>Pink stones <small>Soft pink sparkle</small></span>
-                    </label>
-                    <label class="option">
-                      <input type="radio" name="stoneColor" value="white">
-                      <span>White stones <small>Clear pearl shine</small></span>
-                    </label>
-                  </div>
-                </fieldset>
+                <section aria-labelledby="lettering-section-title">
+                  <h2 class="section-title" id="lettering-section-title">Automatic rhinestone color</h2>
+                  <p id="automaticStone">Pink products use white stones.</p>
+                  <input type="hidden" name="stoneColor" value="white">
+                </section>
               </div>
 
               <section class="lettering-preview-card" aria-labelledby="lettering-preview-title">
@@ -1102,23 +1113,10 @@
           </section>
 
           <section class="summary contact-section" aria-labelledby="contact-section-title">
-            <h2 id="contact-section-title">Contact details</h2>
-            <p class="contact-note">All fields are required.</p>
-            <div class="contact-grid">
-              <div class="contact-field">
-                <label class="text-label" for="customerName">Your name</label>
-                <input id="customerName" name="customerName" type="text" maxlength="100" autocomplete="name" placeholder="Name" required aria-required="true">
-              </div>
-              <div class="contact-field">
-                <label class="text-label" for="orderEmail">Email address</label>
-                <input id="orderEmail" name="customerEmail" type="email" maxlength="254" autocomplete="email" placeholder="you@email.com" required aria-required="true">
-              </div>
-              <div class="contact-field">
-                <label class="text-label" for="customerContact">Contact</label>
-                <input id="customerContact" name="customerContact" type="text" maxlength="100" autocomplete="off" placeholder="wechat_id" required aria-required="true">
-              </div>
-            </div>
-            <button class="button" type="submit">Request custom order</button>
+            <h2 id="contact-section-title">Ready to order</h2>
+            <p class="contact-note">Contact details are collected once at checkout.</p>
+            <button class="button" type="submit">Add to cart</button>
+            <p id="customCartStatus" role="status" aria-live="polite"></p>
           </section>
         </form>
       </div>
@@ -1133,6 +1131,16 @@
 
     <script>
       const productData = {
+        "essentials-set": {
+          label: "Essentials Hairstyling Set", originalPrice: 48, salePrice: 38,
+          pink: "assets/set-bamboo-pink.png", white: "assets/set-bamboo-white.png",
+          alt: { pink: "Pink Essentials Hairstyling Set", white: "White Essentials Hairstyling Set" }
+        },
+        "baby-set": {
+          label: "Baby Hairstyling Set", originalPrice: 40, salePrice: 32,
+          pink: "assets/set-flat-pink.png", white: "assets/set-flat-white.png",
+          alt: { pink: "Pink Baby Hairstyling Set", white: "White Baby Hairstyling Set" }
+        },
         "small-comb": {
           label: "Small comb",
           originalPrice: 32,
@@ -1241,6 +1249,7 @@
       const customText = document.querySelector("#customText");
       const scriptPreviewText = document.querySelector("#scriptPreviewText");
       const stage = document.querySelector(".product-stage");
+      const automaticStone = document.querySelector("#automaticStone");
       let productSlideIndex = 0;
       let activeGalleryKey = "";
 
@@ -1453,7 +1462,9 @@
       function updatePreview() {
         const product = selected("product");
         const baseColor = selected("baseColor");
-        const stoneColor = selected("stoneColor");
+        const stoneColor = baseColor === "pink" ? "white" : "pink";
+        form.elements.stoneColor.value = stoneColor;
+        automaticStone.textContent = baseColor === "pink" ? "Pink products use white stones." : "White products use pink stones.";
         const data = productData[product];
         const images = productImages(data, baseColor);
         const galleryKey = `${product}-${baseColor}`;
@@ -1483,12 +1494,7 @@
         stage.style.setProperty("--stone-shine", stoneColors[stoneColor].shine);
 
         photoNote.style.display = "none";
-        const translatedProduct = product === "small"
-          ? window.NorieI18n?.translate("shop.small", data.label)
-          : product === "large"
-            ? window.NorieI18n?.translate("shop.large", data.label)
-            : window.NorieI18n?.translate("shop.clip", data.label);
-        summaryProduct.textContent = translatedProduct ?? data.label;
+        summaryProduct.textContent = data.label;
         originalPrice.textContent = `CAD $${data.originalPrice}`;
         discountPrice.textContent = `CAD $${data.salePrice}`;
         totalPrice.textContent = `CAD $${data.salePrice}`;
@@ -1508,6 +1514,9 @@
           updatePreview();
         });
       });
+      const requestedProduct = new URLSearchParams(location.search).get("product");
+      const requestedInput = form.querySelector(`input[name="product"][value="${CSS.escape(requestedProduct || "")}"]`);
+      if (requestedInput) requestedInput.checked = true;
       updatePreview();
       updateScriptTextPreview();
       Object.values(stoneImages).forEach((image) => {
@@ -1520,6 +1529,28 @@
       }
     </script>
     <script type="module" src="norie-i18n.js"></script>
-    <script src="norie-forms.js" defer></script>
+    <script type="module" src="norie-cart.js"></script>
+    <script type="module">
+      import { addLine, createCartStore } from "./norie-cart.js";
+      const customForm = document.querySelector("#customForm");
+      const store = createCartStore();
+      customForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const data = new FormData(customForm);
+        const baseColor = data.get("baseColor") === "pink" ? "Pink" : "White";
+        const status = document.querySelector("#customCartStatus");
+        try {
+          store.write(addLine(store.read(), {
+            productId: data.get("product"),
+            baseColor,
+            customText: String(data.get("customText") || "").trim().slice(0, 8),
+            quantity: 1
+          }));
+          status.textContent = "Customized item added to cart.";
+        } catch {
+          status.textContent = "Could not save this item. Please try again.";
+        }
+      });
+    </script>
   </body>
 </html>
