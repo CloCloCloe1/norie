@@ -597,10 +597,70 @@
       }
 
       .newsletter {
-        align-items: center;
-        display: grid;
-        gap: 1.4rem;
-        grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.85fr);
+        max-width: 52rem;
+        text-align: center;
+      }
+
+      .newsletter h2 {
+        color: var(--soft-ink);
+        font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+        font-size: clamp(1.35rem, 3vw, 2rem);
+        font-weight: 800;
+        letter-spacing: 0.16em;
+        line-height: 1.2;
+      }
+
+      .newsletter-copy {
+        color: var(--soft-ink);
+        margin: 0.8rem auto 1.5rem;
+      }
+
+      .newsletter-form-row {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 auto;
+        max-width: 41rem;
+      }
+
+      .newsletter-form-row input {
+        background: var(--white);
+        border: 1px solid var(--soft-ink);
+        border-radius: 0;
+        color: var(--ink);
+        flex: 1 1 auto;
+        font: inherit;
+        min-height: 54px;
+        min-width: 0;
+        padding: 0.85rem 1.1rem;
+      }
+
+      .newsletter-form-row button {
+        background: var(--soft-ink);
+        border: 1px solid var(--soft-ink);
+        border-radius: 0;
+        color: var(--white);
+        cursor: pointer;
+        font: inherit;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        min-height: 54px;
+        padding: 0.85rem 1.7rem;
+        text-transform: uppercase;
+      }
+
+      .newsletter-form-row button[aria-disabled="true"] {
+        cursor: wait;
+        opacity: 0.7;
+      }
+
+      .newsletter-status {
+        flex: 0 0 100%;
+        margin: 0.5rem 0 0;
+        min-height: 1.5em;
+      }
+
+      .newsletter-status[data-state="error"] {
+        color: #9d173c;
       }
 
       .social-gallery-section {
@@ -763,8 +823,7 @@
         }
 
         .hero-inner,
-        .story,
-        .newsletter {
+        .story {
           grid-template-columns: 1fr;
         }
 
@@ -823,6 +882,19 @@
       @media (max-width: 640px) {
         .social-gallery {
           grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .newsletter-form-row {
+          flex-direction: column;
+        }
+
+        .newsletter-form-row input,
+        .newsletter-form-row button {
+          width: 100%;
+        }
+
+        .newsletter-status {
+          flex-basis: auto;
         }
       }
     </style>
@@ -1055,11 +1127,14 @@
       </section>
 
       <section class="section newsletter" id="waitlist" aria-labelledby="waitlist-title">
-        <div>
-          <p class="eyebrow">Toronto-based, handmade-to-order</p>
-          <h2 id="waitlist-title">keep in touch</h2>
-          <p>Follow Norie for new samples, custom-order updates, and launch news.</p>
-        </div>
+        <h2 id="waitlist-title" data-i18n="home.newsletter.title">KEEP IN TOUCH</h2>
+        <p class="newsletter-copy" data-i18n="home.newsletter.copy">Join us for new samples, custom-order updates, and launch news.</p>
+        <form class="newsletter-form-row" id="subscribeForm" novalidate>
+          <label class="visually-hidden" for="email" data-i18n="home.newsletter.email">Email address</label>
+          <input id="email" name="email" type="email" autocomplete="email" placeholder="Enter your email" required>
+          <button type="submit" data-i18n="home.newsletter.subscribe">Subscribe</button>
+          <p class="newsletter-status form-status" id="subscribe-status" role="status" aria-live="polite" aria-atomic="true"></p>
+        </form>
       </section>
     </main>
 
@@ -1080,5 +1155,6 @@
     <script type="module" src="norie-i18n.js"></script>
     <script type="module" src="norie-cart.js"></script>
     <script type="module" src="norie-carousel.js"></script>
+    <script src="norie-forms.js"></script>
   </body>
 </html>
